@@ -25,13 +25,13 @@ public class QuestionInterface1 extends JFrame {
     public QuestionInterface1() {
         super("Separator test");
         mainPainel = new JPanel();
-        mainPainel.setLayout(new BorderLayout(10, 10));
+        mainPainel.setLayout(new GridLayout(0, 1));
         panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 10));
+        panel.setLayout(new GridLayout(1, 0));
         panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout(10, 10));
+        panel1.setLayout(new GridLayout(0, 1));
         panel2 = new JPanel();
-        panel2.setLayout(new BorderLayout(10, 10));
+        panel2.setLayout(new GridLayout(1, 0));
         list = new JList(new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"});
         panel.add(list, BorderLayout.WEST);
         textArea = new JTextArea(
