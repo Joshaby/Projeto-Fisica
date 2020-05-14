@@ -67,7 +67,7 @@ public class QuestionInterface1 extends JFrame {
         panel2.add(button, BorderLayout.WEST);
         panel2.add(new JSeparator());
         panel2.add(button1, BorderLayout.EAST);
-        // mainPainel.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Separator test"));
+        mainPainel.setBorder(new TitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Separator test"));
         mainPainel.add(panel, BorderLayout.NORTH);
         mainPainel.add(panel2, BorderLayout.SOUTH);
         add(mainPainel);
