@@ -14,21 +14,24 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoginManager extends JFrame {
-
-    private Icon icon1 = new ImageIcon(getClass().getResource("confirm.png"));
-    private Icon icon2 = new ImageIcon(getClass().getResource("cancel.png"));
+//    private Icon icon1 = new ImageIcon(getClass().getResource("confirm.png"));
+//    private Icon icon2 = new ImageIcon(getClass().getResource("cancel.png"));
     private List<List<String>> dataBase;
 
     private JLabel labe1;
     private JLabel label2;
+    private JLabel label3;
     private JTextField textField;
+    private JTextField turma;
     private JPasswordField passwordField;
     private JButton button1;
     private JButton button2;
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
+    private JPanel panel4;
     private JCheckBox checkBox;
+    private JComboBox combo;
 
     public LoginManager() {
         super("Login Manager");
@@ -38,25 +41,34 @@ public class LoginManager extends JFrame {
         panel1 = new JPanel();
         panel2 = new JPanel();
         panel3 = new JPanel();
+        panel4 = new JPanel();
+        combo = new JComboBox(new String[]{"1", "2", "3"});
+        combo.setMaximumRowCount(3);
         labe1 = new JLabel("Username");
         label2 = new JLabel("Password");
+        label3 = new JLabel("Turma");
         textField = new JTextField(11);
         passwordField = new JPasswordField(11);
+        turma = new JTextField(11);
         checkBox = new JCheckBox("Show password");
         passwordField.setEchoChar('*');
         button1 = new JButton("Confirm");
-        button1.setIcon(icon1);
+        // button1.setIcon(icon1);
         button2 = new JButton("Cancel");
-        button2.setIcon(icon2);
+        // button2.setIcon(icon2);
         panel1.add(labe1);
         panel1.add(textField);
         panel2.add(label2);
         panel2.add(passwordField);
+//        panel4.add(label3);
+//        panel4.add(turma);
+        panel4.add(combo);
         panel3.add(button1);
         panel3.add(button2);
         add(panel1);
         add(panel2);
         add(checkBox);
+        add(panel4);
         add(panel3);
 
         LoginManagerHandler handler = new LoginManagerHandler();

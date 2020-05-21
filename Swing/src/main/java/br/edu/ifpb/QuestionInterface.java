@@ -12,7 +12,7 @@ import java.util.TreeSet;
 
 public class QuestionInterface extends JFrame {
 
-    private Path questionsPath = Path.of("Question.csv");
+    //private Path questionsPath = Path.of("Question.csv");
 
     private TreeSet<Question> questions;
 
@@ -77,49 +77,49 @@ public class QuestionInterface extends JFrame {
         global.add(panel);
         global.add(panel1);
         add(global);
-        initDataBase();
+        //initDataBase();
         initComponents();
     }
 
-    private void initDataBase() {
-        try {
-            List<String> questionsCsv = Files.readAllLines(questionsPath);
-            for (String i : questionsCsv) {
-                String[] dataQuestions = i.split(";");
-                List<String> alternatives = new ArrayList<>();
-                String correctAlternative = "";
-                for (int j = 2; j < 7; j++) {
-                    if (dataQuestions[j].startsWith("-")) {
-                        correctAlternative = dataQuestions[j].substring(1);
-                        alternatives.add(dataQuestions[j].substring(1));
-                    }
-                    else alternatives.add(dataQuestions[j]);
-                }
-                questions.add(
-                        new Question(Integer.parseInt(dataQuestions[0]), dataQuestions[1], alternatives, correctAlternative)
-                );
-            }
-            for (Question i : questions) {
-                System.out.println(i);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Error in data base of questions",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            System.exit(0);
-        }
-    }
+//    private void initDataBase() {
+//        try {
+//            List<String> questionsCsv = Files.readAllLines(questionsPath);
+//            for (String i : questionsCsv) {
+//                String[] dataQuestions = i.split(";");
+//                List<String> alternatives = new ArrayList<>();
+//                String correctAlternative = "";
+//                for (int j = 2; j < 7; j++) {
+//                    if (dataQuestions[j].startsWith("-")) {
+//                        correctAlternative = dataQuestions[j].substring(1);
+//                        alternatives.add(dataQuestions[j].substring(1));
+//                    }
+//                    else alternatives.add(dataQuestions[j]);
+//                }
+//                questions.add(
+//                        new Question(Integer.parseInt(dataQuestions[0]), dataQuestions[1], alternatives, correctAlternative)
+//                );
+//            }
+//            for (Question i : questions) {
+//                System.out.println(i);
+//            }
+//        } catch (IOException e) {
+//            JOptionPane.showMessageDialog(
+//                    this,
+//                    "Error in data base of questions",
+//                    "Error",
+//                    JOptionPane.ERROR_MESSAGE
+//            );
+//            System.exit(0);
+//        }
+//    }
 
     private void initComponents() {
-        label.setText(String.format("Questão %d", questions.first().getId()));
-        textArea.setText(questions.first().getText());
-        radioButton.setText("A - " + questions.first().getAlternatives().get(0));
-        radioButton1.setText("B - " + questions.first().getAlternatives().get(1));
-        radioButton2.setText("C - " + questions.first().getAlternatives().get(2));
-        radioButton3.setText("D - " + questions.first().getAlternatives().get(3));
-        radioButton4.setText("E - " + questions.first().getAlternatives().get(4));
+        label.setText("Questão %d");
+        textArea.setText("usndasbdyubasudbsada");
+        radioButton.setText("A - ");
+        radioButton1.setText("B - ");
+        radioButton2.setText("C - ");
+        radioButton3.setText("D - ");
+        radioButton4.setText("E - ");
     }
 }

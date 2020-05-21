@@ -2,6 +2,10 @@ package br.edu.ifpb;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class boxLayout extends JFrame {
     private JPanel panel;
@@ -44,6 +48,9 @@ public class boxLayout extends JFrame {
         button = new JButton("Voltar");
         button1 = new JButton("Avançar");
         button2 = new JButton("Finalizar");
+        button1.addActionListener(new buttonHandler());
+        button2.addActionListener(new buttonHandler());
+        button.addActionListener(new buttonHandler());
         radioButton = new JRadioButton("A - 10 m");
         radioButton1 = new JRadioButton("B - 20 m");
         radioButton2 = new JRadioButton("C - 30 m");
@@ -88,5 +95,34 @@ public class boxLayout extends JFrame {
         panel2.add(Box.createRigidArea(new Dimension(10,0)));
         panel2.add(button2);
         add(panel);
+        // radioButton.addItemListener(new radioButton());
+    }
+    private class buttonHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            if (actionEvent.getSource() == button1) {
+                panel1.remove(panel3);
+                panel1.revalidate();
+                panel1.repaint();
+            }
+            if (actionEvent.getSource() == button2) {
+                panel1.add(panel3);
+                panel1.revalidate();
+                panel1.repaint();
+            }
+            if (actionEvent.getSource() == button) {
+                if (radioButton.isSelected()) System.out.println(radioButton.getText());
+                if (radioButton1.isSelected()) System.out.println(radioButton1.getText());
+                if (radioButton2.isSelected()) System.out.println(radioButton2.getText());
+                if (radioButton3.isSelected()) System.out.println(radioButton3.getText());
+                if (radioButton4.isSelected()) System.out.println(radioButton4.getText());
+            }
+        }
+    }
+    private class radioButton implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent itemEvent) {
+            if (radioButton.isSelected()) System.out.println("oi");
+        }
     }
 }
