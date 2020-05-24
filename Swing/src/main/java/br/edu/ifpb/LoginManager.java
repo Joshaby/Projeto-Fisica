@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoginManager extends JFrame {
-//    private Icon icon1 = new ImageIcon(getClass().getResource("confirm.png"));
-//    private Icon icon2 = new ImageIcon(getClass().getResource("cancel.png"));
+    private Icon icon1 = new ImageIcon(getClass().getResource("confirm.png"));
+    private Icon icon2 = new ImageIcon(getClass().getResource("cancel.png"));
     private List<List<String>> dataBase;
 
     private JLabel labe1;
@@ -53,9 +53,9 @@ public class LoginManager extends JFrame {
         checkBox = new JCheckBox("Show password");
         passwordField.setEchoChar('*');
         button1 = new JButton("Confirm");
-        // button1.setIcon(icon1);
+        button1.setIcon(icon1);
         button2 = new JButton("Cancel");
-        // button2.setIcon(icon2);
+        button2.setIcon(icon2);
         panel1.add(labe1);
         panel1.add(textField);
         panel2.add(label2);
