@@ -33,7 +33,7 @@ public class QuestionInterface extends JFrame {
 
     public QuestionInterface() {
         super("Question Interface");
-        questions = new TreeSet<>(Comparator.naturalOrder());
+        // questions = new TreeSet<>(Comparator.naturalOrder());
         global = new JPanel();
         textArea = new JTextArea();
         textArea.setEditable(false);

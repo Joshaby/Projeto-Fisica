@@ -53,16 +53,16 @@ public class test1 {
                 byte[] bytepic = aux.getData();
                 System.out.println(aux.getPictureType());
                 System.out.println(aux.getFileName().substring(aux.getFileName().length() - 3));
-//                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
-//                ImageIO.write(imag, "png", new File("/home/jose/" + aux.getFileName()));
+                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
+                ImageIO.write(imag, "png", new File("/home/jose/" + aux.getFileName()));
             }
-//            while (iterator.hasNext()) {
-//                XWPFPictureData pic = iterator.next();
-//                byte[] bytepic = pic.getData();
-//                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
-//                ImageIO.write(imag, "png", new File("/home/jose/" + pic.getFileName()));
-//                i++;
-//            }
+            while (iterator.hasNext()) {
+                XWPFPictureData pic = iterator.next();
+                byte[] bytepic = pic.getData();
+                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
+                ImageIO.write(imag, "png", new File("/home/jose/" + pic.getFileName()));
+                i++;
+            }
 
         } catch (Exception e) {
             System.exit(-1);
@@ -74,14 +74,28 @@ public class test1 {
         List<String> aux = new ArrayList<>();
         for (int i = 0; i < questoes.size(); i ++) {
             if (questoes.get(i).contains("Questão") && i != 0) {
-                questoesMatriz.add(aux);
+                questoesMatriz.add(aux);                         // transforma a lista de string do docx, em uma matriz, uma lista de questões, onde cada questão é uma lista
                 aux = new ArrayList<>();
             }
             if (questoes.get(i).length() > 2) aux.add(questoes.get(i));
         }
-        for (List<String> I : questoesMatriz) {
-            for (String i : I) System.out.println(i);
-            System.out.println();
+
+//        for (List<String> I : questoesMatriz) {
+//            for (String i : I) System.out.println(i);
+//            System.out.println();
+//        }
+        List<Question> questionList = new ArrayList<>(); // vai percorrendo a matriz, e passando as strings das sublistas para um objeto questão
+        for (List<String> questao : questoesMatriz) {
+            List<String> texto = new ArrayList<>();
+            String cab = questao.get(questao.size() - 1);
+            String nome = questao.get(0);
+            List<String> alternativas = new ArrayList<>();
+            for (int i = 1; i < questao.size(); i ++) {
+                if (questao.get(i).charAt(1) == ')') alternativas.add(questao.get(i));
+                else texto.add(questao.get(i));
+            }
+            questionList.add(new Question(nome, texto, alternativas));
         }
+        for (Question i : questionList) System.out.println(i);
     }
 }
