@@ -24,7 +24,7 @@ public class Question  {
     public void setId(String id) { this.id = id; }
     public List<String> getText() { return text; }
     public void setText(List<String> text) { this.text = text; }
-    public String getAlternatives() { return alternatives.toString(); }
+    public List<String> getAlternatives() { return alternatives; }
     public void setAlternatives(List<String> alternatives) { this.alternatives = alternatives; }
     public List<String> getImages() { return images; }
     public void setImages(List<String> images) { this.images = images; }
@@ -34,6 +34,6 @@ public class Question  {
 
     @Override
     public String toString() {
-        return String.format("Id: %s\nText: %s\nAlternatives: %s\n", getId(), getText(), getAlternatives());
+        return String.format("Id: %s\nText: %s\nAlternatives: %s\n", getId(), getText(), getAlternatives().toString());
     }
 }
