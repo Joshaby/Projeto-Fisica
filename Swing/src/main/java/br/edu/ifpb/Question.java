@@ -5,35 +5,32 @@ import java.util.List;
 
 // public class Question implements Comparable<Question>
 public class Question  {
-    private String id;
     private List<String> text;
     private List<String> alternatives;
     private List<String> images;
+    private String alternativaCorreta;
 
-    public Question(String id, List<String> text, List<String> alternatives) {
-        setId(id);
+    public Question(List<String> text, List<String> alternatives, String alternativaCorreta) {
         setText(text);
         setAlternatives(alternatives);
+        setAlternativaCorreta(alternativaCorreta);
     }
-    public Question(String id, List<String> text, List<String> alternatives, List<String> images) {
-        this(id, text, alternatives);
+    public Question(String id, List<String> text, List<String> alternatives, List<String> images, String alternativaCorreta) {
+        this(text, alternatives, alternativaCorreta);
         setImages(images);
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
     public List<String> getText() { return text; }
     public void setText(List<String> text) { this.text = text; }
     public List<String> getAlternatives() { return alternatives; }
     public void setAlternatives(List<String> alternatives) { this.alternatives = alternatives; }
     public List<String> getImages() { return images; }
     public void setImages(List<String> images) { this.images = images; }
-
-//    @Override
-//    public int compareTo(Question question) { return Integer.compare(this.id, question.getId()); }
+    public String getAlternativaCorreta() { return alternativaCorreta; }
+    public void setAlternativaCorreta(String alternativaCorreta) { this.alternativaCorreta = alternativaCorreta; }
 
     @Override
     public String toString() {
-        return String.format("Id: %s\nText: %s\nAlternatives: %s\n", getId(), getText(), getAlternatives().toString());
+        return String.format("Text: %s\nAlternatives: %s\n", getText(), getAlternatives().toString());
     }
 }

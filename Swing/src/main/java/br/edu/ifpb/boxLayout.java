@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 
 public class boxLayout extends JFrame {
     private JPanel panel;
@@ -17,6 +18,7 @@ public class boxLayout extends JFrame {
     private JButton button2;
     private JList list;
     private JTextArea textArea;
+    private JTextPane textpane;
     private JScrollPane scrollPane;
     private JRadioButton radioButton;
     private JRadioButton radioButton1;
@@ -24,8 +26,9 @@ public class boxLayout extends JFrame {
     private JRadioButton radioButton3;
     private JRadioButton radioButton4;
     private ButtonGroup buttonGroup;
+    private JEditorPane editorPane;
 
-    public boxLayout() {
+    public boxLayout() throws IOException {
         super("Box Layout");
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -78,6 +81,8 @@ public class boxLayout extends JFrame {
         textArea.setEditable(false);
         textArea.setColumns(25);
         textArea.setRows(25);
+        textpane = new JTextPane();
+        textpane.insertIcon(new ImageIcon("output.jpg"));
         scrollPane = new JScrollPane(textArea); // é usado para ter uma barra de rolamento num JTextArea
         panel1.add(list);
         panel1.add(Box.createRigidArea(new Dimension(15,15)));

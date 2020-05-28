@@ -7,7 +7,6 @@ import com.mongodb.client.MongoDatabase;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.bson.Document;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class testDB {
         // MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?retryWrites=true&w=majority");
         MongoClient mongoClient = new MongoClient("localhost", 27017);
         MongoDatabase dataBase = mongoClient.getDatabase("test");
-        MongoCollection<Document> documentMongoCollection = dataBase.getCollection("questions");
+        MongoCollection<Document> documentMongoCollection = dataBase.getCollection("questions1");
 //        Document document = new Document("title", "MondoBD1")
 //                .append("description", "text");
         for (String i : dataBase.listCollectionNames()) System.out.println(i);
@@ -53,20 +52,20 @@ public class testDB {
         List<Question> questionList = new ArrayList<>(); // vai percorrendo a matriz, e passando as strings das sublistas para um objeto questão
         for (List<String> questao : questoesMatriz) {
             List<String> texto = new ArrayList<>();
-            String cab = questao.get(questao.size() - 1);
-            String nome = questao.get(0);
+            String cab = "";
             List<String> alternativas = new ArrayList<>();
-            for (int i = 1; i < questao.size(); i ++) {
+            for (int i = 0; i < questao.size(); i ++) {
                 if (questao.get(i).charAt(1) == ')') alternativas.add(questao.get(i));
-                else texto.add(questao.get(i));
+                else if (questao.get(i).startsWith("Gab:")) cab = questao.get(i).substring(5);
+                else if (! questao.get(i).contains("Questão")) texto.add(questao.get(i));
             }
-            questionList.add(new Question(nome, texto, alternativas));
+            questionList.add(new Question(texto, alternativas, cab));
         }
         List<Document> documents = new ArrayList<>();
         for (Question q : questionList) {
-            Document document = new Document().append("Número", q.getId())
-                    .append("Texto", q.getText())
-                    .append("Alternativas", q.getAlternatives());
+            Document document = new Document().append("Texto", q.getText())
+                    .append("Alternativas", q.getAlternatives())
+                    .append("Alternativa correta", q.getAlternativaCorreta());
             documents.add(document);
         }
         return documents;

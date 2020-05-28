@@ -25,22 +25,22 @@ public class test1 {
             aux.add(i);
         }
         // System.out.println(aux);
-        stringToMongoDB(aux);
+        // stringToMongoDB(aux);
         // extractImages(docx);
-//        BufferedImage bImage = ImageIO.read(new File("sample.png")); // conversão entre imagem e byte
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ImageIO.write(bImage, "png", bos );
-//        byte [] data = bos.toByteArray();
-//
-//        String encoded = Base64.getEncoder().encodeToString(data); // conversão entre byte pra base64
-//        System.out.println(encoded);
-//
-//        byte[] decoded = Base64.getDecoder().decode(encoded); // conversão entre base64 pra byte
-//
-//        ByteArrayInputStream bis = new ByteArrayInputStream(decoded);
-//        BufferedImage bImage2 = ImageIO.read(bis);
-//        ImageIO.write(bImage2, "png", new File("output.png") ); // conversão byte pra imagem
-//        System.out.println("image created");
+        BufferedImage bImage = ImageIO.read(new File("sample.png")); // conversão entre imagem e byte
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos );
+        byte [] data = bos.toByteArray();
+
+        String encoded = Base64.getEncoder().encodeToString(data); // conversão entre byte pra base64
+        System.out.println(encoded);
+
+        byte[] decoded = Base64.getDecoder().decode(encoded); // conversão entre base64 pra byte
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(decoded);
+        BufferedImage bImage2 = ImageIO.read(bis);
+        ImageIO.write(bImage2, "jpg", new File("output.jpg") ); // conversão byte pra imagem
+        System.out.println("image created");
     }
 
     public static void extractImages(XWPFDocument docx) {
@@ -56,13 +56,13 @@ public class test1 {
                 BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
                 ImageIO.write(imag, "png", new File("/home/jose/" + aux.getFileName()));
             }
-            while (iterator.hasNext()) {
-                XWPFPictureData pic = iterator.next();
-                byte[] bytepic = pic.getData();
-                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
-                ImageIO.write(imag, "png", new File("/home/jose/" + pic.getFileName()));
-                i++;
-            }
+//            while (iterator.hasNext()) {
+//                XWPFPictureData pic = iterator.next();
+//                byte[] bytepic = pic.getData();
+//                BufferedImage imag = ImageIO.read(new ByteArrayInputStream(bytepic));
+//                ImageIO.write(imag, "png", new File("/home/jose/" + pic.getFileName()));
+//                i++;
+//            }
 
         } catch (Exception e) {
             System.exit(-1);
@@ -84,19 +84,19 @@ public class test1 {
 //            for (String i : I) System.out.println(i);
 //            System.out.println();
 //        }
-        List<Question> questionList = new ArrayList<>(); // vai percorrendo a matriz, e passando as strings das sublistas para um objeto questão
-        for (List<String> questao : questoesMatriz) {
-            List<String> texto = new ArrayList<>();
-            String cab = questao.get(questao.size() - 1);
-            String nome = questao.get(0);
-            List<String> alternativas = new ArrayList<>();
-            for (int i = 1; i < questao.size(); i ++) {
-                if (questao.get(i).charAt(1) == ')') alternativas.add(questao.get(i));
-                else texto.add(questao.get(i));
-            }
-            questionList.add(new Question(nome, texto, alternativas));
-        }
-        for (Question i : questionList) System.out.println(i);
-    }
+//        List<Question> questionList = new ArrayList<>(); // vai percorrendo a matriz, e passando as strings das sublistas para um objeto questão
+//        for (List<String> questao : questoesMatriz) {
+//            List<String> texto = new ArrayList<>();
+//            String cab = questao.get(questao.size() - 1);
+//            String nome = questao.get(0);
+//            List<String> alternativas = new ArrayList<>();
+//            for (int i = 1; i < questao.size(); i ++) {
+//                if (questao.get(i).charAt(1) == ')') alternativas.add(questao.get(i));
+//                else texto.add(questao.get(i));
+//            }
+//            questionList.add(new Question(nome, texto, alternativas));
+//        }
+//        for (Question i : questionList) System.out.println(i);
+   }
 
 }
