@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,7 +23,7 @@ public class SwingTester {
         JFrame frame = new JFrame("Swing Tester");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         createUI(frame);
-        frame.setSize(560, 450);
+        frame.setSize(1160, 750);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -36,7 +35,7 @@ public class SwingTester {
 
         JEditorPane jEditorPane = new JEditorPane();
         jEditorPane.setEditable(false);
-        File file = new File("test.html");
+        File file = new File("index.html");
         URL uri = file.toURI().toURL();
         try {
             jEditorPane.setPage(uri);
@@ -46,7 +45,7 @@ public class SwingTester {
         }
 
         JScrollPane jScrollPane = new JScrollPane(jEditorPane);
-        jScrollPane.setPreferredSize(new Dimension(540,400));
+        jScrollPane.setPreferredSize(new Dimension(740,700));
 
         panel.add(jScrollPane);
         frame.getContentPane().add(panel, BorderLayout.CENTER);

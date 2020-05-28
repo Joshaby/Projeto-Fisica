@@ -1,12 +1,15 @@
 package br.edu.ifpb;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class boxLayout extends JFrame {
     private JPanel panel;
@@ -16,7 +19,6 @@ public class boxLayout extends JFrame {
     private JButton button;
     private JButton button1;
     private JButton button2;
-    private JList list;
     private JTextArea textArea;
     private JTextPane textpane;
     private JScrollPane scrollPane;
@@ -38,12 +40,6 @@ public class boxLayout extends JFrame {
         panel2.setBackground(Color.WHITE);
         panel3 = new JPanel();
         panel3.setBackground(Color.WHITE);
-        list = new JList(
-            new String[]{
-                "Questão - 1", "Questão - 2", "Questão - 3", "Questão - 4", "Questão - 5", "Questão - 6", "Questão - 7", "Questão - 8", "Questão - 9", "Questão - 10"
-            }
-        );
-        list.setSize(100, 100);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // define a disposição dos componentes dentro de outro componente
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS)); // X_AXIS: disposição da esquerda pra direita
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
@@ -74,26 +70,34 @@ public class boxLayout extends JFrame {
         panel.add(panel1);
         panel.add(Box.createRigidArea(new Dimension(5,5))); // cria um espaçador de tamanho definido pelo usuário
         panel.add(panel2);
-        textArea = new JTextArea(
-            "(FUVEST) Um veículo parte do repouso em movimento retilíneo e acelera com aceleração escalar constante e igual a 2,0 m/s2. Pode-se dizer que sua velocidade escalar e a distância percorrida após 3,0 segundos, valem, respectivamente:"
-        );
-        textArea.setLineWrap(true); // define a quebra de linha do texto
-        textArea.setEditable(false);
-        textArea.setColumns(25);
-        textArea.setRows(25);
+        editorPane = new JEditorPane();
+        editorPane.setEditable(false);
+        File file = new File("ze.html");
+        URL uri = file.toURI().toURL();
+        try {
+            editorPane.setPage(uri);
+        } catch (IOException e) {
+            editorPane.setContentType("text/html");
+            editorPane.setText("<html>Page not found.</html>");
+        }
         textpane = new JTextPane();
-        textpane.insertIcon(new ImageIcon("output.jpg"));
-        scrollPane = new JScrollPane(textArea); // é usado para ter uma barra de rolamento num JTextArea
-        panel1.add(list);
-        panel1.add(Box.createRigidArea(new Dimension(15,15)));
+        scrollPane = new JScrollPane(editorPane); // é usado para ter uma barra de rolamento num JEditoPane
+        scrollPane.setPreferredSize(new Dimension(1050,560));
+        scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 0), new EmptyBorder(0, 0, 0, 0))); // mexe na borda inferior e exterior de um componente
+        panel1.add(Box.createRigidArea(new Dimension(25,25)));
         panel1.add(scrollPane);
-        panel1.add(Box.createRigidArea(new Dimension(15,15)));
+        panel1.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(radioButton);
+        panel3.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(radioButton1);
+        panel3.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(radioButton2);
+        panel3.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(radioButton3);
+        panel3.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(radioButton4);
         panel1.add(panel3);
+        panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda
         panel2.add(button);
         panel2.add(Box.createHorizontalGlue()); // cria um espaçador na horizontal
         panel2.add(button1);
