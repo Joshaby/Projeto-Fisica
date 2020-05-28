@@ -2,6 +2,8 @@ package br.edu.ifpb;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class test extends JFrame {
     private JLabel label;
@@ -81,7 +83,16 @@ public class test extends JFrame {
                 "</body>\n" +
                 "\n" +
                 "</html>");
-        add(new JScrollPane(label));
+        JEditorPane textPane = new JEditorPane();
+        textPane.setEditable(false);
+        URL url= test.class.getResource("test.html");
+        try {
+            textPane.setPage(url);
+        } catch (IOException e) {
+            textPane.setContentType("text/html");
+            textPane.setText("<html>Page not found.</html>");
+        }
+        add(new JScrollPane(textPane));
     }
     public static void main(String[] args) {
         test t = new test();
