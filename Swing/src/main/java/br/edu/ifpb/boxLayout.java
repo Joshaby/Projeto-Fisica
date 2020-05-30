@@ -16,11 +16,6 @@ public class boxLayout extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
-    private JPanel panel4;
-    private JPanel panel5;
-    private JPanel panel6;
-    private JPanel panel7;
-    private JPanel panel8;
     private JButton button;
     private JButton button1;
     private JButton button2;
@@ -32,11 +27,6 @@ public class boxLayout extends JFrame {
     private JRadioButton radioButton4;
     private ButtonGroup buttonGroup;
     private JEditorPane editorPane;
-    private JTextArea textArea;
-    private JTextArea textArea1;
-    private JTextArea textArea2;
-    private JTextArea textArea3;
-    private JTextArea textArea4;
 
     public boxLayout() throws IOException {
         super("Box Layout");
@@ -48,24 +38,9 @@ public class boxLayout extends JFrame {
         panel2.setBackground(Color.WHITE);
         panel3 = new JPanel();
         panel3.setBackground(Color.WHITE);
-        panel4 = new JPanel();
-        panel4.setBackground(Color.WHITE);
-        panel5 = new JPanel();
-        panel5.setBackground(Color.WHITE);
-        panel6 = new JPanel();
-        panel6.setBackground(Color.WHITE);
-        panel7 = new JPanel();
-        panel7.setBackground(Color.WHITE);
-        panel8 = new JPanel();
-        panel8.setBackground(Color.WHITE);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // define a disposição dos componentes dentro de outro componente
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS)); // X_AXIS: disposição da esquerda pra direita
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
-        panel4.setLayout(new BoxLayout(panel4, BoxLayout.X_AXIS));
-        panel5.setLayout(new BoxLayout(panel5, BoxLayout.X_AXIS));
-        panel6.setLayout(new BoxLayout(panel6, BoxLayout.X_AXIS));
-        panel7.setLayout(new BoxLayout(panel7, BoxLayout.X_AXIS));
-        panel8.setLayout(new BoxLayout(panel8, BoxLayout.X_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // adiciona uma borda de 10px a um componente
         button = new JButton("Voltar");
         button.setBackground(Color.WHITE);
@@ -76,36 +51,6 @@ public class boxLayout extends JFrame {
         button1.addActionListener(new buttonHandler());
         button2.addActionListener(new buttonHandler());
         button.addActionListener(new buttonHandler());
-        textArea = new JTextArea("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn");
-        textArea1 = new JTextArea("ecryngtxmybrtneeiuxrjmuieg yueuyrnmuyenvythvuygerxenxguyegxyxnemyugneuyxmyeugnn");
-        textArea2 = new JTextArea("ecryngtxmybr tneeiuxrjmuiegyueuyrnmuyenvtyvhth htvthtyvhtyvhyhytuygerxenxguyegxyxnemyugneuyxmyeugnn");
-        textArea3 = new JTextArea("ecryngtxmybrtneeiuxrjmuieg yueuyrnmuyenttvrthtthttuygerxenxguyegxyxnemyugneuyxmyeugnn");
-        textArea4 = new JTextArea("ecryngtxmybrtneeiuxrjmuiegyueuyrnmuyenuvt yvhtyhtyhvyhvyygerxenxguyegxyxnemyugneuyxmyeugnn");
-        textArea.setLineWrap(true);
-        textArea1.setLineWrap(true);
-        textArea2.setLineWrap(true);
-        textArea3.setLineWrap(true);
-        textArea4.setLineWrap(true);
-        textArea.setColumns(35);
-        textArea1.setColumns(35);
-        textArea2.setColumns(35);
-        textArea3.setColumns(35);
-        textArea4.setColumns(35);
-        textArea.setRows(3);
-        textArea1.setRows(3);
-        textArea2.setRows(3);
-        textArea3.setRows(3);
-        textArea4.setRows(3);
-        textArea.setEditable(false);
-        textArea1.setEditable(false);
-        textArea2.setEditable(false);
-        textArea3.setEditable(false);
-        textArea4.setEditable(false);
-        textArea.setWrapStyleWord(true);
-        textArea1.setWrapStyleWord(true);
-        textArea2.setWrapStyleWord(true);
-        textArea3.setWrapStyleWord(true);
-        textArea4.setWrapStyleWord(true);
         radioButton = new JRadioButton("A -");
         radioButton1 = new JRadioButton("B -");
         radioButton2 = new JRadioButton("C -");
@@ -143,37 +88,15 @@ public class boxLayout extends JFrame {
         panel1.add(scrollPane);
         panel1.add(Box.createRigidArea(new Dimension(25,25)));
 
-        panel4.add(radioButton);
-        panel4.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel4.add(new JScrollPane(textArea));
-        panel3.add(panel4);
-
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-
-        panel5.add(radioButton1);
-        panel5.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel5.add(new JScrollPane(textArea1));
-        panel3.add(panel5);
-
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton1));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-        panel6.add(radioButton2);
-        panel6.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel6.add(new JScrollPane(textArea2));
-        panel3.add(panel6);
-
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton2));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-
-        panel7.add(radioButton3);
-        panel7.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel7.add(new JScrollPane(textArea3));
-        panel3.add(panel7);
-
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton3));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-
-        panel8.add(radioButton4);
-        panel8.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel8.add(new JScrollPane(textArea4));
-        panel3.add(panel8);
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton4));
 
         panel1.add(panel3);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda
@@ -216,6 +139,8 @@ public class boxLayout extends JFrame {
 
     private JPanel createAlternativeJPanel(String text, JRadioButton radioButton) {
         JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setBackground(Color.WHITE);
         JTextArea textArea = new JTextArea(text);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -230,7 +155,7 @@ public class boxLayout extends JFrame {
 
     private JScrollPane createJScrollPane(JTextArea textArea) {
         JScrollPane scrollPane = new JScrollPane(textArea);
-        CompoundBorder border = new CompoundBorder(new LineBorder(new Color(255, 255, 255), 0), new EmptyBorder(0, 0, 0, 0));
+        scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 0), new EmptyBorder(0, 0, 0, 0)));
         return scrollPane;
     }
 
