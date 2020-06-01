@@ -31,7 +31,7 @@ public class testDB {
             aux.add(i);
         }
         // System.out.println(aux);
-        documentMongoCollection.insertMany(stringToMongoDB(aux));
+        //documentMongoCollection.insertMany(stringToMongoDB(aux));
     }
 
     private static List<Document> stringToMongoDB(List<String> questoes) {
@@ -45,10 +45,10 @@ public class testDB {
             if (questoes.get(i).length() > 2) aux.add(questoes.get(i));
         }
 
-//        for (List<String> I : questoesMatriz) {
-//            for (String i : I) System.out.println(i);
-//            System.out.println();
-//        }
+        for (List<String> I : questoesMatriz) {
+            for (String i : I) System.out.println(i);
+            System.out.println();
+        }
         List<Question> questionList = new ArrayList<>(); // vai percorrendo a matriz, e passando as strings das sublistas para um objeto questão
         for (List<String> questao : questoesMatriz) {
             List<String> texto = new ArrayList<>();
@@ -59,15 +59,15 @@ public class testDB {
                 else if (questao.get(i).startsWith("Gab:")) cab = questao.get(i).substring(5);
                 else if (! questao.get(i).contains("Questão")) texto.add(questao.get(i));
             }
-            questionList.add(new Question(texto, alternativas, cab));
+            // questionList.add(new Question(texto, alternativas, cab));
         }
         List<Document> documents = new ArrayList<>();
-        for (Question q : questionList) {
-            Document document = new Document().append("Texto", q.getText())
-                    .append("Alternativas", q.getAlternatives())
-                    .append("Alternativa correta", q.getAlternativaCorreta());
-            documents.add(document);
-        }
+//        for (Question q : questionList) {
+//            Document document = new Document().append("Texto", q.getText())
+//                    .append("Alternativas", q.getAlternatives())
+//                    .append("Alternativa correta", q.getAlternativaCorreta());
+//            documents.add(document);
+//        }
         return documents;
     }
 }

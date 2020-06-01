@@ -88,15 +88,15 @@ public class boxLayout extends JFrame {
         panel1.add(scrollPane);
         panel1.add(Box.createRigidArea(new Dimension(25,25)));
 
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton));
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrj muiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton1));
+        panel3.add(createAlternativeJPanel("ecryng txmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxne myugneuyxmyeugnn", radioButton1));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton2));
+        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuieg yueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhyge rxenxguyegxyxnemyugneuyxmyeugnn", radioButton2));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
         panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton3));
         panel3.add(Box.createRigidArea(new Dimension(25,25)));
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton4));
+        panel3.add(createAlternativeJPanel("ecr yngtxmyb rtneeiuxrjmuiegyue uyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuy xmyeugnn", radioButton4));
 
         panel1.add(panel3);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda

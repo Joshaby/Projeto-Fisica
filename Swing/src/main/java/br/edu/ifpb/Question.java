@@ -1,36 +1,35 @@
 package br.edu.ifpb;
 
-import java.util.Arrays;
 import java.util.List;
 
-// public class Question implements Comparable<Question>
-public class Question  {
+public abstract class Question  {
     private List<String> text;
-    private List<String> alternatives;
-    private List<String> images;
     private String alternativaCorreta;
+    private List<String> imagensTexto;
 
-    public Question(List<String> text, List<String> alternatives, String alternativaCorreta) {
+    public Question(List<String> text, String alternativaCorreta, List<String> imagensTexto) {
         setText(text);
-        setAlternatives(alternatives);
         setAlternativaCorreta(alternativaCorreta);
+        setImagensTexto(imagensTexto);
     }
-    public Question(String id, List<String> text, List<String> alternatives, List<String> images, String alternativaCorreta) {
-        this(text, alternatives, alternativaCorreta);
-        setImages(images);
+    public Question(List<String> text, String alternativaCorreta) {
+        setText(text);
+        setAlternativaCorreta(alternativaCorreta);
     }
 
     public List<String> getText() { return text; }
     public void setText(List<String> text) { this.text = text; }
-    public List<String> getAlternatives() { return alternatives; }
-    public void setAlternatives(List<String> alternatives) { this.alternatives = alternatives; }
-    public List<String> getImages() { return images; }
-    public void setImages(List<String> images) { this.images = images; }
     public String getAlternativaCorreta() { return alternativaCorreta; }
     public void setAlternativaCorreta(String alternativaCorreta) { this.alternativaCorreta = alternativaCorreta; }
+    public void setImagensTexto(List<String> imagensTexto) { this.imagensTexto = imagensTexto; }
+    public List<String> getImagensTexto() { return imagensTexto; }
 
     @Override
     public String toString() {
-        return String.format("Text: %s\nAlternatives: %s\n", getText(), getAlternatives().toString());
+        String out = "Question{" +
+                "text=" + text.toString() + "\n" +
+                ", alternativaCorreta='" + alternativaCorreta  + "\n" ;
+        if (imagensTexto == null) return out;
+        return out + ", imagensTexto='" + imagensTexto.toString();
     }
 }
