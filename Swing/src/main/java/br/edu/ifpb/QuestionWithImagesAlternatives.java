@@ -2,14 +2,14 @@ package br.edu.ifpb;
 
 import java.util.List;
 
-public class QuestionsWithImagesAlternatives extends Question {
+public class QuestionWithImagesAlternatives extends Question {
     private List<String> imagensAlternativas;
 
-    public QuestionsWithImagesAlternatives(List<String> text, String alternativaCorreta, List<String> imagensTexto, List<String> imagensAlternativas) {
+    public QuestionWithImagesAlternatives(List<String> text, String alternativaCorreta, List<String> imagensTexto, List<String> imagensAlternativas) {
         super(text, alternativaCorreta, imagensTexto);
         setImagensAlternativas(imagensAlternativas);
     }
-    public QuestionsWithImagesAlternatives(List<String> text, String alternativaCorreta, List<String> imagensAlternativas) {
+    public QuestionWithImagesAlternatives(List<String> text, String alternativaCorreta, List<String> imagensAlternativas) {
         super(text, alternativaCorreta);
         setImagensAlternativas(imagensAlternativas);
     }
