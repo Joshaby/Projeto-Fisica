@@ -1,5 +1,9 @@
 package br.edu.ifpb;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.bson.Document;
@@ -13,22 +17,40 @@ import java.util.Scanner;
 
 public class createDataBase {
     public static void main(String[] args) throws IOException {
-//        1211121222121121222111111131122112111113133221321111211112111111121112111
-//        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?retryWrites=true&w=majority");
-//        MongoClient client = new MongoClient(uri);
-//        MongoDatabase database = client.getDatabase("Questões");
-//        MongoCollection<Document> collection = database.getCollection("1 ano");
-        // collection.insertMany();
-        getQuestions();
+        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?retryWrites=true&w=majority");
+        // MongoClient client = new MongoClient("localhost", 27017);
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase database = client.getDatabase("Questões");
+        MongoCollection<Document> collection = database.getCollection("1 ano");
+        collection.insertMany(createDocuments());
     }
 
-    private static List<Document> createDocuments() {
+    private static List<Document> createDocuments() throws IOException {
         List<Document> documents = new ArrayList<>();
-
+        List<Question> questoes = getQuestions();
+        System.out.println(questoes);
+        for (Question i : questoes) {
+            Document document = new Document();
+            document.append("Tipo", "1 ano")
+                    .append("Dificuldade", "Fácil")
+                    .append("Texto", i.getText())
+                    .append("Alternativa correta", i.getAlternativaCorreta());
+            if (i instanceof QuestionWithNormalAlternatives) {
+                QuestionWithNormalAlternatives questao = (QuestionWithNormalAlternatives) i;
+                document.append("Alternativas", questao.getAlternativas());
+                if (questao.getImagensTexto() != null) document.append("Imagens do texto", questao.getImagensTexto());
+            }
+            else {
+                QuestionWithImagesAlternatives questao = (QuestionWithImagesAlternatives) i;
+                document.append("Imagens das alternativas", questao.getImagensAlternativas());
+                if (questao.getImagensTexto() != null) document.append("Imagens do texto", questao.getImagensTexto());
+            }
+            documents.add(document);
+        }
         return documents;
     }
 
-    private static void getQuestions() throws IOException {
+    private static List<Question> getQuestions() throws IOException {
         List<Question> questions = new ArrayList<>();
         XWPFDocument docx = new XWPFDocument(new FileInputStream("P002044.docx"));
         XWPFWordExtractor text = new XWPFWordExtractor(docx);
@@ -58,8 +80,8 @@ public class createDataBase {
             Question q = null;
             String alternativaCorreta = "";
             for (String s : questionsMatriz.get(i)) {
-                if ((! s.contains("Questão")) && (!(s.charAt(1) == ')')) && (! s.contains("Gab:"))) texto.add(s);
-                if ((! s.contains("Questão")) && (!(s.charAt(1) == ')')) && (s.contains("Gab:"))) alternativaCorreta = s.substring(5);
+                if ((! s.contains("Questão")) && (!(s.charAt(1) == ')')) && (! s.contains("Gab:")) && (! s.contains("Imagens"))) texto.add(s);
+                if ((! s.contains("Questão")) && (!(s.charAt(1) == ')')) && (s.contains("Gab:"))  && (! s.contains("Imagens"))) alternativaCorreta = s.substring(5);
             }
             if (imagensTextoQtde.get(i) > 0) {
                 List<String> nomesFotos = new ArrayList<>();
@@ -79,7 +101,7 @@ public class createDataBase {
             }
             else {
                 for (String s : questionsMatriz.get(i)) {
-                    if ((!s.contains("Questão")) && (!s.contains("Gab:")) && (s.charAt(1) == ')'))
+                    if ((!s.contains("Questão")) && (!s.contains("Gab:") && (! s.contains("Imagens"))) && (s.charAt(1) == ')'))
                         alternativas.add(s.substring(3));
                 }
             }
@@ -91,13 +113,13 @@ public class createDataBase {
             }
             else {
                 if (imagensAlternativasQtde.get(i) == 0) {
-                    q = new QuestionWithNormalAlternatives(texto, alternativaCorreta, alternativas, imagensTexto);
+                    q = new QuestionWithNormalAlternatives(texto, alternativaCorreta, imagensTexto, alternativas);
                 }
                 else q = new QuestionWithImagesAlternatives(texto, alternativaCorreta, imagensTexto, imagensAlternaivas);
             }
             questions.add(q);
         }
-        System.out.println(questions);
+        return questions;
     }
 
     private static List<String> imagemToBase64(List<String> nomesFotos) throws IOException {

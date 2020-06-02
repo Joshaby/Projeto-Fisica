@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Question  {
     private List<String> text;
     private String alternativaCorreta;
-    private List<String> imagensTexto;
+    private List<String> imagensTexto = null;
 
     public Question(List<String> text, String alternativaCorreta, List<String> imagensTexto) {
         setText(text);
