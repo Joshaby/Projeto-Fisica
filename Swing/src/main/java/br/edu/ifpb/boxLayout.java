@@ -2,13 +2,13 @@ package br.edu.ifpb;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 public class boxLayout extends JFrame {
@@ -28,7 +28,7 @@ public class boxLayout extends JFrame {
     private ButtonGroup buttonGroup;
     private JEditorPane editorPane;
 
-    public boxLayout() throws IOException {
+    public boxLayout() throws IOException, BadLocationException {
         super("Box Layout");
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -41,6 +41,7 @@ public class boxLayout extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // define a disposição dos componentes dentro de outro componente
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS)); // X_AXIS: disposição da esquerda pra direita
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // adiciona uma borda de 10px a um componente
         button = new JButton("Voltar");
         button.setBackground(Color.WHITE);
@@ -69,11 +70,11 @@ public class boxLayout extends JFrame {
         buttonGroup.add(radioButton4);
         // button2.setPreferredSize(new Dimension(140, 25));
         panel.add(panel1);
-        panel.add(Box.createRigidArea(new Dimension(5,5))); // cria um espaçador de tamanho definido pelo usuário
+        panel.add(Box.createRigidArea(new Dimension(5, 5))); // cria um espaçador de tamanho definido pelo usuário
         panel.add(panel2);
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        File file = new File("ze.html");
+        File file = new File("Q213028.HTM");
         URL uri = file.toURI().toURL();
         try {
             editorPane.setPage(uri);
@@ -82,20 +83,30 @@ public class boxLayout extends JFrame {
             editorPane.setText("<html>Page not found.</html>");
         }
         scrollPane = new JScrollPane(editorPane); // é usado para ter uma barra de rolamento num JEditoPane
-        scrollPane.setPreferredSize(new Dimension(825,620));
+        scrollPane.setPreferredSize(new Dimension(835, 610));
         scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 0), new EmptyBorder(0, 0, 0, 0))); // mexe na borda inferior e exterior de um componente
         // panel1.add(Box.createRigidArea(new Dimension(25,25)));
         panel1.add(scrollPane);
-        panel1.add(Box.createRigidArea(new Dimension(25,25)));
+        panel1.add(Box.createRigidArea(new Dimension(25, 25)));
 
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrj muiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton));
-        panel3.add(Box.createRigidArea(new Dimension(25,25)));
+        JPanel panel4 = new JPanel();
+        panel4.setLayout(new BoxLayout(panel4, BoxLayout.X_AXIS));
+        panel4.setBackground(Color.WHITE);
+        panel4.add(radioButton);
+        JLabel label = new JLabel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>���� no fim da era medieval e in�cio da Idade Moderna, per�odo de\n" +
+                "\t\t\ttriunfo da f� sobre a raz�o, o que facilitocbcbcvbcvbcbcbvvcbcvbcbcbcvbu seus trabalhos na tentativa de\n" +
+                "\t\t\tcompreender a natureza.</p></html>");
+        panel4.add(label);
+
+        panel3.add(panel4);
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("ecryng txmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxne myugneuyxmyeugnn", radioButton1));
-        panel3.add(Box.createRigidArea(new Dimension(25,25)));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuieg yueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhyge rxenxguyegxyxnemyugneuyxmyeugnn", radioButton2));
-        panel3.add(Box.createRigidArea(new Dimension(25,25)));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton3));
-        panel3.add(Box.createRigidArea(new Dimension(25,25)));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("ecr yngtxmyb rtneeiuxrjmuiegyue uyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuy xmyeugnn", radioButton4));
 
         panel1.add(panel3);
@@ -103,11 +114,12 @@ public class boxLayout extends JFrame {
         panel2.add(button);
         panel2.add(Box.createHorizontalGlue()); // cria um espaçador na horizontal
         panel2.add(button1);
-        panel2.add(Box.createRigidArea(new Dimension(10,0)));
+        panel2.add(Box.createRigidArea(new Dimension(10, 0)));
         panel2.add(button2);
         add(panel);
         // radioButton.addItemListener(new radioButton());
     }
+
     private class buttonHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -130,6 +142,7 @@ public class boxLayout extends JFrame {
             }
         }
     }
+
     private class radioButton implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent itemEvent) {
@@ -145,7 +158,7 @@ public class boxLayout extends JFrame {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setColumns(35);
-        textArea.setRows(3);
+        textArea.setRows(1);
         textArea.setEditable(false);
         panel.add(radioButton);
         panel.add(Box.createRigidArea(new Dimension(5, 5)));

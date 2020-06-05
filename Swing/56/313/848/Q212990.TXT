@@ -1,0 +1,11 @@
+  
+A figura ilustra um experimento numa plataforma que, no referencial de um observador externo, se move com velocidade  constante de módulo comparável ao da velocidade da luz. No instante t0, a fonte F emite um pulso de luz de comprimento de onda  que incide sobre a placa metálica A, sendo por ela absorvido e, em consequência, emitindo elétrons, que são desacelerados pela diferença de potencial VAB. Considerando que os elétrons atingem a placa B a partir do instante t, assinale a alternativa que referencia apenas variações independentes que diminuem o intervalo de tempo  medido pelo observador.
+
+
+
+a)	Aumento de , aumento de VAB, diminuição de v.
+b)	Diminuição de , diminuição de VAB, diminuição de v.
+c)	Diminuição de , aumento de VAB, diminuição de v.
+d)	Diminuição de , diminuição de VAB, aumento de v.
+e)	Aumento de , aumento de VAB, aumento de v.
+

@@ -1,0 +1,19 @@
+  
+Leia o enunciado abaixo, sobre as órbitas eletrônicas.
+
+"As órbitas eletrônicas em torno dos núcleos atômicos devem conter um número inteiro N de comprimentos de onda de de Broglie do elétron."
+
+Considere as seguintes afirmações sobre o enunciado acima.
+
+I.	Ele evidencia o comportamento onda-partícula do elétron.
+II.	Ele assegura que as órbitas eletrônicas são sempre circunferenciais.
+III.	Ele define o número quântico N que identifica a órbita ocupada pelo elétron.
+
+Quais estão corretas?
+
+a)	Apenas I.
+b)	Apenas II.
+c)	Apenas I e III.
+d)	Apenas II e III.
+e)	I, II e III.
+

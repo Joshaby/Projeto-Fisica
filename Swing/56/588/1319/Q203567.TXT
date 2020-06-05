@@ -1,0 +1,13 @@
+  
+Uma família desperdiça, em um único dia, 200 g de comida. Se esta massa, em repouso, fosse transformada em energia elétrica (E = mc2) seria suficiente para manter a casa funcionando por muitos anos.
+Levando-se em conta somente a quantidade de comida desperdiçada em um único dia e o consumo médio anual de energia da família de 5000 kWh é CORRETO afirmar que a família teria energia elétrica em casa por:
+
+Dados: 
+1 kWh = 3600 J
+c = 3108 m/s
+
+a)	1,0109 anos.
+b)	1,01012 anos.
+c)	3,61012 anos.
+d)	3,61015 anos.
+
