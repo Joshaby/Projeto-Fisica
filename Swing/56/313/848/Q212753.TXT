@@ -1,0 +1,10 @@
+  
+Como forma de economia de energia elétrica, pode-se fazer com que a iluminação pública seja acionada automaticamente, conforme a luminosidade do ambiente. Para que isso ocorra, os postes devem ser equipados com sensores conhecidos como fotocélulas. Por meio de uma pequena abertura, os sensores, ao detectarem os raios de luz, interrompem o circuito elétrico e as luzes são então apagadas. Quando os sensores não captam a luz do Sol, o circuito é fechado e as lâmpadas são acionadas.
+
+É correto afirmar que o princípio de funcionamento desses sensores baseia-se no
+
+a)	efeito Doppler.
+b)	efeito Compton.
+c)	efeito eletrostático.
+d)	efeito fotoelétrico.
+

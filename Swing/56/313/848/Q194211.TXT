@@ -1,0 +1,18 @@
+  
+Dentro de uma câmara de vácuo encontra-se um o filamento F aquecido por meio de uma fonte elétrica externa de d.d.p. V1. A radiação emitida por F atinge o eletrodo metálico E1, que passa a emitir elétrons que podem ser coletados no eletrodo E2, acarretando a corrente I medida num amperímetro. Uma segunda fonte externa, de d.d.p. V2, é conectada ao circuito conforme ilustrado na figura. Um obstáculo O impede que E2 receba radiação do filamento F. Analise as seguintes afirmações:
+
+
+
+I.	A corrente I aumenta sempre que V2 aumenta e tende a um valor assintótico Imax.
+II.	Toda a radiação que incide em E1 pode causar ejeção de elétrons.
+III.	Para certo valor V2 < 0, é possível obter uma corrente I invertida em relação ao sentido mostrado na figura.
+IV.	É possível ter I0 para V2 = 0 com I dependente de V1.
+
+Estão corretas
+
+a)	todas as afirmações.
+b)	apenas I, II e III.
+c)	apenas I e IV.
+d)	apenas II e IV.
+e)	apenas I, II e IV.
+

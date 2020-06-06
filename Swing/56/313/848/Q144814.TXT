@@ -1,0 +1,13 @@
+  
+O lixo radioativo ou nuclear é resultado da manipulação de materiais radioativos, utilizados hoje na agricultura, na indústria, na medicina, em pesquisas científicas, na produção de energia, etc. Embora a radioatividade se reduza com o tempo, o processo de decaimento radioativo de alguns materiais pode levar milhões de anos. Por isso, existe a necessidade de se fazer um descarte adequado e controlado de resíduos dessa natureza. A taxa de decaimento radioativo é medida em termos de um tempo característico, chamado meia-vida, que é o tempo necessário para que uma amostra perca metade de sua radioatividade original. O gráfico seguinte representa a taxa de decaimento radioativo do rádio-226, elemento químico pertencente à família dos metais alcalinos terrosos e que foi utilizado durante muito tempo na medicina.
+
+
+
+As informações fornecidas mostram que 
+
+a)	quanto maior é a meia-vida de uma substância mais rápido ela se desintegra,
+b)	apenas 1/8 de uma amostra de rádio-226 terá decaído ao final de 4.860 anos.
+c)	metade da quantidade original de rádio-226, ao final de 3.240 anos, ainda estará por decair.
+d)	restará menos de 1% de rádio-226 em qualquer amostra dessa substância após decorridas 3 meias-vidas.
+e)	a amostra de rádio-226 diminui a sua quantidade pela metade a cada intervalo de 1.620 anos devido à desintegração radioativa.
+

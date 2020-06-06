@@ -1,0 +1,23 @@
+  
+Leia o texto a seguir.
+
+No museu do Amanhã, a exposição "Cosmos" faz uma abordagem científica, associando a composição atômica humana à composição de parte de uma estrela, contribuindo para o entendimento de como se comporta a matéria do ponto de vista atômico e subatômico.
+
+
+museudoamanha.org.br
+
+Com base nos conhecimentos sobre Física Moderna, considere as afirmativas a seguir.
+
+I.	No efeito fotoelétrico, uma luz monocromática que incide na superfície de um metal, cuja energia seja hf = função trabalho , arranca elétrons se, e somente se, a soma das energias cinética e da função trabalho forem iguais a hf.
+II.	No átomo de hidrogênio, os níveis de energia são indicados por n, onde a energia calculada para cada nível é dada por En = -(1/n2)2, 1810-18J.
+III.	Max Planck considerou que os átomos que constituem um corpo aquecido se comportam como osciladores anarmônicos, que têm suas energias distribuídas de forma contínua, independentemente da temperatura do corpo.
+IV.	Na teoria da relatividade especial, as Leis Físicas são as mesmas para quaisquer observadores em qualquer movimento, e a velocidade da luz no vácuo possui valores específicos para observadores em diferentes referenciais.
+
+Assinale a alternativa correta.
+
+a)	Somente as afirmativas I e II são corretas.
+b)	Somente as afirmativas I e IV são corretas.
+c)	Somente as afirmativas III e IV são corretas.
+d)	Somente as afirmativas I, II e III são corretas.
+e)	Somente as afirmativas II, III e IV são corretas.
+

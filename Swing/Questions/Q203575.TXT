@@ -1,0 +1,10 @@
+  
+   Os termômetros são equipamentos construídos para realizar medidas de temperatura de forma indireta. O termômetro é montado para utilizar uma propriedade física cujas variações estão associadas à temperatura, chamada de propriedade termométrica. O valor da temperatura é determinado e indicado em função da situação física detectada, sendo que, para efeitos de calibração, se faz necessário o uso de referências ou de padrões.
+
+   Qual das alternativas possui propriedades físicas que podem ser utilizadas para construção de termômetros para realizar medidas de variações de temperaturas?
+
+a)	Resistência elétrica de um fio condutor e pressão de um gás a volume constante.
+b)	Diferença de potencial entre dois metais diferentes em contato e velocidade de propagação de uma onda eletromagnética no vácuo.
+c)	Emissão de radiação eletromagnética por um corpo sólido e ponto triplo da água.
+d)	Velocidade do som no ar e massa de um objeto sólido.
+

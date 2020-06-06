@@ -1,0 +1,9 @@
+  
+Uma estação espacial monitora a velocidade de uma nave espacial, medindo seu comprimento e comparando-o quando a nave encontra-se estacionada em sua plataforma de lançamento. Em certo instante, a estação constatou que o comprimento da nave tinha reduzido 29%, daquele medido em repouso. Para a estação espacial essa nave viajava, em termos da velocidade da luz c, aproximadamente
+
+a)	0,9c
+b)	0,7c
+c)	0,2c
+d)	0,5c
+e)	0,3c
+
