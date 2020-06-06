@@ -9,38 +9,29 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class createDataBase {
 
-    private static Path path = Path.of("56");
+    private static Path path = Path.of("Questions");
 
     public static void main(String[] args) throws IOException {
-        List<List<String>> nomes = getAlternativas(path);
-        List<String> nomes1 = getQuestoes(path);
-        List<List<String>> images = getImagensInBase64(path);
-        for (List<String> s : images) {
-            for (String string : s) {
-                System.out.println(string);
-            }
-            System.out.println("-----------------------------------------------");
+        Map<String, List<String>> nomes = getAlternativas(path);
+        Map<String, List<String>> images = getImagensInBase64(path);
+        for(String s : nomes.keySet()) {
+            System.out.println("Questão " + s);
+            System.out.println(nomes.get(s));
+            System.out.println(images.get(s));
         }
-//        System.out.println(nomes.size());
-//        System.out.println(nomes1);
-//        System.out.println(images);
     }
 
-    public static List<List<String>> getAlternativas(Path path) {
+    public static Map<String, List<String>> getAlternativas(Path path) {
         HashSet<String> nomes = new HashSet<>();
-        List<List<String>> alternativasArray = new ArrayList<>();
+        Map<String, List<String>> alternativasArray = new HashMap<>();
         try {
             DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
             for (Path p : arquivos) {
-                if (Files.isDirectory(p)) alternativasArray.addAll(getAlternativas(p));
+                if (Files.isDirectory(p)) alternativasArray.putAll(getAlternativas(p));
                 else if (p.getFileName().toString().contains("HTM") && (! p.getFileName().toString().contains("G"))) {
                     List<String> html = Files.readAllLines(p, StandardCharsets.ISO_8859_1);
                     List<String> alternativas = new ArrayList<>();
@@ -67,7 +58,17 @@ public class createDataBase {
                             }
                         }
                     }
-                    if (alternativas.size() > 0) alternativasArray.add(alternativas);
+                    if (alternativas.size() > 0) {
+                        if (p.toString().contains("HTM")) {
+                            String[] partes = p.toString().split("/");
+                            StringBuilder id = new StringBuilder();
+                            for (int i = 1; i < partes[1].length(); i ++) {
+                                if (partes[1].charAt(i) == '.') break;
+                                else id.append(partes[1].charAt(i));
+                            }
+                            alternativasArray.put(id.toString(), alternativas);
+                        }
+                    }
                     alternativas = new ArrayList<>();
                 }
             }
@@ -76,6 +77,36 @@ public class createDataBase {
             System.err.println(e.getMessage());
         }
         return alternativasArray;
+    }
+
+    public static Map<String, List<String>> getImagensInBase64(Path path) throws IOException {
+        Map<String, List<String>> imagens = new HashMap<>();
+        DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
+        List<String> base64 = new ArrayList<>();
+        for (Path p : arquivos) {
+            if (Files.isDirectory(p) && (! p.getFileName().toString().contains("G"))) imagens.putAll(getImagensInBase64(p));
+            else if (p.getFileName().toString().contains("gif") || p.getFileName().toString().contains("jpg")) {
+                // System.out.println(p.toString());
+                BufferedImage bufferedImage = ImageIO.read(new File(p.toString()));
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, p.getFileName().toString().substring(p.getFileName().toString().length() - 3), byteArrayOutputStream);
+                byte[] dataBytes = byteArrayOutputStream.toByteArray();
+                String encoded = Base64.getEncoder().encodeToString(dataBytes);
+                base64.add(p.getFileName().toString().substring(p.getFileName().toString().length() - 3) + encoded);
+            }
+        }
+        if (base64.size() > 0) {
+            if (path.toString().contains("arquivos")) {
+                String[] partes = path.toString().split("/");
+                StringBuilder id = new StringBuilder();
+                for (int i = 1; i < partes[1].length(); i ++) {
+                    if (partes[1].charAt(i) == '_') break;
+                    else id.append(partes[1].charAt(i));
+                }
+                imagens.put(id.toString(), base64);
+            }
+        }
+        return imagens;
     }
 
     public static List<String> getQuestoes(Path path) throws IOException {
@@ -88,25 +119,5 @@ public class createDataBase {
             }
         }
         return nomes;
-    }
-
-    public static List<List<String>> getImagensInBase64(Path path) throws IOException {
-        List<List<String>> imagens = new ArrayList<>();
-        DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
-        List<String> base64 = new ArrayList<>();
-        for (Path p : arquivos) {
-            if (Files.isDirectory(p) && (! p.getFileName().toString().contains("Q"))) imagens.addAll(getImagensInBase64(p));
-            else if (p.getFileName().toString().contains("gif") || p.getFileName().toString().contains("jpg")) {
-                // System.out.println(p.toString());
-                BufferedImage bufferedImage = ImageIO.read(new File(p.toString()));
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage, p.getFileName().toString().substring(p.getFileName().toString().length() - 3), byteArrayOutputStream);
-                byte[] dataBytes = byteArrayOutputStream.toByteArray();
-                String encoded = Base64.getEncoder().encodeToString(dataBytes);
-                base64.add(p.getFileName().toString().substring(p.getFileName().toString().length() - 3) + encoded);
-            }
-        }
-        if (base64.size() > 0) imagens.add(base64);
-        return imagens;
     }
 }

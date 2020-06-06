@@ -1,0 +1,9 @@
+  
+Para se construir um termômetro volumétrico usando material adequado, ou seja, que siga uma proporção linear entre temperatura e volume, deve-se usar como referências as temperaturas de ebulição e de solidificação da água pura à pressão de 1 atm. Sendo assim, na temperatura de solidificação da água, o termômetro hipotético deve marcar um volume de 13 ml e na temperatura de ebulição, 93 ml. Então, qual seria a temperatura em Kelvin, quando o termômetro marcar 45 ml?
+
+a)	366,15 K.
+b)	313,15 K.
+c)	286,15 K.
+d)	80 K.
+e)	40 K.
+

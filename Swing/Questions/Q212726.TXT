@@ -1,0 +1,16 @@
+  
+A matéria orgânica, quando decomposta, torna-se um excelente adubo.
+
+Na compostagem, a matéria orgânica é empilhada em grandes montes. Com a decomposição, a temperatura no interior desses montes aumenta, podendo matar organismos importantes para a própria decomposição. Por esse motivo, a temperatura deve ser monitorada. O ideal é que, na compostagem, a temperatura permaneça entre 50 ºC e 60 ºC.
+
+Essas temperaturas, escritas em Fahrenheit, são, respectivamente,
+
+Considere que: 
+em que  a temperatura medida na escala Celsius e  é a temperatura medida na escala Fahrenheit.
+
+a)	58 ºF e 68 ºF.
+b)	58 ºF e 76 ºF.
+c)	122 ºF e 132 ºF.
+d)	122 ºF e 140 ºF.
+e)	132 ºF e 140 ºF.
+

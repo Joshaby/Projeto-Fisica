@@ -1,0 +1,10 @@
+  
+Ao medir a temperatura de um bloco, verificou-se que a indicação na escala Fahrenheit era o dobro do valor obtido na escala Celsius.
+Assim sendo, conclui-se que essa temperatura tem um valor igual a
+
+01)	80ºC
+02)	140ºC
+03)	160ºC
+04)	220ºC
+05)	280ºC
+
