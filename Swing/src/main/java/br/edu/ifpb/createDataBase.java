@@ -1,5 +1,10 @@
 package br.edu.ifpb;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -19,12 +24,25 @@ public class createDataBase {
         Map<String, List<String>> nomes = getAlternativas(path);
         Map<String, List<String>> images = getImagensInBase64(path);
         Map<String, String> texto = getHtml(path);
+
+        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase database = client.getDatabase("Questões");
+        MongoCollection<Document> collection = database.getCollection("1 ano");
+
         for(String s : nomes.keySet()) {
             System.out.println("Questão " + s);
             System.out.println(nomes.get(s));
             System.out.println(images.get(s));
             System.out.println(texto.get(s));
             System.out.println();
+            Document document = new Document()
+                    .append("ID", s)
+                    .append("Dificuldade", "Fácil")
+                    .append("Texto", texto.get(s))
+                    .append("Alternativas", nomes.get(s))
+                    .append("Imagens", images.get(s));
+            collection.insertOne(document);
         }
     }
 
