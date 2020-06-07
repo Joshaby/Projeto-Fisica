@@ -36,13 +36,13 @@ public class createDataBase {
             System.out.println(images.get(s));
             System.out.println(texto.get(s));
             System.out.println();
-            Document document = new Document()
-                    .append("ID", s)
-                    .append("Dificuldade", "Fácil")
-                    .append("Texto", texto.get(s))
-                    .append("Alternativas", nomes.get(s))
-                    .append("Imagens", images.get(s));
-            collection.insertOne(document);
+//            Document document = new Document()
+//                    .append("ID", s)
+//                    .append("Dificuldade", "Fácil")
+//                    .append("Texto", texto.get(s))
+//                    .append("Alternativas", nomes.get(s))
+//                    .append("Imagens", images.get(s));
+//            collection.insertOne(document);
         }
     }
 

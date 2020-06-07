@@ -9,7 +9,7 @@ public class boxLayoutTest {
         boxLayout bL = new boxLayout();
         bL.setSize(1366, 728);
         bL.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        bL.setUndecorated(true);
+        // bL.setUndecorated(true);
         bL.setVisible(true);
         bL.setResizable(false);
         bL.setLocationRelativeTo(null);

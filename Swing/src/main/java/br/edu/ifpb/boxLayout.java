@@ -74,7 +74,7 @@ public class boxLayout extends JFrame {
         panel.add(panel2);
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        File file = new File("Q213028.HTM");
+        File file = new File("test1.HTM");
         URL uri = file.toURI().toURL();
         try {
             editorPane.setPage(uri);
@@ -94,20 +94,30 @@ public class boxLayout extends JFrame {
         panel4.setBackground(Color.WHITE);
         panel4.add(radioButton);
         JLabel label = new JLabel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>���� no fim da era medieval e in�cio da Idade Moderna, per�odo de\n" +
-                "\t\t\ttriunfo da f� sobre a raz�o, o que facilitocbcbcvbcvbcbcbvvcbcvbcbcbcvbu seus trabalhos na tentativa de\n" +
-                "\t\t\tcompreender a natureza.</p></html>");
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>");
+        label.setSize(10, 10);
         panel4.add(label);
 
-        panel3.add(panel4);
+        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>", radioButton));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("ecryng txmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxne myugneuyxmyeugnn", radioButton1));
+        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>", radioButton1));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuieg yueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhyge rxenxguyegxyxnemyugneuyxmyeugnn", radioButton2));
+        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>", radioButton2));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("ecryngtxmyb rtneeiuxrjmuiegyueuyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuyxmyeugnn", radioButton3));
+        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>", radioButton3));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("ecr yngtxmyb rtneeiuxrjmuiegyue uyrnmuyen uvtyvhyhtyhvtyvhhtyvhygerxenxguyegxyxnemyugneuy xmyeugnn", radioButton4));
+        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
+                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
+                "volume constante.</p></html>", radioButton4));
 
         panel1.add(panel3);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda
@@ -154,15 +164,10 @@ public class boxLayout extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setBackground(Color.WHITE);
-        JTextArea textArea = new JTextArea(text);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setColumns(35);
-        textArea.setRows(1);
-        textArea.setEditable(false);
+        JLabel label = new JLabel(text);
         panel.add(radioButton);
-        panel.add(Box.createRigidArea(new Dimension(5, 5)));
-        panel.add(createJScrollPane(textArea));
+        // panel.add(Box.createRigidArea(new Dimension(5, 5)));
+        panel.add(label);
         return panel;
     }
 
