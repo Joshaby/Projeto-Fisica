@@ -1,8 +1,0 @@
-  
-Define-se a meia vida de um material radioativo como o tempo para que sua emissão caia à metade. Suponha que uma amostra de material radioativo emitia 120 partículas  por minuto. Depois de 60 dias a amostra passou a emitir 15 partículas  por minuto. A meia-vida da amostra de material radioativo é, em dias, igual a
-
-a)	20.
-b)	40.
-c)	10.
-d)	30.
-

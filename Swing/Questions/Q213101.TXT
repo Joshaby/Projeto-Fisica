@@ -1,9 +1,0 @@
-  
-Ao ser atendido em um hospital no exterior, um bolsista de intercâmbio brasileiro é informado que está com uma temperatura de 104 ºF. Sabendo que, na escala Fahrenheit, no nível do mar, a água congela em 32 ºF e ferve em 212 ºF, assinale a alternativa que apresenta a temperatura aferida.
-
-a)	40 ºC
-b)	36 ºC
-c)	37 ºC
-d)	38 ºC
-e)	39 ºC
-

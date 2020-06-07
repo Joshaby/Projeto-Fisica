@@ -1,9 +1,0 @@
-  
-Algumas teorias do início do século XX tiveram grande impacto sobre o desenvolvimento da Física, servindo como base para grandes avanços nos campos da Astronomia, da Eletrônica, das Telecomunicações, da Medicina, entre outros. Sobre aspectos de algumas dessas teorias e suas implicações, assinale o que for correto.
-
-01.	Quando uma partícula é acelerada a partir do repouso até que ela atinja uma velocidade igual a v, sua massa diminui (em relação à sua massa de repouso) por um fator que inclui a razão v / c, em que c é a velocidade da luz no vácuo.
-02.	A radiação eletromagnética manifesta essencialmente propriedades ondulatórias em processos de absorção e de emissão e propriedades corpusculares em processos de interferência e de difração.
-04.	O principal processo de produção de energia na superfície do Sol corresponde à fusão de átomos de hidrogênio para formar átomos de hélio.
-08.	Em um feixe de luz monocromático, cada fóton transporta uma quantidade de energia proporcional à frequência da onda associada a esse feixe.
-16.	A constante de Planck está relacionada ao caráter discreto da energia e ao princípio da incerteza de Heisenberg.
-
