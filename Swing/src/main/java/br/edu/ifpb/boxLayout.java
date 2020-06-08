@@ -1,5 +1,21 @@
 package br.edu.ifpb;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+
+import java.awt.image.BufferedImage;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.text.BadLocationException;
@@ -10,6 +26,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
 import java.net.URL;
+import java.util.Iterator;
 
 public class boxLayout extends JFrame {
     private JPanel panel;
@@ -27,6 +44,11 @@ public class boxLayout extends JFrame {
     private JRadioButton radioButton4;
     private ButtonGroup buttonGroup;
     private JEditorPane editorPane;
+    private JLabel label;
+    private JLabel label1;
+    private JLabel label2;
+    private JLabel label3;
+    private JLabel label4;
 
     public boxLayout() throws IOException, BadLocationException {
         super("Box Layout");
@@ -101,23 +123,23 @@ public class boxLayout extends JFrame {
 
         panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton));
+                "volume constante.</p></html>", radioButton, label));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton1));
+                "volume constante.</p></html>", radioButton1, label1));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton2));
+                "volume constante.</p></html>", radioButton2, label2));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton3));
+                "volume constante.</p></html>", radioButton3, label3));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton4));
+                "volume constante.</p></html>", radioButton4, label4));
 
         panel1.add(panel3);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda
@@ -128,6 +150,7 @@ public class boxLayout extends JFrame {
         panel2.add(button2);
         add(panel);
         // radioButton.addItemListener(new radioButton());
+        initComponents();
     }
 
     private class buttonHandler implements ActionListener {
@@ -160,11 +183,50 @@ public class boxLayout extends JFrame {
         }
     }
 
-    private JPanel createAlternativeJPanel(String text, JRadioButton radioButton) {
+    private void initComponents() throws IOException {
+        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase database = client.getDatabase("Questões");
+        MongoCollection<Document> collection = database.getCollection("1 ano");
+        FindIterable<Document> documents = collection.find(Filters.eq("ID", "181269"));
+        Iterator filtredDocuments = documents.iterator();
+        while (filtredDocuments.hasNext()) {
+            Document document = (Document) filtredDocuments.next();
+            String id = (String) document.get("ID");
+            String html = (String) document.get("Texto");
+            Files.write(Path.of("Q" + id + ".HTM"), Collections.singleton(html), StandardCharsets.ISO_8859_1);
+            editorPane.setPage(new File("Q" + id + ".HTM").toURI().toURL());
+            List<String> imagens = (List<String>) document.get("Imagens");
+            initDirectory(id, imagens);
+        }
+    }
+
+    private void initDirectory(String nome, List<String> arquivos) throws IOException {
+        Files.createDirectory(Path.of("Q" + nome + "_arquivos"));
+        int num = 1;
+        for (String i : arquivos) {
+            String nomeImagem = "image";
+            String tipo = i.substring(0, 3);
+            if (num < 10) {
+                nomeImagem += ("00" + num);
+            }
+            else nomeImagem += ("0" + num);
+            nomeImagem += ("." + tipo);
+            String base64 = i.substring(3);
+            System.out.println(base64);
+            byte[] decodec = Base64.getDecoder().decode(base64);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodec);
+            BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
+            ImageIO.write(bufferedImage, tipo, new File("Q" + nome + "_arquivos/" + nomeImagem));
+            num ++;
+        }
+    }
+
+    private JPanel createAlternativeJPanel(String text, JRadioButton radioButton, JLabel label) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.setBackground(Color.WHITE);
-        JLabel label = new JLabel(text);
+        label = new JLabel(text);
         panel.add(radioButton);
         // panel.add(Box.createRigidArea(new Dimension(5, 5)));
         panel.add(label);
