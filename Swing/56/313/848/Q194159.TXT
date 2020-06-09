@@ -1,8 +1,0 @@
-  
-Considerando que a quantidade de nuclídeos restantes das amostras I, II, III e IV é descrita por funções da forma , NÃO é correto afirmar que
-
-a)	
-b)	
-c)	o valor de N0 na amostra II é maior que na III, mas, após decorrido um tempo t0, temos NII(t) < NIII(t), para t > t0.
-d)	os valores de N0 são iguais nas amostras III e IV.
-
