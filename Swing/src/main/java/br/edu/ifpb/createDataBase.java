@@ -5,6 +5,8 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -24,6 +26,7 @@ public class createDataBase {
         Map<String, List<String>> nomes = getAlternativas(path);
         Map<String, List<String>> images = getImagensInBase64(path);
         Map<String, String> texto = getHtml(path);
+        Map<String, String> alternativasCorretas = getAlternativaCorreta(path);
 
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
         MongoClient client = new MongoClient(uri);
@@ -35,28 +38,30 @@ public class createDataBase {
             System.out.println(nomes.get(s));
             System.out.println(images.get(s));
             System.out.println(texto.get(s));
+            System.out.println(alternativasCorretas.get(s));
             System.out.println();
-//            Document document = new Document()
-//                    .append("ID", s)
-//                    .append("Dificuldade", "Fácil")
-//                    .append("Texto", texto.get(s))
-//                    .append("Alternativas", nomes.get(s))
-//                    .append("Imagens", images.get(s));
-//            collection.insertOne(document);
+            Document document = new Document()
+                    .append("ID", s)
+                    .append("Dificuldade", "Fácil")
+                    .append("Texto", texto.get(s))
+                    .append("Alternativas", nomes.get(s))
+                    .append("Alternativa correta", alternativasCorretas.get(s))
+                    .append("Imagens", images.get(s));
+            collection.insertOne(document);
         }
     }
 
-    public static Map<String, List<String>> getAlternativas(Path path) {
+    public static Map<String, List<String>> getAlternativas(Path path) { // pega as alternativas do html
         HashSet<String> nomes = new HashSet<>();
         Map<String, List<String>> alternativasArray = new HashMap<>();
         try {
-            DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
+            DirectoryStream<Path> arquivos = Files.newDirectoryStream(path); // No fim das contas, pode ser considerado com uma lista de path, que podem representar, arquivos ou diretórios
             for (Path p : arquivos) {
                 if (Files.isDirectory(p)) alternativasArray.putAll(getAlternativas(p));
                 else if (p.getFileName().toString().contains("HTM") && (! p.getFileName().toString().contains("G"))) {
-                    List<String> html = Files.readAllLines(p, StandardCharsets.ISO_8859_1);
+                    List<String> html = Files.readAllLines(p, StandardCharsets.ISO_8859_1); // ler todas as linhas do html e passa para um List<String>
                     List<String> alternativas = new ArrayList<>();
-                    for (int i = 0; i < html.size(); i ++) {
+                    for (int i = 0; i < html.size(); i ++) { // vai procurar as alternativas, que estam dentros de um parágrafo
                         StringBuilder alternativa = new StringBuilder();
                         if (html.get(i).contains(">a)") || html.get(i).contains(">b)") || html.get(i).contains(">c)") || html.get(i).contains(">d)") || html.get(i).contains(">e)")) {
                             if (html.get(i).contains("<p")) {
@@ -81,13 +86,8 @@ public class createDataBase {
                     }
                     if (alternativas.size() > 0) {
                         if (p.toString().contains("HTM")) {
-                            String[] partes = p.toString().split("/");
-                            StringBuilder id = new StringBuilder();
-                            for (int i = 1; i < partes[1].length(); i ++) {
-                                if (partes[1].charAt(i) == '.') break;
-                                else id.append(partes[1].charAt(i));
-                            }
-                            alternativasArray.put(id.toString(), alternativas);
+                            String id = getID(p);
+                            alternativasArray.put(id, alternativas);
                         }
                     }
                     alternativas = new ArrayList<>();
@@ -97,10 +97,10 @@ public class createDataBase {
         catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        return alternativasArray;
+        return alternativasArray; // retorna um map, onde a chave é um id para um questão, eu seu valor é um List<String> que são as alterntivas dentro de parágrafos
     }
 
-    public static Map<String, List<String>> getImagensInBase64(Path path) throws IOException {
+    public static Map<String, List<String>> getImagensInBase64(Path path) throws IOException { // pega as imagens de um html
         Map<String, List<String>> imagens = new HashMap<>();
         DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
         List<String> base64 = new ArrayList<>();
@@ -112,7 +112,7 @@ public class createDataBase {
                 ImageIO.write(bufferedImage, p.getFileName().toString().substring(p.getFileName().toString().length() - 3), byteArrayOutputStream);
                 byte[] dataBytes = byteArrayOutputStream.toByteArray();
                 String encoded = Base64.getEncoder().encodeToString(dataBytes);
-                base64.add(p.getFileName().toString().substring(p.getFileName().toString().length() - 3) + encoded);
+                base64.add(p.getFileName().toString() + encoded);
             }
         }
         if (base64.size() > 0) {
@@ -134,18 +134,13 @@ public class createDataBase {
         DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
         for (Path p : arquivos) {
             if ((! Files.isDirectory(p)) && p.getFileName().toString().contains("Q") && p.getFileName().toString().contains("HTM")) {
-                StringBuilder nome = new StringBuilder();
-                String[] partes = p.toString().split("/");
-                for (int i = 1; i < partes[1].length(); i ++) {
-                    if (partes[1].charAt(i) == '.') break;
-                    else nome.append(partes[1].charAt(i));
-                }
+                String nome = getID(p);
                 List<String> allLinesHTML = Files.readAllLines(p, StandardCharsets.ISO_8859_1);
                 StringBuilder linesWithoutAlternatives = new StringBuilder();
                 for (int i = 0; i < allLinesHTML.size(); i ++) {
                     if (! checkLine1(allLinesHTML, i)) linesWithoutAlternatives.append(allLinesHTML.get(i));
                 }
-                htmls.put(nome.toString(), linesWithoutAlternatives.toString());
+                htmls.put(nome, linesWithoutAlternatives.toString());
             }
         }
         return htmls;
@@ -194,5 +189,34 @@ public class createDataBase {
             if (line == locate.get(j)) return true;
         }
         return false;
+    }
+
+    public static Map<String, String> getAlternativaCorreta(Path path) throws IOException {
+        Map<String, String> alternativasCorretas = new HashMap<>();
+        DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
+        for (Path p : arquivos) {
+            if (p.getFileName().toString().contains("HTM") && p.getFileName().toString().contains("G")) {
+                List<String> linhas = Files.readAllLines(p);
+                StringBuilder string = new StringBuilder();
+                for (String s : linhas) { // juntas todas as linhas do List<String> e joga num StringBuilder
+                    string.append(s);
+                }
+                org.jsoup.nodes.Document document = Jsoup.parse(string.toString()); // HTMl pata Document
+                Elements link = document.select("p"); // vai procurar por elementos no <p>
+                String nome = getID(p);
+                alternativasCorretas.put(nome, link.text().substring(5));
+            }
+        }
+        return alternativasCorretas;
+    }
+
+    public static String getID(Path p) { // pega um path e pega um id, um número que representa uma questão
+        StringBuilder nome = new StringBuilder();
+        String[] partes = p.toString().split("/");
+        for (int i = 1; i < partes[1].length(); i ++) {
+            if (partes[1].charAt(i) == '.') break;
+            else nome.append(partes[1].charAt(i));
+        }
+        return nome.toString();
     }
 }
