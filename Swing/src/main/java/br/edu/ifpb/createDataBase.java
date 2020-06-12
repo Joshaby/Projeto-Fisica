@@ -6,7 +6,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -20,35 +19,38 @@ import java.util.*;
 
 public class createDataBase {
 
-    private static Path path = Path.of("Questions");
+    private static Path path = Path.of("Questões");
 
     public static void main(String[] args) throws IOException {
         Map<String, List<String>> nomes = getAlternativas(path);
         Map<String, List<String>> images = getImagensInBase64(path);
         Map<String, String> texto = getHtml(path);
         Map<String, String> alternativasCorretas = getAlternativaCorreta(path);
-
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
         MongoClient client = new MongoClient(uri);
         MongoDatabase database = client.getDatabase("Questões");
-        MongoCollection<Document> collection = database.getCollection("1 ano");
-
+        MongoCollection<Document> collection = database.getCollection("2 ano");
+        int i = 0;
         for(String s : nomes.keySet()) {
-            System.out.println("Questão " + s);
-            System.out.println(nomes.get(s));
-            System.out.println(images.get(s));
-            System.out.println(texto.get(s));
-            System.out.println(alternativasCorretas.get(s));
-            System.out.println();
-            Document document = new Document()
-                    .append("ID", s)
-                    .append("Dificuldade", "Fácil")
-                    .append("Texto", texto.get(s))
-                    .append("Alternativas", nomes.get(s))
-                    .append("Alternativa correta", alternativasCorretas.get(s))
-                    .append("Imagens", images.get(s));
-            collection.insertOne(document);
+            if (alternativasCorretas.get(s) != null && alternativasCorretas.get(s).length() == 1) {
+                System.out.println("Questão " + s);
+                System.out.println(nomes.get(s));
+                System.out.println(images.get(s));
+                System.out.println(texto.get(s));
+                System.out.println(alternativasCorretas.get(s));
+                System.out.println();
+                Document document = new Document()
+                        .append("ID", s)
+                        .append("Dificuldade", "Fácil")
+                        .append("Texto", texto.get(s))
+                        .append("Alternativas", nomes.get(s))
+                        .append("Alternativa correta", alternativasCorretas.get(s))
+                        .append("Imagens", images.get(s));
+                collection.insertOne(document);
+                i ++;
+            }
         }
+        System.out.println(i);
     }
 
     public static Map<String, List<String>> getAlternativas(Path path) { // pega as alternativas do html
@@ -68,7 +70,12 @@ public class createDataBase {
                                 for (int j = i; j < html.size(); j ++) {
                                     alternativa.append(html.get(j));
                                     if (html.get(j).contains("</p>")) {
-                                        alternativas.add(alternativa.toString());
+                                        String alternativaString = alternativa.toString().replace("a)", "");
+                                        alternativaString = alternativaString.replace("b)", "");
+                                        alternativaString = alternativaString.replace("c)", "");
+                                        alternativaString = alternativaString.replace("d)", "");
+                                        alternativaString = alternativaString.replace("e)", "");
+                                        alternativas.add(alternativaString);
                                         break;
                                     }
                                 }
@@ -77,7 +84,12 @@ public class createDataBase {
                                 for (int j = i - 1; j < html.size(); j ++) {
                                     alternativa.append(html.get(j));
                                     if (html.get(j).contains("</p>")) {
-                                        alternativas.add(alternativa.toString());
+                                        String alternativaString = alternativa.toString().replace("a)", "");
+                                        alternativaString = alternativaString.replace("b)", "");
+                                        alternativaString = alternativaString.replace("c)", "");
+                                        alternativaString = alternativaString.replace("d)", "");
+                                        alternativaString = alternativaString.replace("e)", "");
+                                        alternativas.add(alternativaString);
                                         break;
                                     }
                                 }
@@ -116,6 +128,7 @@ public class createDataBase {
             }
         }
         if (base64.size() > 0) {
+            String oi = "oi";
             if (path.toString().contains("arquivos")) {
                 String[] partes = path.toString().split("/");
                 StringBuilder id = new StringBuilder();
@@ -194,17 +207,33 @@ public class createDataBase {
     public static Map<String, String> getAlternativaCorreta(Path path) throws IOException {
         Map<String, String> alternativasCorretas = new HashMap<>();
         DirectoryStream<Path> arquivos = Files.newDirectoryStream(path);
+        int i = 0;
         for (Path p : arquivos) {
             if (p.getFileName().toString().contains("HTM") && p.getFileName().toString().contains("G")) {
-                List<String> linhas = Files.readAllLines(p);
+                List<String> linhas = Files.readAllLines(p, StandardCharsets.ISO_8859_1);
                 StringBuilder string = new StringBuilder();
                 for (String s : linhas) { // juntas todas as linhas do List<String> e joga num StringBuilder
                     string.append(s);
                 }
                 org.jsoup.nodes.Document document = Jsoup.parse(string.toString()); // HTMl pata Document
-                Elements link = document.select("p"); // vai procurar por elementos no <p>
                 String nome = getID(p);
-                alternativasCorretas.put(nome, link.text().substring(5));
+                String texto = document.text();
+                String alternativa = "";
+                if (texto.length() > 6) {
+                    String[] aux = document.text().split(" Gab:");
+                    if (aux[0].length() < 6) alternativa = "JJJ";
+                    else alternativa = aux[0].substring(5);
+                    if (alternativa.charAt(0) == ' ') {
+                        alternativa = alternativa.substring(1);
+                    }
+                }
+                else if (texto.length() == 5) {
+                    alternativa = texto.substring(4);
+                }
+                else if (texto.length() == 6) {
+                    alternativa = texto.substring(5);
+                }
+                alternativasCorretas.put(nome, alternativa);
             }
         }
         return alternativasCorretas;

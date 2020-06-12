@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class filterQuestions {
 
     private static Path questionsLocation = Path.of("/home/jose/Documentos/Engenharia da computação/sistema.elaboreprovas.com.br/files/6/10");
-    static String[] ids = new String[]{"212733","212892","212952","213096","213101","193819","194073","194144","203536","203575","212849","193557","193598","193816","193999","194061","194087","194093","212726","176006","176113","176156","176271","181226","181240","181269"};
+    private static List<String> ids;
 
     public static void main(String[] args) throws IOException {
-        Files.createDirectory(Path.of("Questions"));
+        ids = setIDS();
+        System.out.println(ids.size());
         copyQuestions(questionsLocation);
     }
 
@@ -20,11 +24,11 @@ public class filterQuestions {
         for (Path p : filesAndFolder) {
             if (Files.isDirectory(p)) {
                 if (checkQuestion(p.getFileName().toString())) {
-                    if (! Files.exists(Path.of("Questions/" + p.getFileName().toString()))) {
-                        Files.copy(p, Path.of("Questions").resolve(p.getFileName()));
+                    if (! Files.exists(Path.of("Questões/" + p.getFileName().toString()))) {
+                        Files.copy(p, Path.of("Questões").resolve(p.getFileName()));
                         DirectoryStream<Path> images = Files.newDirectoryStream(p);
                         for (Path image : images) {
-                            Files.copy(image, Path.of("Questions").resolve(p.getFileName().toString() + "/" + image.getFileName().toString()));
+                            Files.copy(image, Path.of("Questões").resolve(p.getFileName().toString() + "/" + image.getFileName().toString()));
                         }
                     }
                 }
@@ -32,11 +36,22 @@ public class filterQuestions {
             }
             else {
                 if (checkQuestion(p.getFileName().toString())) {
-                    if (! Files.exists(Path.of("Questions/" + p.getFileName().toString())))
-                        Files.copy(p, Path.of("Questions").resolve(p.getFileName()));
+                    if (! Files.exists(Path.of("Questões/" + p.getFileName().toString())))
+                        Files.copy(p, Path.of("Questões").resolve(p.getFileName()));
                 }
             }
         }
+    }
+
+    private static List<String> setIDS() throws IOException {
+        String txt = "questões2AnoFácil.txt";
+        List<String> lines = Files.readAllLines(Path.of(txt));
+        List<String> idsLocal = new ArrayList<>();
+        for (String s : lines) {
+            String[] iDS = s.split("\",\"");
+            idsLocal.addAll(Arrays.asList(iDS));
+        }
+        return idsLocal;
     }
 
     private static boolean checkQuestion(String name) {
