@@ -16,12 +16,12 @@ public class RepoQuestoes implements RepoQuestoes_IF {
 
     private static MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
 
-    private List<Questao> questoes = new ArrayList<>();
+    private Map<Questao, String> questoes = new HashMap<>();
     private Map<Grupo, Map<String, String>> repostas;
     private int ano = 2;
 
     @Override
-    public List<Questao> getQuestoes() { return Collections.unmodifiableList(questoes); }
+    public Map<Questao, String> getQuestoes() { return Collections.unmodifiableMap(questoes); }
 
     @Override
     public void enviarRespota(String alternativa, String ID) {
@@ -38,7 +38,7 @@ public class RepoQuestoes implements RepoQuestoes_IF {
         Iterator iterador = randomQuestions.iterator();
         while (iterador.hasNext()) {
             Document document = (Document) iterador.next();
-            System.out.println(document.get("Alternativas"));
+            System.out.println(document.get("ID"));
         }
     }
 }
