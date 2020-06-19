@@ -7,7 +7,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
-
 import java.awt.image.BufferedImage;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,27 +49,20 @@ public class boxLayout extends JFrame {
     private JLabel label3;
     private JLabel label4;
 
-    public boxLayout() throws IOException, BadLocationException {
+    public boxLayout() throws IOException, BadLocationException, ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         super("Box Layout");
         panel = new JPanel();
-        panel.setBackground(Color.WHITE);
         panel1 = new JPanel();
-        panel1.setBackground(Color.WHITE);
         panel2 = new JPanel();
-        panel2.setBackground(Color.WHITE);
         panel3 = new JPanel();
-        panel3.setBackground(Color.WHITE);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // define a disposição dos componentes dentro de outro componente
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS)); // X_AXIS: disposição da esquerda pra direita
         panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS)); // Y_AXIS: disposição de cima para baixo
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS)); // Y_AXIS: disposição de cima para baixo
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // adiciona uma borda de 10px a um componente
         button = new JButton("Voltar");
-        button.setBackground(Color.WHITE);
         button1 = new JButton("Avançar");
-        button1.setBackground(Color.WHITE);
         button2 = new JButton("Finalizar");
-        button2.setBackground(Color.WHITE);
         button1.addActionListener(new buttonHandler());
         button2.addActionListener(new buttonHandler());
         button.addActionListener(new buttonHandler());
@@ -79,11 +71,6 @@ public class boxLayout extends JFrame {
         radioButton2 = new JRadioButton("C -");
         radioButton3 = new JRadioButton("D -");
         radioButton4 = new JRadioButton("E -");
-        radioButton.setBackground(Color.WHITE);
-        radioButton1.setBackground(Color.WHITE);
-        radioButton2.setBackground(Color.WHITE);
-        radioButton3.setBackground(Color.WHITE);
-        radioButton4.setBackground(Color.WHITE);
         buttonGroup = new ButtonGroup(); // usado para criar um lógica entre od radio buttons, não selecionar mais de um ao mesmo temp
         buttonGroup.add(radioButton);
         buttonGroup.add(radioButton1);
@@ -96,7 +83,7 @@ public class boxLayout extends JFrame {
         panel.add(panel2);
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        File file = new File("test1.HTM");
+        File file = new File("Q133393.HTM");
         URL uri = file.toURI().toURL();
         try {
             editorPane.setPage(uri);
@@ -113,7 +100,6 @@ public class boxLayout extends JFrame {
 
         JPanel panel4 = new JPanel();
         panel4.setLayout(new BoxLayout(panel4, BoxLayout.X_AXIS));
-        panel4.setBackground(Color.WHITE);
         panel4.add(radioButton);
         JLabel label = new JLabel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
                 "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
@@ -150,7 +136,9 @@ public class boxLayout extends JFrame {
         panel2.add(button2);
         add(panel);
         // radioButton.addItemListener(new radioButton());
-        initComponents();
+        // initComponents();
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     private class buttonHandler implements ActionListener {
@@ -167,11 +155,18 @@ public class boxLayout extends JFrame {
                 panel1.repaint();
             }
             if (actionEvent.getSource() == button) {
-                if (radioButton.isSelected()) System.out.println(radioButton.getText());
-                if (radioButton1.isSelected()) System.out.println(radioButton1.getText());
-                if (radioButton2.isSelected()) System.out.println(radioButton2.getText());
-                if (radioButton3.isSelected()) System.out.println(radioButton3.getText());
-                if (radioButton4.isSelected()) System.out.println(radioButton4.getText());
+                try {
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                SwingUtilities.updateComponentTreeUI(boxLayout.this);
             }
         }
     }
@@ -225,7 +220,6 @@ public class boxLayout extends JFrame {
     private JPanel createAlternativeJPanel(String text, JRadioButton radioButton, JLabel label) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.setBackground(Color.WHITE);
         label = new JLabel(text);
         panel.add(radioButton);
         // panel.add(Box.createRigidArea(new Dimension(5, 5)));
