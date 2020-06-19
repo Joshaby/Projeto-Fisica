@@ -19,7 +19,7 @@ import java.util.*;
 
 public class createDataBase {
 
-    private static Path path = Path.of("Questões");
+    private static Path path = Path.of("QuestõesDifícil");
 
     public static void main(String[] args) throws IOException {
         Map<String, List<String>> nomes = getAlternativas(path);
@@ -31,24 +31,24 @@ public class createDataBase {
         MongoDatabase database = client.getDatabase("Questões");
         MongoCollection<Document> collection = database.getCollection("2 ano");
         int i = 0;
-        for(String s : nomes.keySet()) {
-            if (alternativasCorretas.get(s) != null && alternativasCorretas.get(s).length() == 1) {
+        for(String s : texto.keySet()) {
+            //if (alternativasCorretas.get(s) != null && alternativasCorretas.get(s).length() == 1) {
                 System.out.println("Questão " + s);
-                System.out.println(nomes.get(s));
+                //System.out.println(nomes.get(s));
                 System.out.println(images.get(s));
                 System.out.println(texto.get(s));
                 System.out.println(alternativasCorretas.get(s));
                 System.out.println();
                 Document document = new Document()
                         .append("ID", s)
-                        .append("Dificuldade", "Fácil")
+                        .append("Dificuldade", "Difícil")
                         .append("Texto", texto.get(s))
-                        .append("Alternativas", nomes.get(s))
+                        //.append("Alternativas", nomes.get(s))
                         .append("Alternativa correta", alternativasCorretas.get(s))
                         .append("Imagens", images.get(s));
                 collection.insertOne(document);
                 i ++;
-            }
+            //}
         }
         System.out.println(i);
     }
@@ -219,20 +219,20 @@ public class createDataBase {
                 String nome = getID(p);
                 String texto = document.text();
                 String alternativa = "";
-                if (texto.length() > 6) {
-                    String[] aux = document.text().split(" Gab:");
-                    if (aux[0].length() < 6) alternativa = "JJJ";
-                    else alternativa = aux[0].substring(5);
-                    if (alternativa.charAt(0) == ' ') {
-                        alternativa = alternativa.substring(1);
-                    }
-                }
-                else if (texto.length() == 5) {
-                    alternativa = texto.substring(4);
-                }
-                else if (texto.length() == 6) {
+//                if (texto.length() > 6) {
+//                    String[] aux = document.text().split(" Gab:");
+//                    if (aux[0].length() < 6) alternativa = "JJJ";
+//                    else alternativa = aux[0].substring(5);
+//                    if (alternativa.charAt(0) == ' ') {
+//                        alternativa = alternativa.substring(1);
+//                    }
+//                }
+//                else if (texto.length() == 5) {
+//                    alternativa = texto.substring(4);
+//                }
+//                else if (texto.length() == 6) {
                     alternativa = texto.substring(5);
-                }
+                //}
                 alternativasCorretas.put(nome, alternativa);
             }
         }

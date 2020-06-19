@@ -8,12 +8,11 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -25,7 +24,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
 import java.net.URL;
-import java.util.Iterator;
+import java.util.List;
 
 public class boxLayout extends JFrame {
     private JPanel panel;
@@ -85,6 +84,7 @@ public class boxLayout extends JFrame {
         editorPane.setEditable(false);
         File file = new File("Q133393.HTM");
         URL uri = file.toURI().toURL();
+        System.out.println(uri);
         try {
             editorPane.setPage(uri);
         } catch (IOException e) {
@@ -107,26 +107,6 @@ public class boxLayout extends JFrame {
         label.setSize(10, 10);
         panel4.add(label);
 
-        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton, label));
-        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton1, label1));
-        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton2, label2));
-        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton3, label3));
-        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
-        panel3.add(createAlternativeJPanel("<html><p class=MsoNormal style='margin-left:42.0pt;text-align:justify;text-indent:\n" +
-                "-21.0pt'>Resistência elétrica de um fio condutor e pressão de um gás a\n" +
-                "volume constante.</p></html>", radioButton4, label4));
-
         panel1.add(panel3);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Questão 13")); // adiciona uma borda em um componente com título na esquerda
         panel2.add(button);
@@ -136,7 +116,6 @@ public class boxLayout extends JFrame {
         panel2.add(button2);
         add(panel);
         // radioButton.addItemListener(new radioButton());
-        // initComponents();
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         SwingUtilities.updateComponentTreeUI(this);
     }
@@ -156,6 +135,7 @@ public class boxLayout extends JFrame {
             }
             if (actionEvent.getSource() == button) {
                 try {
+                    initComponents();
                     UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -164,6 +144,8 @@ public class boxLayout extends JFrame {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 SwingUtilities.updateComponentTreeUI(boxLayout.this);
@@ -182,7 +164,7 @@ public class boxLayout extends JFrame {
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
         MongoClient client = new MongoClient(uri);
         MongoDatabase database = client.getDatabase("Questões");
-        MongoCollection<Document> collection = database.getCollection("1 ano");
+        MongoCollection<Document> collection = database.getCollection("2 ano");
         FindIterable<Document> documents = collection.find(Filters.eq("ID", "181269"));
         Iterator filtredDocuments = documents.iterator();
         while (filtredDocuments.hasNext()) {
@@ -191,30 +173,52 @@ public class boxLayout extends JFrame {
             String html = (String) document.get("Texto");
             Files.write(Path.of("Q" + id + ".HTM"), Collections.singleton(html), StandardCharsets.ISO_8859_1);
             editorPane.setPage(new File("Q" + id + ".HTM").toURI().toURL());
+            List<String> alternatives = (List<String>) document.get("Alternativas");
             List<String> imagens = (List<String>) document.get("Imagens");
-            initDirectory(id, imagens);
+            List<String> nomesImagens = new ArrayList<>();
+            initDirectory(id, imagens, nomesImagens);
+            initAlternatives(alternatives, nomesImagens, id);
         }
     }
 
-    private void initDirectory(String nome, List<String> arquivos) throws IOException {
-        Files.createDirectory(Path.of("Q" + nome + "_arquivos"));
-        int num = 1;
-        for (String i : arquivos) {
-            String nomeImagem = "image";
-            String tipo = i.substring(0, 3);
-            if (num < 10) {
-                nomeImagem += ("00" + num);
-            }
-            else nomeImagem += ("0" + num);
-            nomeImagem += ("." + tipo);
-            String base64 = i.substring(3);
-            System.out.println(base64);
-            byte[] decodec = Base64.getDecoder().decode(base64);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decodec);
+    private void initDirectory(String nome, List<String> arquivos, List<String> nomesImagens) throws IOException {
+        String directory = "Q" + nome + "_arquivos";
+        Files.createDirectory(Path.of(directory));
+        for (String s : arquivos) {
+            String imageName = s.substring(0, 12);
+            nomesImagens.add(imageName);
+            System.out.println(imageName.substring(9));
+            String base64 = s.substring(12);
+            byte[] decoded = Base64.getDecoder().decode(base64);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decoded);
             BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
-            ImageIO.write(bufferedImage, tipo, new File("Q" + nome + "_arquivos/" + nomeImagem));
-            num ++;
+            ImageIO.write(bufferedImage, imageName.substring(9), new File(directory + "/" + imageName));
         }
+    }
+
+    private void initAlternatives(List<String> alternatives, List<String> nomesImagens, String nome) throws MalformedURLException {
+        String localAlternative = "";
+        for (String alternative : alternatives) {
+            if (alternative.contains(nomesImagens.get(0))) {
+                localAlternative = alternative;
+                break;
+            }
+        }
+        String[] p = localAlternative.split("Q" + nome + "_arquivos/" + nomesImagens.get(0));
+        File file = new File("Q" + nome + "_arquivos/" + nomesImagens.get(0));
+        URL url = file.toURI().toURL();
+        String html = "<html>" + p[0] + url + p[1] + "</html>";
+        System.out.println(html);
+        panel3.add(createAlternativeJPanel(html, radioButton, label));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
+        panel3.add(createAlternativeJPanel(html, radioButton1, label1));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
+        panel3.add(createAlternativeJPanel(html, radioButton2, label2));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
+        panel3.add(createAlternativeJPanel(html, radioButton3, label3));
+        panel3.add(Box.createRigidArea(new Dimension(25, 25)));
+        panel3.add(createAlternativeJPanel(html, radioButton4, label4));
+        panel1.add(panel3);
     }
 
     private JPanel createAlternativeJPanel(String text, JRadioButton radioButton, JLabel label) {
