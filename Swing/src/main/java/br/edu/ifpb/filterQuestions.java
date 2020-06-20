@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class filterQuestions {
+public class filterQuestions { //classe para pegar questões selecionadas em um txt, saõ selecionadas de acorda com seu número
 
     private static Path questionsLocation = Path.of("/home/jose/Documentos/Engenharia da computação/sistema.elaboreprovas.com.br/files/6/10");
     private static List<String> ids;

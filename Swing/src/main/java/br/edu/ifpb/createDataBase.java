@@ -17,7 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class createDataBase {
+public class createDataBase { // classe para criar um coleção de questões em um banco de dados mongoDB. São usadas as questões filtradas pela classe filterQuestion
 
     private static Path path = Path.of("QuestõesDifícil");
 

@@ -26,8 +26,8 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 
-public class boxLayout extends JFrame {
-    private JPanel panel;
+public class boxLayout extends JFrame { //Classe de teste de um possível layout do app do cliente, que nesse caso vai ser um grupo de alunos
+    private JPanel panel; // compontentes autoexplicativos
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
@@ -83,7 +83,7 @@ public class boxLayout extends JFrame {
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
         File file = new File("Q133393.HTM");
-        URL uri = file.toURI().toURL();
+        URL uri = file.toURI().toURL(); // pega o URL do html, para que ele possa ser usado no editorPane
         System.out.println(uri);
         try {
             editorPane.setPage(uri);
@@ -116,11 +116,11 @@ public class boxLayout extends JFrame {
         panel2.add(button2);
         add(panel);
         // radioButton.addItemListener(new radioButton());
-        UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        SwingUtilities.updateComponentTreeUI(this);
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel"); // seta o uso do look and feel GTK na interface
+        SwingUtilities.updateComponentTreeUI(this); // faz um update nos compontentes, para o novo look and feel ser usado
     }
 
-    private class buttonHandler implements ActionListener {
+    private class buttonHandler implements ActionListener { // Handler de eventos de botões, ira fazer alguma coisa, caso algum botão é clicado
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             if (actionEvent.getSource() == button1) {
@@ -136,80 +136,71 @@ public class boxLayout extends JFrame {
             if (actionEvent.getSource() == button) {
                 try {
                     initComponents();
-                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                SwingUtilities.updateComponentTreeUI(boxLayout.this);
             }
         }
     }
 
-    private class radioButton implements ItemListener {
+    private class radioButton implements ItemListener { // Handler de evento de um radiobutton
         @Override
         public void itemStateChanged(ItemEvent itemEvent) {
             if (radioButton.isSelected()) System.out.println("oi");
         }
     }
 
-    private void initComponents() throws IOException {
-        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
-        MongoClient client = new MongoClient(uri);
-        MongoDatabase database = client.getDatabase("Questões");
-        MongoCollection<Document> collection = database.getCollection("2 ano");
-        FindIterable<Document> documents = collection.find(Filters.eq("ID", "181269"));
-        Iterator filtredDocuments = documents.iterator();
+    private void initComponents() throws IOException { // função para pegar uma questão numa coleção em um banco de dados mongoDB
+        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"); //
+        MongoClient client = new MongoClient(uri);                                                                                                                                                                    // Faz conexão com o cluster que possui os banco de dados
+        MongoDatabase database = client.getDatabase("Questões"); // referencia o banco de dados "Questões"
+        MongoCollection<Document> collection = database.getCollection("2 ano"); // referencia a coleção "2 ano" em "Questões"
+        FindIterable<Document> documents = collection.find(Filters.eq("ID", "181269")); // pega algum documento que possuir { "ID" : "181269" }
+        Iterator filtredDocuments = documents.iterator(); // iterador para documents
         while (filtredDocuments.hasNext()) {
-            Document document = (Document) filtredDocuments.next();
-            String id = (String) document.get("ID");
-            String html = (String) document.get("Texto");
-            Files.write(Path.of("Q" + id + ".HTM"), Collections.singleton(html), StandardCharsets.ISO_8859_1);
-            editorPane.setPage(new File("Q" + id + ".HTM").toURI().toURL());
-            List<String> alternatives = (List<String>) document.get("Alternativas");
-            List<String> imagens = (List<String>) document.get("Imagens");
-            List<String> nomesImagens = new ArrayList<>();
-            initDirectory(id, imagens, nomesImagens);
-            initAlternatives(alternatives, nomesImagens, id);
+            Document document = (Document) filtredDocuments.next(); // pega o documento e faz um casting para Document
+            String id = (String) document.get("ID"); // pega o ID do documento
+            String html = (String) document.get("Texto"); // pega o texto do documento, que vai ser uma Sring que representa um HTML
+            Files.write(Path.of("Q" + id + ".HTM"), Collections.singleton(html), StandardCharsets.ISO_8859_1); // cria o arquivo html para ele ser usado na interface
+            editorPane.setPage(new File("Q" + id + ".HTM").toURI().toURL()); // coloca o html no editorPane, usando o URL do html
+            List<String> alternatives = (List<String>) document.get("Alternativas"); // as alternativas da questão, isso em um List
+            List<String> imagens = (List<String>) document.get("Imagens"); // pegas as imagens em base64 e com seu nome final, isso em um List
+            List<String> nomesImagens = new ArrayList<>(); // List com os nomes finais de cada imagem
+            initDirectory(id, imagens, nomesImagens); // olhar coméntario da função
+            initAlternatives(alternatives, nomesImagens, id); // olhar coméntario da função
         }
     }
 
-    private void initDirectory(String nome, List<String> arquivos, List<String> nomesImagens) throws IOException {
-        String directory = "Q" + nome + "_arquivos";
-        Files.createDirectory(Path.of(directory));
+    private void initDirectory(String nome, List<String> arquivos, List<String> nomesImagens) throws IOException { // vai iniciar o diretório de dependência do html, no caso, colocar as imagens no diretório
+        String directory = "Q" + nome + "_arquivos"; // nome da pasta
+        Files.createDirectory(Path.of(directory)); // cria a pasta
         for (String s : arquivos) {
-            String imageName = s.substring(0, 12);
-            nomesImagens.add(imageName);
-            System.out.println(imageName.substring(9));
-            String base64 = s.substring(12);
-            byte[] decoded = Base64.getDecoder().decode(base64);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decoded);
-            BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
-            ImageIO.write(bufferedImage, imageName.substring(9), new File(directory + "/" + imageName));
+            String imageName = s.substring(0, 12); // pega o nome final da imagem
+            nomesImagens.add(imageName); // adiciona o nome em um List para uso futuro
+            System.out.println(imageName.substring(9)); // print para ver extensão da imagem, se ela é gif ou jpg
+            String base64 = s.substring(12); // pega a imagem em base64
+            byte[] decoded = Base64.getDecoder().decode(base64); // converte o base64 em um lista de bytes
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(decoded); // transforma a lista de bytes em um buffer array de bytes na mémoria, ira estabelecer uma conexão entres esse bytes e algum método que leia esses bytes
+            BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream); // cria um buffer com dados da imagem, que está em bytes
+            ImageIO.write(bufferedImage, imageName.substring(9), new File(directory + "/" + imageName)); // pega os bytes e grava em um arquivo, é necessário dar o formato original da imagem para n ocorrer erros de criação
         }
     }
 
-    private void initAlternatives(List<String> alternatives, List<String> nomesImagens, String nome) throws MalformedURLException {
+    private void initAlternatives(List<String> alternatives, List<String> nomesImagens, String nome) throws MalformedURLException { // função de teste para iniciar as alternativas, para alternativas que possuem imagens.
         String localAlternative = "";
         for (String alternative : alternatives) {
-            if (alternative.contains(nomesImagens.get(0))) {
+            if (alternative.contains(nomesImagens.get(0))) { // pega a altertiva que contem o nome da primeira imagem em nomesImagens
                 localAlternative = alternative;
                 break;
             }
         }
-        String[] p = localAlternative.split("Q" + nome + "_arquivos/" + nomesImagens.get(0));
-        File file = new File("Q" + nome + "_arquivos/" + nomesImagens.get(0));
-        URL url = file.toURI().toURL();
-        String html = "<html>" + p[0] + url + p[1] + "</html>";
-        System.out.println(html);
-        panel3.add(createAlternativeJPanel(html, radioButton, label));
+        String[] p = localAlternative.split("Q" + nome + "_arquivos/" + nomesImagens.get(0)); // quebra a String no nome da imagem, antecedido por uma pasta. Isso é feito poir, para visualizar a imagem, é necessário usar sua URL, que basicamente consiste do no path absoluto antecedido da String file://
+        File file = new File("Q" + nome + "_arquivos/" + nomesImagens.get(0)); // cria um File que representa a imagem
+        URL url = file.toURI().toURL(); // pega o URL da imagem
+        String html = "<html>" + p[0] + url + p[1] + "</html>"; // cria o html do label, agora com o URL da imagem
+        System.out.println(html); // printa o html
+        // vai criar as alterntivas
+        panel3.add(createAlternativeJPanel(html, radioButton, label)); // cria uma alternativa, olhar o comméntario da função
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel(html, radioButton1, label1));
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
@@ -219,9 +210,10 @@ public class boxLayout extends JFrame {
         panel3.add(Box.createRigidArea(new Dimension(25, 25)));
         panel3.add(createAlternativeJPanel(html, radioButton4, label4));
         panel1.add(panel3);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
-    private JPanel createAlternativeJPanel(String text, JRadioButton radioButton, JLabel label) {
+    private JPanel createAlternativeJPanel(String text, JRadioButton radioButton, JLabel label) { // cria um alternativa
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         label = new JLabel(text);
@@ -229,17 +221,5 @@ public class boxLayout extends JFrame {
         // panel.add(Box.createRigidArea(new Dimension(5, 5)));
         panel.add(label);
         return panel;
-    }
-
-    private JScrollPane createJScrollPane(JTextArea textArea) {
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 0), new EmptyBorder(0, 0, 0, 0)));
-        return scrollPane;
-    }
-
-    private JScrollPane createJScrollPane(int width, int height) {
-        JScrollPane scrollPane = new JScrollPane();
-
-        return scrollPane;
     }
 }
