@@ -26,6 +26,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1dWAxRvZcuW6OKQeENgyRAEfGK9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -35,6 +36,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../JogoPedagogico" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -88,6 +90,7 @@
       <workItem from="1592530738333" duration="1701000" />
       <workItem from="1592532564060" duration="3150000" />
       <workItem from="1592577292154" duration="277000" />
+      <workItem from="1592690952979" duration="64000" />
     </task>
     <servers />
   </component>
@@ -95,6 +98,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="466" y="120" width="424" height="484" key="FileChooserDialogImpl" timestamp="1592691016289">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state x="466" y="120" width="424" height="484" key="FileChooserDialogImpl/0.0.1366.724@0.0.1366.724" timestamp="1592691016289" />
     <state width="1324" height="270" key="GridCell.Tab.0.bottom" timestamp="1592536341551">
       <screen x="0" y="0" width="1366" height="722" />
     </state>

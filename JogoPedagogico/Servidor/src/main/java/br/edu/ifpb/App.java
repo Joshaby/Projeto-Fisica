@@ -1,8 +1,7 @@
 package br.edu.ifpb;
 
 public class App {
-    public static void main(String[] args) {
+    public App() {
         RepoQuestoes repoQuestoes = new RepoQuestoes();
-        repoQuestoes.setQuestoes("Média", 1);
     }
 }

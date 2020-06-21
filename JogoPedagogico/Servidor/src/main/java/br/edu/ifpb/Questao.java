@@ -16,6 +16,10 @@ public class Questao {
         setText(text);
     }
 
+    public Questao() {
+
+    }
+
     public String getId() {
         return id;
     }
