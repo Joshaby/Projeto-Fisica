@@ -15,23 +15,37 @@ public class QuestionRepository implements QuestionRepository_IF {
     private static MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
 
     private Map<Question, String> questions;
-    private Map<Grupo, Map<Question, String>> answers;
+    private Map<Group, Map<Map<Question, String>, Double>> answers;
     private int year;
 
     public QuestionRepository(int year) {
         setYear(year);
         questions = new HashMap<>();
+        answers = new HashMap<>();
     }
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
 
     @Override
-    public Map<Question, String> getQuestions() { return questions; }
+    public Map<Question, String> getQuestions() { return Collections.unmodifiableMap(questions); }
 
     @Override
-    public void sendAnswers(Grupo grupo, String alternativa, String ID) {
-
+    public void sendAnswers(Group group, Question question, String alternative, double time) {
+        Map<Question, String> alternativeAndAnswers = new HashMap<>();
+        alternativeAndAnswers.put(question, alternative);
+        Map<Map<Question, String>, Double> answersKey = new HashMap<>();
+        answersKey.put(alternativeAndAnswers, time);
+        if (! answers.isEmpty()) {
+            if (answers.containsKey(group)) {
+                for (Map<Question, String> i : answers.get(group).keySet()) {
+                    answersKey.put(i, answers.get(group).get(i));
+                }
+                answers.put(group, answersKey);
+            }
+            else answers.put(group, answersKey);
+        }
+        else answers.put(group, answersKey);
     }
 
     public void setQuestions(String tipo, int qtde) {
@@ -61,13 +75,6 @@ public class QuestionRepository implements QuestionRepository_IF {
                 }
                 else questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, images), correctAlternative);
             }
-            System.out.println(id);
-            System.out.println(difficulty);
-            System.out.println(text);
-            System.out.println(correctAlternative);
-            System.out.println(alternatives);
-            System.out.println(images);
-            System.out.println();
         }
     }
 }

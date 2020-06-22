@@ -1,8 +1,17 @@
 package br.edu.ifpb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GroupRepository implements GroupRepository_IF {
+    private List<Group> groups;
+
+    public GroupRepository() {
+        groups = new ArrayList<>();
+    }
+
     @Override
-    public void cadastrarGrupo() {
+    public void registerGroup() {
 
     }
 
