@@ -10,12 +10,12 @@ import java.util.List;
 
 public class filterQuestions { //classe para pegar questões selecionadas em um txt, saõ selecionadas de acorda com seu número
 
-    private static Path questionsLocation = Path.of("/home/jose/Documentos/Engenharia da computação/sistema.elaboreprovas.com.br/files/6/10");
+    private static Path questionsLocation = Path.of("/home/jose/Documentos/sistema.elaboreprovas.com.br/files/6/10/");
     private static List<String> ids;
 
     public static void main(String[] args) throws IOException {
         ids = setIDS();
-        System.out.println(ids.size());
+        System.out.println(ids);
         copyQuestions(questionsLocation);
     }
 
@@ -44,11 +44,11 @@ public class filterQuestions { //classe para pegar questões selecionadas em um 
     }
 
     private static List<String> setIDS() throws IOException {
-        String txt = "questões2AnoFácil.txt";
+        String txt = "questões1AnoMédia.txt";
         List<String> lines = Files.readAllLines(Path.of(txt));
         List<String> idsLocal = new ArrayList<>();
         for (String s : lines) {
-            String[] iDS = s.split("\",\"");
+            String[] iDS = s.split("', '");
             idsLocal.addAll(Arrays.asList(iDS));
         }
         return idsLocal;

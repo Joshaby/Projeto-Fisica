@@ -19,17 +19,17 @@ import java.util.*;
 
 public class createDataBase { // classe para criar um coleção de questões em um banco de dados mongoDB. São usadas as questões filtradas pela classe filterQuestion
 
-    private static Path path = Path.of("QuestõesDifícil");
+    private static Path path = Path.of("Questões");
 
     public static void main(String[] args) throws IOException {
-        Map<String, List<String>> nomes = getAlternativas(path);
+        //Map<String, List<String>> nomes = getAlternativas(path);
         Map<String, List<String>> images = getImagensInBase64(path);
         Map<String, String> texto = getHtml(path);
         Map<String, String> alternativasCorretas = getAlternativaCorreta(path);
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
         MongoClient client = new MongoClient(uri);
         MongoDatabase database = client.getDatabase("Questões");
-        MongoCollection<Document> collection = database.getCollection("2 ano");
+        MongoCollection<Document> collection = database.getCollection("1 ano");
         int i = 0;
         for(String s : texto.keySet()) {
             //if (alternativasCorretas.get(s) != null && alternativasCorretas.get(s).length() == 1) {
@@ -47,7 +47,7 @@ public class createDataBase { // classe para criar um coleção de questões em 
                         .append("Alternativa correta", alternativasCorretas.get(s))
                         .append("Imagens", images.get(s));
                 collection.insertOne(document);
-                i ++;
+                i++;
             //}
         }
         System.out.println(i);
