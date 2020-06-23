@@ -28,4 +28,13 @@ public class Question {
     public void setText(String text) { this.text = text; }
     public List<String> getImages() { return Collections.unmodifiableList(images); }
     public void setImages(List<String> images) { this.images = images; }
+
+    @Override
+    public String toString() {
+        return "Question: " +
+                "id='" + id + "'" +
+        ", difficulty='" + difficulty + "'" +
+        ", text='" + text + "'" +
+        ", images=" + images;
+    }
 }

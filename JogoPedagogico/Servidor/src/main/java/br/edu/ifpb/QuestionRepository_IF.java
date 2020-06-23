@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface QuestionRepository_IF extends Remote {
     Map<Question, String> getQuestions() throws RemoteException;
-    void sendAnswer(Group group, Response response) throws RemoteException;
+    void sendAnswer(Group group, Answer answer) throws RemoteException;
 }

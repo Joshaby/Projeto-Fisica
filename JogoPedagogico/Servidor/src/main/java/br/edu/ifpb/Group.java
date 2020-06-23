@@ -17,4 +17,10 @@ public class Group {
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
     public void addMember(String name) { members.add(name); }
+
+    @Override
+    public String toString() {
+        return "Grupo: "+ "members=" + members +
+                ", year=" + year;
+    }
 }

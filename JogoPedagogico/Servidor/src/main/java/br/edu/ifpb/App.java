@@ -11,12 +11,14 @@ public class App {
         Question question = new Question("12", "média", "oi");
         Question question1 = new Question("13", "média", "oi");
         Question question2 = new Question("14", "média", "oi");
-        Response response = new Response("12", "A",  2.0);
-        Response response1 = new Response("13", "B",  2.0);
-        Response response2 = new Response("14", "C",  2.0);
-        questionRepository.sendAnswer(group, response);
-        questionRepository.sendAnswer(group1, response);
-        questionRepository.sendAnswer(group2, response);
-        questionRepository.sendAnswer(group2, response1);
+        Answer answer = new Answer("12", "A");
+        Answer answer1 = new Answer("13", "B");
+        Answer answer2 = new Answer("14", "C");
+//        questionRepository.sendAnswer(group, answer);
+//        questionRepository.sendAnswer(group1, answer);
+//        questionRepository.sendAnswer(group2, answer);
+//        questionRepository.sendAnswer(group2, answer1);
+        questionRepository.setQuestions(new String[]{"Fácil", "Média"}, 10);
+        System.out.println(questionRepository);
     }
 }
