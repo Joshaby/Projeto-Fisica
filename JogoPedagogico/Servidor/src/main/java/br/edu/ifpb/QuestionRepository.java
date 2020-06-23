@@ -30,6 +30,13 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
         questions = new HashMap<>();
         answers = new HashMap<>();
         points = new HashMap<>();
+        pointsPerQuestions = new HashMap<>();
+        pointsPerQuestions.put("12", 3);
+        pointsPerQuestions.put("13", 3);
+        pointsPerQuestions.put("14", 3);
+        questions.put(new Question("12", "média", "oi"), "A");
+        questions.put(new Question("13", "média", "oi1"), "B");
+        questions.put(new Question("14", "média", "oi2"), "C");
     }
 
     public int getYear() { return year; }
@@ -42,12 +49,18 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
     public void sendAnswer(Group group, Response response) {
         if (! answers.isEmpty()) {
             if (answers.containsKey(group)) {
-                answers.get(group).add(response);
+                List<Response> aux = new ArrayList<>();
+                aux.add(response);
+                aux.addAll(answers.get(group));
+                answers.put(group, aux);
             }
             else answers.put(group, Collections.singletonList(response));
         }
         else answers.put(group, Collections.singletonList(response));
         calculatePoints(group, response);
+        System.out.println(answers);
+        System.out.println(points);
+        System.out.println();
     }
 
     public void calculatePoints(Group group, Response response) {
@@ -55,15 +68,24 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
             if (points.containsKey(group)) {
                 for (Question question : questions.keySet()) {
                     if (question.getId().equals(response.getID()) && questions.get(question).equals(response.getAnswer())) {
-                        points.put(group, points.get(group) + 1 + pointsPerQuestions.get(response.getAnswer()));
-                        pointsPerQuestions.put(response.getAnswer(), pointsPerQuestions.get(response.getAnswer()) - 1);
+                        points.put(group, points.get(group) + 1 + pointsPerQuestions.get(response.getID()));
+                        if (pointsPerQuestions.get(response.getID()) != 0)
+                            pointsPerQuestions.put(response.getID(), pointsPerQuestions.get(response.getID()) - 1);
                         break;
                     }
                 }
             }
-            else points.put(group, 1);
+            else {
+                points.put(group, 1 + pointsPerQuestions.get(response.getID()));
+                if (pointsPerQuestions.get(response.getID()) != 0)
+                    pointsPerQuestions.put(response.getID(), pointsPerQuestions.get(response.getID()) - 1);
+            }
         }
-        else points.put(group, 1);
+        else {
+            points.put(group, 1 + pointsPerQuestions.get(response.getID()));
+            if (pointsPerQuestions.get(response.getID()) != 0)
+                pointsPerQuestions.put(response.getID(), pointsPerQuestions.get(response.getID()) - 1);
+        }
     }
 
     public void setQuestions(String type, int qtde) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
@@ -92,7 +114,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                 }
                 else questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, images), correctAlternative);
             }
-            pointsPerQuestions.put(id, 3); // bônus de cada questão. Quando um grupo enviar uma resposta, se ele acerta, recebe esse bônus
+            pointsPerQuestions.put(id, 3); // bônus de cada questão. Quando um grupo enviar uma resposta, se ele acerta, recebe esse bônus. Apôs uma resposta certa, o bônus é desincrementado
         }
     }
 }
