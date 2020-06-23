@@ -1,7 +1,11 @@
 package br.edu.ifpb;
 
 import static com.mongodb.client.model.Aggregates.*;
+
+import java.awt.*;
 import java.util.*;
+import java.util.List;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.AggregateIterable;
@@ -43,15 +47,23 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
             else answers.put(group, Collections.singletonList(response));
         }
         else answers.put(group, Collections.singletonList(response));
+        calculatePoints(group, response);
+    }
+
+    public void calculatePoints(Group group, Response response) {
         if (! points.isEmpty()) {
             if (points.containsKey(group)) {
-                if (response.getAnswer().equals(questions.get()))
-                points.put(group, points.get(group) + 1 + pointsPerQuestions.get(response.getID()));
+                for (Question question : questions.keySet()) {
+                    if (question.getId().equals(response.getID()) && questions.get(question).equals(response.getAnswer())) {
+                        points.put(group, points.get(group) + 1 + pointsPerQuestions.get(response.getAnswer()));
+                        pointsPerQuestions.put(response.getAnswer(), pointsPerQuestions.get(response.getAnswer()) - 1);
+                        break;
+                    }
+                }
             }
-            else points.put(group, 1 + pointsPerQuestions.get(response.getID()));
+            else points.put(group, 1);
         }
-        else points.put(group, 1 + pointsPerQuestions.get(response.getID()));
-        pointsPerQuestions.put(response.getID(), pointsPerQuestions.get(response.getID()) - 1);
+        else points.put(group, 1);
     }
 
     public void setQuestions(String type, int qtde) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
