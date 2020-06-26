@@ -16,7 +16,7 @@ public class Servidor {
             registry.bind("RepoQuestoes", stub);
             registry.bind("RepoGrupos", stub1);
             System.out.println("Servidor ativado");
-            questionRepository.setQuestions(new String[]{"Média"}, 1);
+            questionRepository.setQuestions(new String[]{"Média"}, 1, 1);
             System.out.printf(stub.getQuestions().toString());
         }
         catch (Exception e) {
