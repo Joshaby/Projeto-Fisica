@@ -77,7 +77,7 @@
               <addClasspath>true</addClasspath>
                                                       
               
-              <mainClass>br.edu.ifpb.App</mainClass>
+              <mainClass>br.edu.ifpb.ServerConnection</mainClass>
                                                   
             
             </manifest>

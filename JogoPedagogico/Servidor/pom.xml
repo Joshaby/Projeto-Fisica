@@ -34,7 +34,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>br.edu.ifpb.Servidor</mainClass>
+              <mainClass>br.edu.ifpb.Server</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -96,7 +96,7 @@
         <configuration>
             <archive>
                 <manifest>
-                    <mainClass>br.edu.ifpb.Servidor</mainClass>
+                    <mainClass>br.edu.ifpb.Server</mainClass>
                 </manifest>
             </archive>
             <descriptorRefs>
