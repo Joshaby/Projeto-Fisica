@@ -24,11 +24,11 @@ public class filterQuestions { //classe para pegar questões selecionadas em um 
         for (Path p : filesAndFolder) {
             if (Files.isDirectory(p)) {
                 if (checkQuestion(p.getFileName().toString())) {
-                    if (! Files.exists(Path.of("Questões/" + p.getFileName().toString()))) {
-                        Files.copy(p, Path.of("Questões").resolve(p.getFileName()));
+                    if (! Files.exists(Path.of("QuestõesFácil/" + p.getFileName().toString()))) {
+                        Files.copy(p, Path.of("QuestõesFácil").resolve(p.getFileName()));
                         DirectoryStream<Path> images = Files.newDirectoryStream(p);
                         for (Path image : images) {
-                            Files.copy(image, Path.of("Questões").resolve(p.getFileName().toString() + "/" + image.getFileName().toString()));
+                            Files.copy(image, Path.of("QuestõesFácil").resolve(p.getFileName().toString() + "/" + image.getFileName().toString()));
                         }
                     }
                 }
@@ -36,19 +36,19 @@ public class filterQuestions { //classe para pegar questões selecionadas em um 
             }
             else {
                 if (checkQuestion(p.getFileName().toString())) {
-                    if (! Files.exists(Path.of("Questões/" + p.getFileName().toString())))
-                        Files.copy(p, Path.of("Questões").resolve(p.getFileName()));
+                    if (! Files.exists(Path.of("QuestõesFácil/" + p.getFileName().toString())))
+                        Files.copy(p, Path.of("QuestõesFácil").resolve(p.getFileName()));
                 }
             }
         }
     }
 
     private static List<String> setIDS() throws IOException {
-        String txt = "questões1AnoMédia.txt";
+        String txt = "questões3AnoFácil.txt";
         List<String> lines = Files.readAllLines(Path.of(txt));
         List<String> idsLocal = new ArrayList<>();
         for (String s : lines) {
-            String[] iDS = s.split("', '");
+            String[] iDS = s.split("','");
             idsLocal.addAll(Arrays.asList(iDS));
         }
         return idsLocal;

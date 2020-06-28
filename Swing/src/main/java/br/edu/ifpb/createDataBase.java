@@ -19,36 +19,36 @@ import java.util.*;
 
 public class createDataBase { // classe para criar um coleção de questões em um banco de dados mongoDB. São usadas as questões filtradas pela classe filterQuestion
 
-    private static Path path = Path.of("Questões");
+    private static Path path = Path.of("QuestõesMédia");
 
     public static void main(String[] args) throws IOException {
-        //Map<String, List<String>> nomes = getAlternativas(path);
+        Map<String, List<String>> nomes = getAlternativas(path);
         Map<String, List<String>> images = getImagensInBase64(path);
         Map<String, String> texto = getHtml(path);
         Map<String, String> alternativasCorretas = getAlternativaCorreta(path);
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
         MongoClient client = new MongoClient(uri);
         MongoDatabase database = client.getDatabase("Questões");
-        MongoCollection<Document> collection = database.getCollection("1 ano");
+        MongoCollection<Document> collection = database.getCollection("3 ano");
         int i = 0;
-        for(String s : texto.keySet()) {
-            //if (alternativasCorretas.get(s) != null && alternativasCorretas.get(s).length() == 1) {
+        for(String s : alternativasCorretas.keySet()) {
+            if (alternativasCorretas.get(s).length() == 1) {
                 System.out.println("Questão " + s);
-                //System.out.println(nomes.get(s));
+                System.out.println(nomes.get(s));
                 System.out.println(images.get(s));
                 System.out.println(texto.get(s));
                 System.out.println(alternativasCorretas.get(s));
                 System.out.println();
                 Document document = new Document()
                         .append("ID", s)
-                        .append("Dificuldade", "Difícil")
+                        .append("Dificuldade", "Média")
                         .append("Texto", texto.get(s))
-                        //.append("Alternativas", nomes.get(s))
+                        .append("Alternativas", nomes.get(s))
                         .append("Alternativa correta", alternativasCorretas.get(s))
                         .append("Imagens", images.get(s));
                 collection.insertOne(document);
                 i++;
-            //}
+            }
         }
         System.out.println(i);
     }
@@ -68,7 +68,7 @@ public class createDataBase { // classe para criar um coleção de questões em 
                         if (html.get(i).contains(">a)") || html.get(i).contains(">b)") || html.get(i).contains(">c)") || html.get(i).contains(">d)") || html.get(i).contains(">e)")) {
                             if (html.get(i).contains("<p")) {
                                 for (int j = i; j < html.size(); j ++) {
-                                    alternativa.append(html.get(j));
+                                    alternativa.append(html.get(j) + " ");
                                     if (html.get(j).contains("</p>")) {
                                         String alternativaString = alternativa.toString().replace("a)", "");
                                         alternativaString = alternativaString.replace("b)", "");
@@ -82,7 +82,7 @@ public class createDataBase { // classe para criar um coleção de questões em 
                             }
                             else {
                                 for (int j = i - 1; j < html.size(); j ++) {
-                                    alternativa.append(html.get(j));
+                                    alternativa.append(html.get(j) + " ");
                                     if (html.get(j).contains("</p>")) {
                                         String alternativaString = alternativa.toString().replace("a)", "");
                                         alternativaString = alternativaString.replace("b)", "");
@@ -219,20 +219,20 @@ public class createDataBase { // classe para criar um coleção de questões em 
                 String nome = getID(p);
                 String texto = document.text();
                 String alternativa = "";
-//                if (texto.length() > 6) {
-//                    String[] aux = document.text().split(" Gab:");
-//                    if (aux[0].length() < 6) alternativa = "JJJ";
-//                    else alternativa = aux[0].substring(5);
-//                    if (alternativa.charAt(0) == ' ') {
-//                        alternativa = alternativa.substring(1);
-//                    }
-//                }
-//                else if (texto.length() == 5) {
-//                    alternativa = texto.substring(4);
-//                }
-//                else if (texto.length() == 6) {
+                if (texto.length() > 6) {
+                    String[] aux = document.text().split(" Gab:");
+                    if (aux[0].length() < 6) alternativa = "JJJ";
+                    else alternativa = aux[0].substring(5);
+                    if (alternativa.charAt(0) == ' ') {
+                        alternativa = alternativa.substring(1);
+                    }
+                }
+                else if (texto.length() == 5) {
+                    alternativa = texto.substring(4);
+                }
+                else if (texto.length() == 6) {
                     alternativa = texto.substring(5);
-                //}
+                }
                 alternativasCorretas.put(nome, alternativa);
             }
         }
