@@ -28,19 +28,17 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
         answers = new HashMap<>();
         points = new HashMap<>();
         pointsPerQuestions = new HashMap<>();
-//        pointsPerQuestions.put("12", 3);
-//        pointsPerQuestions.put("13", 3);
-//        pointsPerQuestions.put("14", 3);
-//        questions.put(new Question("12", "média", "oi"), "A");
-//        questions.put(new Question("13", "média", "oi1"), "B");
-//        questions.put(new Question("14", "média", "oi2"), "C");
     }
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
 
     @Override
-    public Map<Question, String> getQuestions() { return Collections.unmodifiableMap(questions); }
+    public List<Question> getQuestions() {
+        List<Question> questionList = new ArrayList<>();
+        questionList.addAll(questions.keySet());
+        return Collections.unmodifiableList(questionList);
+    }
 
     // Parâmetros
     //      Group grou = grupo
@@ -90,8 +88,8 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
 
     // Parâmetros
     //      String[] difficulties = lista de dificuldades, por exemplo {"Fácil", "Média"}
-    //      int qtde = quantidade de questões randomizadas a serem buscadas
-    public void setQuestions(String[] difficulties, int year, int qtde) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
+    //      int amount = quantidade de questões randomizadas a serem buscadas
+    public void setQuestions(String[] difficulties, int year, int amount) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
         MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
         MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
         AggregateIterable randomQuestions = null;
@@ -100,12 +98,12 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
         if (year == 1) {
             MongoCollection<Document> collection = dataBase.getCollection(year + " ano"); // pega a coleção de acordo com o ano estabelecido na criação do objeto
             if (difficulties.length == 2) { // ira filtrar as questões na coleção, de acordo com dificuldade, que podem ser duas, como fácil e média, e a quantidade de questões finais, que seram escolhidas aleatoriamente
-                randomQuestions = collection.aggregate(Arrays.asList(match(or(eq("Dificuldade", difficulties[0]), eq("Dificuldade", difficulties[1]))), sample(qtde)));
+                randomQuestions = collection.aggregate(Arrays.asList(match(or(eq("Dificuldade", difficulties[0]), eq("Dificuldade", difficulties[1]))), sample(amount)));
                 // match: função para combinar filtros
                 // or: filtro ou
                 // eq: Filtro "igual a"
             }
-            else randomQuestions = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(qtde)));
+            else randomQuestions = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(amount)));
             addQuestions(randomQuestions);
         }
         else if (year == 2) {
@@ -118,7 +116,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                 addQuestions(randomQuestions1);
             }
             else {
-                randomQuestions = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(qtde)));
+                randomQuestions = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(amount)));
                 addQuestions(randomQuestions);
             }
         }
@@ -135,7 +133,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                 addQuestions(randomQuestions2);
             }
             else {
-                randomQuestions2 = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(qtde)));
+                randomQuestions2 = collection.aggregate(Arrays.asList(match(eq("Dificuldade", difficulties[0])), sample(amount)));
                 addQuestions(randomQuestions2);
             }
         }

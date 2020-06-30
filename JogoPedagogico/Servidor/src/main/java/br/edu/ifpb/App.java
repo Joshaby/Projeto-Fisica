@@ -1,7 +1,7 @@
 package br.edu.ifpb;
 
 import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -19,9 +19,9 @@ public class App {
 //        questionRepository.sendAnswer(group1, answer);
 //        questionRepository.sendAnswer(group2, answer);
 //        questionRepository.sendAnswer(group2, answer1);
-        questionRepository.setQuestions(new String[]{"Média", "Difícil"}, 3, 10);
-        Map<Question, String> aux = questionRepository.getQuestions();
-        for (Question i : aux.keySet()) {
+        questionRepository.setQuestions(new String[]{"Média", "Difícil"}, 2, 10);
+        List<Question> aux = questionRepository.getQuestions();
+        for (Question i : aux) {
             System.out.println(i);
         }
     }
