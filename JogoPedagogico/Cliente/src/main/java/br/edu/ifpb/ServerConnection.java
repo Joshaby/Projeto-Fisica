@@ -10,9 +10,9 @@ public class ServerConnection {
     private QuestionRepository_IF repoQuestionsIf;
     private GroupRepository_IF repoGroupsIf;
 
-    public ServerConnection() {
+    public ServerConnection(String ip) {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost");
+            Registry registry = LocateRegistry.getRegistry(ip);
             repoQuestionsIf = (QuestionRepository_IF) registry.lookup("RepoQuestoes");
             repoGroupsIf = (GroupRepository_IF) registry.lookup("RepoGrupos");
         }
