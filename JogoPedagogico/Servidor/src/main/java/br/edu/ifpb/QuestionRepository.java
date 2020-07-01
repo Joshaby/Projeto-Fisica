@@ -36,8 +36,11 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
     @Override
     public List<Question> getQuestions() {
         List<Question> questionList = new ArrayList<>();
-        questionList.addAll(questions.keySet());
-        return Collections.unmodifiableList(questionList);
+        for (Question question : questions.keySet()) {
+            questionList.add(question);
+            System.out.println(question);
+        }
+        return questionList;
     }
 
     // Parâmetros
@@ -89,7 +92,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
     // Parâmetros
     //      String[] difficulties = lista de dificuldades, por exemplo {"Fácil", "Média"}
     //      int amount = quantidade de questões randomizadas a serem buscadas
-    public void setQuestions(String[] difficulties, int year, int amount) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
+    public void setQuestions(String[] difficulties, int amount) { // vai pegar algumas questões em um coleção em um banco de dados MongoDB
         MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
         MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
         AggregateIterable randomQuestions = null;
@@ -153,14 +156,16 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                 if (images == null) {
                     questions.put(new Question(id, difficulty, text), correctAlternative);
                 }
-                else questions.put(new Question(id, difficulty, text, images), correctAlternative);
+                else questions.put(new Question(id, difficulty, text, new ArrayList<>(images)), correctAlternative);
             }
             else {
                 if (images == null) {
                     questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives), correctAlternative);
                 }
-                else questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, images), correctAlternative);
+                else questions.put(new MultipleChoiceQuestion(id, difficulty, text, new ArrayList<>(images), alternatives), correctAlternative);
             }
+            System.out.println(id);
+            System.out.println(images);
             pointsPerQuestions.put(id, 3); // bônus de cada questão. Quando um grupo enviar uma resposta, se ele acerta, recebe esse bônus. Apôs uma resposta certa, o bônus é desincrementado
         }
     }
