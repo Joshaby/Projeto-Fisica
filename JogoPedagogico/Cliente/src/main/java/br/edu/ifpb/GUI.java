@@ -25,8 +25,12 @@ public class GUI extends JFrame {
 
     public GUI () throws IOException {
         try {
-            if (System.getProperty("os.name").toLowerCase().equals("linux")) UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            else if (System.getProperty("os.name").toLowerCase().equals("windows")) UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            if (System.getProperty("os.name").toLowerCase().equals("linux")) {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+            }
+            else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            }
         }
         catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -67,7 +71,7 @@ public class GUI extends JFrame {
         nextButton = new JButton("Avançar");
         panel1.add(Box.createRigidArea(new Dimension(15, 15)));
         icon = new JLabel();
-        icon.setIcon(new ImageIcon(getClass().getResource("logo.png")));
+        //icon.setIcon(new ImageIcon(getClass().getResource("logo.png")));
         panel1.add(icon);
         panel1.add(Box.createRigidArea(new Dimension(10, 10)));
         panel1.add(appName);
