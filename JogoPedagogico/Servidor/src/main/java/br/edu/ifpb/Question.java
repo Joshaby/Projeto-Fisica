@@ -1,9 +1,11 @@
 package br.edu.ifpb;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Question {
+public class Question implements Serializable {
     private String id;
     private String difficulty;
     private String text;
@@ -17,6 +19,7 @@ public class Question {
 
     public Question(String id, String difficulty, String text, List<String> images) {
         this(id, difficulty, text);
+        this.images = new ArrayList<>();
         setImages(images);
     }
 
@@ -26,7 +29,7 @@ public class Question {
     public void setDifficulty(String difficulty) { this.difficulty = difficulty; }
     public String getText() { return text; }
     public void setText(String text) { this.text = text; }
-    public List<String> getImages() { return Collections.unmodifiableList(images); }
+    public List<String> getImages() { return images != null ? Collections.unmodifiableList(images) : null; }
     public void setImages(List<String> images) { this.images = images; }
 
     @Override

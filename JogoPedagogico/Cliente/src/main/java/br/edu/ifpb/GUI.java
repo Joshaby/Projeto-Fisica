@@ -9,7 +9,6 @@ public class GUI extends JFrame {
 
     private static int minutes = 2;
     private static int seconds = 0;
-    private static int currentQuestionNumber = 1;
 
     private JPanel panel; // painel principal, contêm todos os outros paineis
     private JPanel panel1; // painel do headbar
