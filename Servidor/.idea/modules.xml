@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GroupServer/GroupServer.iml" filepath="$PROJECT_DIR$/GroupServer/GroupServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QuestionServer/QuestionServer.iml" filepath="$PROJECT_DIR$/QuestionServer/QuestionServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RMI/RMI.iml" filepath="$PROJECT_DIR$/RMI/RMI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Servidor.iml" filepath="$PROJECT_DIR$/Servidor.iml" />
+    </modules>
+  </component>
+</project>
