@@ -6,15 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="QuestionServer" />
-        <module name="GroupServer" />
+        <module name="Groups" />
+        <module name="Questions" />
+        <module name="ServerLogic" />
         <module name="RMI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="GroupServer" target="11" />
-      <module name="QuestionServer" target="11" />
+      <module name="Groups" target="11" />
+      <module name="Questions" target="11" />
       <module name="RMI" target="11" />
+      <module name="ServerLogic" target="11" />
       <module name="Servidor" target="11" />
     </bytecodeTargetLevel>
   </component>
