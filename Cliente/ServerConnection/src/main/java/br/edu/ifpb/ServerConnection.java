@@ -18,19 +18,19 @@ import java.rmi.registry.Registry;
 import java.util.*;
 import java.util.List;
 
-public class LocalQuestionRepository {
+public class ServerConnection {
 
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\") ;
 
-    private QuestionRepository_IF repoQuestionsIf;
+    private ServerConnection_IF serverConnection;
     private Stack<Question> questions;
 
-    public LocalQuestionRepository() {
+    public ServerConnection() {
         try {
             questions = new Stack<>();
             Registry registry = LocateRegistry.getRegistry("localhost"); // irá estabelecer conexão com o servidor
-            repoQuestionsIf = (QuestionRepository_IF) registry.lookup("RepoQuestoes"); // irá pegar a referência do stub RepoQuestoes
-            for (Question question : repoQuestionsIf.getQuestions()) {
+            serverConnection = (ServerConnection_IF) registry.lookup("RepoQuestoes"); // irá pegar a referência do stub RepoQuestoes
+            for (Question question : serverConnection.getQuestions()) {
                 relativePathToURL(question);
                 questions.push(question);
             }
@@ -62,9 +62,8 @@ public class LocalQuestionRepository {
             }
         }
     }
-    public void sendAnswer(Group group, String id, String answer) throws RemoteException { // vai enviar a respotas por servidor
-        Answer answerObject = new Answer(id, answer);
-        repoQuestionsIf.sendAnswer(group, answerObject);
+    public void sendAnswer(int groupId, String id, String answer) throws RemoteException { // vai enviar a respotas por servidor
+        serverConnection.sendAnswer(groupId, id, answer);
     }
     public String getQuestion(List<String> alternatives) throws IOException {
         if (questions.isEmpty()) {

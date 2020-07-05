@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalQuestionRepositoryTest {
+public class ServerConnectionTest {
     @Test
     public void QuestionsTest() throws IOException {
-        LocalQuestionRepository q = new LocalQuestionRepository();
+        ServerConnection q = new ServerConnection();
         List<String> alternatives = new ArrayList<>();
         System.out.println(q.getQuestion(alternatives));
         System.out.println(alternatives);
