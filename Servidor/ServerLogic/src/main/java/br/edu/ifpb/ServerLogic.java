@@ -35,11 +35,12 @@ public class ServerLogic implements Logic_IF {
             if (group.getID() == id) {
                 group.addAnswer(answer);
                 questionRepository.getQuestions().forEach(question -> {
-                    if (question.getId().equals(id) && questionRepository.getQuestionsMap().get(question).equals(res)) // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
+                    if (question.getId().equals(id) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
                         if (pointsPerQuestions.get(question.getId()) != 0) {
                             group.addPoints(pointsPerQuestions.get(question.getId()) + 1);
                             pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question) - 1);
                         }
+                    }
                 });
             }
         });

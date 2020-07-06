@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,14 +23,14 @@ public class ServerConnection {
 
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\") ;
 
-    private ServerConnection_IF serverConnection;
+    private Logic_IF serverConnection;
     private Stack<Question> questions;
 
     public ServerConnection() {
         try {
             questions = new Stack<>();
             Registry registry = LocateRegistry.getRegistry("localhost"); // irá estabelecer conexão com o servidor
-            serverConnection = (ServerConnection_IF) registry.lookup("RepoQuestoes"); // irá pegar a referência do stub RepoQuestoes
+            serverConnection = (Logic_IF) registry.lookup("ServerLogic"); // irá pegar a referência do stub RepoQuestoes
             for (Question question : serverConnection.getQuestions()) {
                 relativePathToURL(question);
                 questions.push(question);
@@ -39,7 +40,7 @@ public class ServerConnection {
             }
         }
         catch (NotBoundException | IOException e) {
-            ExeceptionPanel execeptionPanel = new ExeceptionPanel(e.getMessage());
+            System.out.println(e.getMessage());
             System.exit(0);
         }
     }
@@ -100,7 +101,7 @@ public class ServerConnection {
     public void createHTMlFile(String id, String text) throws IOException {
         Files.write(Path.of(".cache" + SEPARATOR + "Q" + id + ".HTM")
                 , Collections.singletonList(text)
-                , Charset.defaultCharset()
+                , StandardCharsets.ISO_8859_1
                 , StandardOpenOption.CREATE_NEW);
     }
     public void removeDirectory() throws IOException {

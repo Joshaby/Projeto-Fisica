@@ -87,7 +87,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                     questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, false), correctAlternative);
                 }
                 else
-                    questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, images, true), correctAlternative);
+                    questions.put(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, true), correctAlternative);
             }
             System.out.println(id);
         }

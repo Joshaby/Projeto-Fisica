@@ -1,9 +1,10 @@
 package br.edu.ifpb;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class Question {
+public class Question implements Serializable {
     private String id;
     private String difficulty;
     private String text;

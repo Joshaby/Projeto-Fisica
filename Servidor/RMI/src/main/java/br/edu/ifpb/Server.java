@@ -5,7 +5,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Server {
-
     public static void main(String[] args)  {
         try {
             ServerLogic serverLogic = new ServerLogic(2);

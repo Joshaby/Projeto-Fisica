@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Gui/Gui.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cliente.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Cliente.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.settings/org.eclipse.jdt.apt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/GUI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/src/main/java/br/edu/ifpb/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/src/main/java/br/edu/ifpb/ExeceptionPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/src/main/java/br/edu/ifpb/GUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/src/test/java/br/edu/ifpb/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/target/classes/br/edu/ifpb/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/target/classes/br/edu/ifpb/ExeceptionPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/target/classes/br/edu/ifpb/GUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/target/classes/br/edu/ifpb/GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/target/test-classes/br/edu/ifpb/AppTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.settings/org.eclipse.core.resources.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.settings/org.eclipse.jdt.apt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/ServerConnection.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/ServerConnection.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection_IF.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Logic_IF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/test/java/br/edu/ifpb/ServerConnectionTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Answer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Group.class" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Group.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/GroupRepository_IF.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/LocalQuestionRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/QuestionRepository_IF.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/test-classes/META-INF/ServerConnection.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/test-classes/br/edu/ifpb/LocalQuestionRepositoryTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/erro.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_9.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/Groups.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/Groups.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Group.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Group.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/GroupRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/GroupRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/Questions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/Questions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/Question.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/QuestionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/QuestionRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/RMI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/RMI.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/target/classes/br/edu/ifpb/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/target/classes/br/edu/ifpb/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/ServerLogic.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/ServerLogic.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/target/classes/br/edu/ifpb/ServerLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/target/classes/br/edu/ifpb/ServerLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Servidor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Servidor.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1eHKjSUVIjAzwXSUnOedIWrNEok" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.edu.ifpb.App" />
+      <module name="Gui" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.edu.ifpb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="" />
+      <created>1593973215471</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593973215471</updated>
+      <workItem from="1593973219017" duration="1015000" />
+      <workItem from="1593974514410" duration="116000" />
+      <workItem from="1593974646419" duration="196000" />
+      <workItem from="1593975380276" duration="155000" />
+      <workItem from="1593975564284" duration="4213000" />
+      <workItem from="1594052819532" duration="2672000" />
+      <workItem from="1594055889241" duration="5558000" />
+      <workItem from="1594062656500" duration="304000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1324" height="441" key="GridCell.Tab.0.bottom" timestamp="1594060848692">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="441" key="GridCell.Tab.0.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594060848692" />
+    <state width="1324" height="441" key="GridCell.Tab.0.center" timestamp="1594060848692">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="441" key="GridCell.Tab.0.center/0.0.1366.724@0.0.1366.724" timestamp="1594060848692" />
+    <state width="1324" height="441" key="GridCell.Tab.0.left" timestamp="1594060848690">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="441" key="GridCell.Tab.0.left/0.0.1366.724@0.0.1366.724" timestamp="1594060848690" />
+    <state width="1324" height="441" key="GridCell.Tab.0.right" timestamp="1594060848692">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="441" key="GridCell.Tab.0.right/0.0.1366.724@0.0.1366.724" timestamp="1594060848692" />
+    <state x="187" y="0" key="SettingsEditor" timestamp="1593974827967">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state x="187" y="0" key="SettingsEditor/0.0.1366.724@0.0.1366.724" timestamp="1593974827967" />
+  </component>
+</project>
