@@ -83,6 +83,7 @@ public class ServerConnection {
         }
         return question.getId();
     }
+    public int getQuestionAmout() throws RemoteException { return serverConnection.getQuestionAmout(); }
     public void createImagesQuestionDirectory(String id, List<String> images) throws IOException {
         String directory = ".cache" + SEPARATOR + "Q" + id + "_arquivos";
         Files.createDirectories(Path.of(directory));

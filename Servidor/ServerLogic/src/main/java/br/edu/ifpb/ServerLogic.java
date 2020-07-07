@@ -63,7 +63,12 @@ public class ServerLogic implements Logic_IF {
     public List<String> placarSources() throws RemoteException {
         return null;
     }
-//    @Override
+
+    @Override
+    public int getQuestionAmout() throws RemoteException {
+        return questionRepository.getQuestions().size();
+    }
+    //    @Override
 //    public String toString() {
 //        String answerString = "";
 //        for (Group group : answers.keySet()) {

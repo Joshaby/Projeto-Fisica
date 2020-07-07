@@ -10,4 +10,5 @@ public interface Logic_IF  extends Remote {
     int getPoints(int id) throws RemoteException;
     void finishRound() throws RemoteException;
     List<String> placarSources() throws RemoteException;
+    int getQuestionAmout() throws RemoteException;
 }

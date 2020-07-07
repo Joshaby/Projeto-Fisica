@@ -7,11 +7,11 @@ import java.io.IOException;
 public class App {
     public static void main( String[] args ) throws IOException {
         GUI gui = new GUI();
-        gui.setSize(1350, 710);
+        gui.setSize(1366, 728);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gui.setUndecorated(true);
+        //gui.setUndecorated(true);
         gui.setVisible(true);
         gui.setLocationRelativeTo(null);
-        gui.setBackground(new Color(0, 0, 0, 0));
+        //gui.setBackground(new Color(0, 0, 0, 0));
     }
 }
