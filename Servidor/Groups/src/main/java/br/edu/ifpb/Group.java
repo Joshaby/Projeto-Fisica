@@ -3,25 +3,20 @@ package br.edu.ifpb;
 import java.util.*;
 
 public class Group implements Comparable<Group> {
-    private int ID;
+    private String name;
     private Set<User> members;
     private int year;
     private int points;
     private List<Answer> answers;
 
-    public Group(int ID) {
-        this.setID(ID);
-        this.setMembers(new HashSet<>());
-        this.setYear(1);
-        this.setPoints();
-    }
-
-    public Group(int ID, int year) {
-        this.ID = ID;
+    public Group(String name, int year) {
+        this.setName(name);
         this.setYear(year);
         this.setPoints();
     }
 
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
     public List<Answer> getAnswers() { return answers; }
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
@@ -42,12 +37,6 @@ public class Group implements Comparable<Group> {
     public void setYear(int year) {
         this.year = year;
     }
-    public int getID() {
-        return ID;
-    }
-    public void setID(int ID) {
-        this.ID = ID;
-    }
     public void addMember(User user) {
         members.add(user);
     }
@@ -66,16 +55,15 @@ public class Group implements Comparable<Group> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return this.getID() == ((Group) o).getID();
+        return this.getName() == ((Group) o).getName();
     }
 
     @Override
-    public int hashCode() { return Objects.hashCode(getID()); }
+    public int hashCode() { return Objects.hashCode(getName()); }
 
     @Override
     public String toString() {
-        return "Group " + ID + ":\n" +
-                "     ID= " + ID + "\n" +
+        return this.getName() + ":\n" +
                 "     members=" + members + "\n" +
                 "     year=" + year + "\n" +
                 "     points=" + points + "\n";
@@ -83,6 +71,6 @@ public class Group implements Comparable<Group> {
 
     @Override
     public int compareTo(Group o) {
-        return Integer.compare(this.getID(), o.getID());
+        return this.getName().compareTo(o.getName());
     }
 }
