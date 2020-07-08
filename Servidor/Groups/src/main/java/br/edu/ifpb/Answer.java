@@ -17,14 +17,25 @@ public class Answer {
         setAnswer(answer);
     }
 
-    public String getID() { return ID; }
-    public void setID(String ID) { this.ID = ID; }
-    public String getAnswer() { return answer; }
-    public void setAnswer(String answer) { this.answer = answer; }
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     @Override
     public String toString() {
-        return  "ID='" + ID + '\'' +
-        ", answer='" + answer + '\'';
+        return "ID='" + ID + '\'' +
+                ", answer='" + answer + '\'';
     }
 }

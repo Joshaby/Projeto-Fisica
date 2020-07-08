@@ -1,5 +1,6 @@
 package br.edu.ifpb;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 /*
@@ -11,18 +12,18 @@ import java.util.*;
     public boolean generateGroups(User[] Users): Função responsavel por gerar os grupos e alocalos na lista de grupos;
  */
 
-public class GroupRepository {
+public class GroupRepository implements User_IF{
     private Set<Group> groups;
     private int maxGroup;
 
     public GroupRepository() {
         groups = new HashSet<>();
-        this.maxGroup = 5;
+        this.setMaxGroup(5);
     }
 
     public GroupRepository(int maxGroup) {
         groups = new HashSet<>();
-        this.maxGroup = maxGroup;
+        this.setMaxGroup(maxGroup);
     }
 
     private void removeGroup(Group group) {
@@ -30,7 +31,7 @@ public class GroupRepository {
         this.groups.remove(group);
     }
 
-    private void realocateMember(User user, String groupName) {
+    private void realocateMember(User user, String groupName) throws RemoteException {
         Group aux = null;
         for (Group group : getGroups()) {
             if (group.getName().equals(groupName)) {
@@ -41,39 +42,72 @@ public class GroupRepository {
         if (aux != null) aux.addMember(user);
     }
 
-    public void realocateGroup() {
-        ArrayList<Group> lessAmountOfPoints = new ArrayList<>();
-        double menor = Double.POSITIVE_INFINITY;
+    public List<String> realocateGroup(int round) throws RemoteException {
 
-        for (Group group1 : this.getGroups()) {
-            if (group1.getPoints() <= menor) {
-                if (group1.getPoints() != menor) {
-                    lessAmountOfPoints = new ArrayList<>();
-                }
-                lessAmountOfPoints.add(group1);
-                menor = group1.getPoints();
-            }
+        ArrayList<Group> LAO = lessAmountOf(round);
+        if(LAO.size() > 1){
+            ArrayList<String> aux = new ArrayList<>();
+            LAO.iterator().forEachRemaining(group -> { aux.add(group.getName()); });
+            return aux;
         }
-        menor = Double.POSITIVE_INFINITY;
-        Group group = null;
-        for (Group lAOP : lessAmountOfPoints) { if (lAOP.getMembers().size() < menor) { group = lAOP; } }
-        if (group != null) this.removeGroup(group);
+        this.removeGroup(LAO.get(0));
+        
+        return null;
     }
 
-    public void registerGroups(Map<String, List<String>> groups, int year){
+    private ArrayList<Group> lessAmountOf(int round) throws RemoteException {
+        ArrayList<Group> LAOPS = lessAmountOfPoints();
+        if(LAOPS.size() == 1) return LAOPS;
+        return lessAmountOfTime(LAOPS, round);
+    }
+
+    private ArrayList<Group> lessAmountOfPoints() throws RemoteException {
+        ArrayList<Group> LAOPS = new ArrayList<>();
+        int menor = (int) Double.POSITIVE_INFINITY;
+
+        for (Group group : this.getGroups()) {
+            if (group.getPoints() <= menor) {
+                if (group.getPoints() != menor) LAOPS.clear();
+                LAOPS.add(group);
+                menor = group.getPoints();
+            }
+        }
+        return LAOPS;
+    }
+
+    private ArrayList<Group> lessAmountOfTime(ArrayList<Group> laops, int round) {
+        int time = (int) Double.POSITIVE_INFINITY;
+        ArrayList<Group> aux = new ArrayList<>();
+        for (Group laop : laops) {
+            int groupTime = laop.getAnswers().get(round).getTime();
+            if(groupTime <= time){
+                if(groupTime != time) aux.clear();
+                aux.add(laop);
+                time = groupTime;
+            }
+        }
+        return aux;
+    }
+
+    public void registerGroups(Map<String, List<String>> groups, int year) throws RemoteException {
         groups.keySet().iterator().forEachRemaining(group -> {
-            try{ if(groups.get(group).size() == 0) { throw new GroupException("Número de usuários inválido: 0");} }
-            catch (GroupException e) { e.printStackTrace(); }
+            if(groups.get(group).size() == 0) {
+                try { throw new GroupException("Número de usuários inválido: 0"); }
+                catch (GroupException e) { e.printStackTrace(); }
+            }
         });
 
         for (String group : groups.keySet()) {
             Group newGroup = new Group(group, year);
-            for (String user: groups.get(group)) { User novo = new User(user, year); newGroup.addMember(novo);}
+            for (String user: groups.get(group)) {
+                User novo = new User(user, year);
+                newGroup.addMember(novo);
+            }
             this.addGroup(newGroup);
         }
     }
 
-//    public boolean generateGroupsWithOutName(List<User> users) {
+//    public boolean generateGroupsWithOutName(List<User> users) throws RemoteException {
 //
 //        if (users.size() == 0) { return false; }
 //
@@ -99,22 +133,22 @@ public class GroupRepository {
         this.groups.add(group);
     }
 
-    public Group getGroupByName(String name) {
+    public Group getGroupByName(String name)  throws RemoteException {
         for (Group group : List.copyOf(this.getGroups())) { if (group.getName().equals(name)) return group; }
         return null;
     }
 
-    public Set<Group> getGroups() { return this.groups; }
+    public Set<Group> getGroups()  throws RemoteException { return this.groups; }
 
-    public boolean setGroups(HashSet<Group> groups) {
+    private boolean setGroups(HashSet<Group> groups) {
         for (Group group : groups) { if (group.validateGroup()) return false; }
         this.groups = groups;
         return true;
     }
 
-    public int getMaxGroup() { return maxGroup; }
+    private int getMaxGroup() { return maxGroup; }
 
-    public boolean setMaxGroup(int maxGroup) {
+    private boolean setMaxGroup(int maxGroup) {
         if (maxGroup <= 0) { return false; }
         this.maxGroup = maxGroup;
         return true;

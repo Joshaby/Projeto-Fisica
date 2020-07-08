@@ -7,48 +7,72 @@ public class Group implements Comparable<Group> {
     private Set<User> members;
     private int year;
     private int points;
-    private List<Answer> answers;
+    private Map<Integer, Answers> answers;
 
     public Group(String name, int year) {
         this.setName(name);
         this.setYear(year);
         this.setPoints();
+        this.setAnswers(new HashMap<>());
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public List<Answer> getAnswers() { return answers; }
-    public void setAnswers(List<Answer> answers) {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Map<Integer, Answers> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Map<Integer, Answers> answers) {
         this.answers = answers;
     }
-    public void addAnswer(Answer answer) { answers.add(answer); }
+
+    public void addAnswers(List<Answer> answer, Integer time, int round) {
+        this.answers.put(round, new Answers(time, answer));
+    }
+
     public boolean validateGroup() {
         return !(getMembers().size() > 0 && getYear() >= 1 && getYear() <= 3);
     }
+
     public List<User> getMembers() {
         return Collections.unmodifiableList(List.copyOf(members));
     }
+
     public void setMembers(HashSet<User> members) {
         this.members = members;
     }
+
     public int getYear() {
         return year;
     }
+
     public void setYear(int year) {
         this.year = year;
     }
+
     public void addMember(User user) {
         members.add(user);
     }
+
     public int getPoints() {
         return points;
     }
+
     private void setPoints() {
         this.points = 0;
     }
+
     public void addPoints(int point) {
         this.points += point;
-        this.members.iterator().forEachRemaining(user -> {user.addPoints(points);});
+        this.members.iterator().forEachRemaining(user -> {
+            user.addPoints(points);
+        });
     }
 
     @Override
@@ -59,7 +83,9 @@ public class Group implements Comparable<Group> {
     }
 
     @Override
-    public int hashCode() { return Objects.hashCode(getName()); }
+    public int hashCode() {
+        return Objects.hashCode(getName());
+    }
 
     @Override
     public String toString() {
