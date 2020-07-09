@@ -16,21 +16,32 @@ public class GroupRepository implements User_IF{
     private Set<Group> groups;
     private int maxGroup;
 
+    /*
+        Construtor Padrão da classe que inicializa o HashSet para posterior armazenamento de grupos e
+        utiliza o valor padrão de número de grupos no inicio do jogo. Valor padrão = 5
+    */
     public GroupRepository() {
         groups = new HashSet<>();
         this.setMaxGroup(5);
     }
 
+    /*
+        Construtor alternativo que inicializa o HashSet para posterior armazenamento de grupos e
+        utiliza um valor recebido para o número total de grupos possiveis.
+    */
     public GroupRepository(int maxGroup) {
         groups = new HashSet<>();
         this.setMaxGroup(maxGroup);
     }
 
+
+    //Função privada responsável por remover um grupo recebido como parametro.
     private void removeGroup(Group group) {
         if (group.validateGroup()) return;
         this.groups.remove(group);
     }
 
+    //Função privada responsável pela transação de membro entre grupos, que posteriormente será aplicada na função de remoção de grupos.
     private void realocateMember(User user, String groupName) throws RemoteException {
         Group aux = null;
         for (Group group : getGroups()) {
@@ -51,7 +62,7 @@ public class GroupRepository implements User_IF{
             return aux;
         }
         this.removeGroup(LAO.get(0));
-        
+
         return null;
     }
 
