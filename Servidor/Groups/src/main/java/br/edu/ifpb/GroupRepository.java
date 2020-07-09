@@ -53,6 +53,11 @@ public class GroupRepository implements User_IF{
         if (aux != null) aux.addMember(user);
     }
 
+    /*
+    Função Publica responsável por calcular baseado nos critérios aderidos pelo projeto,
+    o grupo de menor pontuação ou tempo e realocar os membros do mesmo nos grupos devidamente,
+    além de retornar uma lista de grupos caso haja um empate que atenda todos os critérios.
+    */
     public List<String> realocateGroup(int round) throws RemoteException {
 
         ArrayList<Group> LAO = lessAmountOf(round);
@@ -66,12 +71,14 @@ public class GroupRepository implements User_IF{
         return null;
     }
 
+    //Função privada auxiliar responsável por retornar o array que vai coletar o grupo com menor total de pontos.
     private ArrayList<Group> lessAmountOf(int round) throws RemoteException {
         ArrayList<Group> LAOPS = lessAmountOfPoints();
         if(LAOPS.size() == 1) return LAOPS;
         return lessAmountOfTime(LAOPS, round);
     }
 
+    //Função privada auxiliar responsável por retornar um array com os grupos ou o grupo com menor pontuação total no momento.
     private ArrayList<Group> lessAmountOfPoints() throws RemoteException {
         ArrayList<Group> LAOPS = new ArrayList<>();
         int menor = (int) Double.POSITIVE_INFINITY;
@@ -86,12 +93,17 @@ public class GroupRepository implements User_IF{
         return LAOPS;
     }
 
+    /*
+        Função privada auxiliar responsável por retornar um array com os grupos ou o grupo com maior tempo
+        decorrido no round especificado. Essa função tem o critério menor que a pontuação total dos grupos,
+        por isso, ela faz uma busca pelo tempo apenas dos grupos com menor pontuação, caso haja mais de um.
+     */
     private ArrayList<Group> lessAmountOfTime(ArrayList<Group> laops, int round) {
-        int time = (int) Double.POSITIVE_INFINITY;
+        int time = 0;
         ArrayList<Group> aux = new ArrayList<>();
         for (Group laop : laops) {
             int groupTime = laop.getAnswers().get(round).getTime();
-            if(groupTime <= time){
+            if(groupTime >= time){
                 if(groupTime != time) aux.clear();
                 aux.add(laop);
                 time = groupTime;
@@ -100,6 +112,12 @@ public class GroupRepository implements User_IF{
         return aux;
     }
 
+    /*
+        Função responsável por registrar os grupos recebidos do FrontEnd, na qual utiliza uma exceção
+        'GroupException' que será gerada caso uma condição não seja confirmada pela lista recebida.
+        Essa função foi construida como o intuito de gravar um nome para os grupos, e utilizar usuários
+        predeterminados na criação do grupos no FrontEnd.
+     */
     public void registerGroups(Map<String, List<String>> groups, int year) throws RemoteException {
         groups.keySet().iterator().forEachRemaining(group -> {
             if(groups.get(group).size() == 0) {
@@ -117,6 +135,14 @@ public class GroupRepository implements User_IF{
             this.addGroup(newGroup);
         }
     }
+
+
+//    /*
+//        Função publica responsável por criar grupos dinamicamente de acordo com a inserção de usuários
+//        disponibilizando assim a possibilidade de ter até um grupo com uma pessoa, até 5 grupos com n pessoas.
+//        Essa função atribui nomes genericos aos grupos, sendo assim impossivel aderir nomes personalizados.
+//        todo Precisa de uma atualização para os novos paramêtros do corpo do projeto.
+//     */
 
 //    public boolean generateGroupsWithOutName(List<User> users) throws RemoteException {
 //
@@ -139,26 +165,25 @@ public class GroupRepository implements User_IF{
 //        return true;
 //    }
 
+    //Função privada auxiliar para adição de um grupo ao set de grupos principal.
     private void addGroup(Group group) {
         if (group.validateGroup()) { return; }
         this.groups.add(group);
     }
 
+    //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista.
     public Group getGroupByName(String name)  throws RemoteException {
         for (Group group : List.copyOf(this.getGroups())) { if (group.getName().equals(name)) return group; }
         return null;
     }
 
+    //Função publica que retorna o set de grupos cadastrados.
     public Set<Group> getGroups()  throws RemoteException { return this.groups; }
 
-    private boolean setGroups(HashSet<Group> groups) {
-        for (Group group : groups) { if (group.validateGroup()) return false; }
-        this.groups = groups;
-        return true;
-    }
-
+    //função privada auxiliar que retorna o valor maximo de grupos.
     private int getMaxGroup() { return maxGroup; }
 
+    //função privada auxiliar que disponibiliza a troca de numero maximo de grupos.
     private boolean setMaxGroup(int maxGroup) {
         if (maxGroup <= 0) { return false; }
         this.maxGroup = maxGroup;
