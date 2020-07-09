@@ -77,8 +77,12 @@ public class GroupRepository implements User_IF{
         this.removeGroup(LAO.get(0));
 
         LAO = lessAmountOf(round);
+        ArrayList<String> aux = new ArrayList<>();
+        for (Group group : LAO) {
+            aux.add(group.getName());
 
-        return null;
+        }
+        return aux;
     }
 
 
@@ -115,17 +119,19 @@ public class GroupRepository implements User_IF{
         por isso, ela faz uma busca pelo tempo apenas dos grupos com menor pontuação, caso haja mais de um.
      */
     private ArrayList<Group> lessAmountOfTime(ArrayList<Group> laops, int round) {
+
         int time = 0;
-        ArrayList<Group> aux = new ArrayList<>();
-        for (Group laop : laops) {
-            int groupTime = laop.getAnswers().get(round).getTime();
+        ArrayList<Group> LAOT = new ArrayList<>();
+        for (Group group : laops) {
+            if(group.getAnswers().size() == 0) return laops;
+            int groupTime = group.getAnswers().get(round).getTime();
             if(groupTime >= time){
-                if(groupTime != time) aux.clear();
-                aux.add(laop);
+                if(groupTime != time) LAOT.clear();
+                LAOT.add(group);
                 time = groupTime;
             }
         }
-        return aux;
+        return LAOT;
     }
 
 

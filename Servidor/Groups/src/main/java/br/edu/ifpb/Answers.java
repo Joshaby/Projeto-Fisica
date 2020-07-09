@@ -7,6 +7,11 @@ public class Answers{
     private List<Answer> answers;
     private Integer time;
 
+    public Answers() {
+        setAnswers(new ArrayList<>());
+        setTime(0);
+    }
+
     public Answers(Integer time, List<Answer> answers) {
         setAnswers(answers);
         setTime(time);

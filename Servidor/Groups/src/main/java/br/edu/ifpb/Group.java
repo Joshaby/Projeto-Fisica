@@ -10,6 +10,7 @@ public class Group implements Comparable<Group> {
     private Map<Integer, Answers> answers;
 
     public Group(String name, int year) {
+        this.setMembers(new HashSet<>());
         this.setName(name);
         this.setYear(year);
         this.setPoints();
