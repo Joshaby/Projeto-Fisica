@@ -12,6 +12,11 @@ public class Answers{
         setTime(time);
     }
 
+    public void addAnswer(Answer answer, int time){
+        this.answers.add(answer);
+        this.time += time;
+    }
+
     public List<Answer> getAnswers() {
         return answers;
     }

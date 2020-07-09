@@ -75,6 +75,10 @@ public class Group implements Comparable<Group> {
         });
     }
 
+    public void addAnswer(int round, Answer answer, int time) {
+        this.answers.get(round).addAnswer(answer, time);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,4 +103,6 @@ public class Group implements Comparable<Group> {
     public int compareTo(Group o) {
         return this.getName().compareTo(o.getName());
     }
+
+
 }

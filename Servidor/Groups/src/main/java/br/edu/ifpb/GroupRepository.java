@@ -25,6 +25,8 @@ public class GroupRepository implements User_IF{
         this.setMaxGroup(5);
     }
 
+
+
     /*
         Construtor alternativo que inicializa o HashSet para posterior armazenamento de grupos e
         utiliza um valor recebido para o número total de grupos possiveis.
@@ -35,11 +37,15 @@ public class GroupRepository implements User_IF{
     }
 
 
+
+
     //Função privada responsável por remover um grupo recebido como parametro.
     private void removeGroup(Group group) {
         if (group.validateGroup()) return;
         this.groups.remove(group);
     }
+
+
 
     //Função privada responsável pela transação de membro entre grupos, que posteriormente será aplicada na função de remoção de grupos.
     private void realocateMember(User user, String groupName) throws RemoteException {
@@ -52,6 +58,8 @@ public class GroupRepository implements User_IF{
         }
         if (aux != null) aux.addMember(user);
     }
+
+
 
     /*
     Função Publica responsável por calcular baseado nos critérios aderidos pelo projeto,
@@ -68,8 +76,12 @@ public class GroupRepository implements User_IF{
         }
         this.removeGroup(LAO.get(0));
 
+        LAO = lessAmountOf(round);
+
         return null;
     }
+
+
 
     //Função privada auxiliar responsável por retornar o array que vai coletar o grupo com menor total de pontos.
     private ArrayList<Group> lessAmountOf(int round) throws RemoteException {
@@ -77,6 +89,8 @@ public class GroupRepository implements User_IF{
         if(LAOPS.size() == 1) return LAOPS;
         return lessAmountOfTime(LAOPS, round);
     }
+
+
 
     //Função privada auxiliar responsável por retornar um array com os grupos ou o grupo com menor pontuação total no momento.
     private ArrayList<Group> lessAmountOfPoints() throws RemoteException {
@@ -92,6 +106,8 @@ public class GroupRepository implements User_IF{
         }
         return LAOPS;
     }
+
+
 
     /*
         Função privada auxiliar responsável por retornar um array com os grupos ou o grupo com maior tempo
@@ -111,6 +127,8 @@ public class GroupRepository implements User_IF{
         }
         return aux;
     }
+
+
 
     /*
         Função responsável por registrar os grupos recebidos do FrontEnd, na qual utiliza uma exceção
@@ -165,11 +183,15 @@ public class GroupRepository implements User_IF{
 //        return true;
 //    }
 
+
+
     //Função privada auxiliar para adição de um grupo ao set de grupos principal.
     private void addGroup(Group group) {
         if (group.validateGroup()) { return; }
         this.groups.add(group);
     }
+
+
 
     //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista.
     public Group getGroupByName(String name)  throws RemoteException {
@@ -177,11 +199,17 @@ public class GroupRepository implements User_IF{
         return null;
     }
 
+
+
     //Função publica que retorna o set de grupos cadastrados.
     public Set<Group> getGroups()  throws RemoteException { return this.groups; }
 
+
+
     //função privada auxiliar que retorna o valor maximo de grupos.
     private int getMaxGroup() { return maxGroup; }
+
+
 
     //função privada auxiliar que disponibiliza a troca de numero maximo de grupos.
     private boolean setMaxGroup(int maxGroup) {

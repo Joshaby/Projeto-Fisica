@@ -28,17 +28,18 @@ public class ServerLogic implements Logic_IF {
     public List<Question> getQuestions() { // irá retorna as questões para o grupo poder responder
         return questionRepository.getQuestions();
     }
+
     @Override
-    public void sendAnswer(int id, String QuestionID, String res) { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
+    public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
         Answer answer = new Answer(QuestionID, res); // cria um objeto Answer
-        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, o answer é adicionado no List answers
-            if (group.getID() == id) {
-                group.addAnswer(answer);
+        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu nome igual ao parâmentro name, se for igual, o answer é adicionado no HashMap de respostas.
+            if (group.getName().equals(name)) {
+                group.addAnswer(round, answer, time);
                 questionRepository.getQuestions().forEach(question -> {
-                    if (question.getId().equals(id) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
+                    if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
                         if (pointsPerQuestions.get(question.getId()) != 0) {
                             group.addPoints(pointsPerQuestions.get(question.getId()) + 1);
-                            pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question) - 1);
+                            pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question.getId()) - 1);
                         }
                     }
                 });
@@ -46,10 +47,10 @@ public class ServerLogic implements Logic_IF {
         });
     }
     @Override
-    public int getPoints(int id) { // irá pegar os pontos de um grupo, de acordo com um id dado
+    public int getPoints(String name) throws RemoteException { // irá pegar os pontos de um grupo, de acordo com um id dado
         AtomicInteger points = new AtomicInteger(); // uma váriavel int que pode ser atualizada atômicamente, ou seja, não é possivel que o escalandor quebre a execução do programa no instante da atualização
         groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, os pontos do grupo é retornato
-            if (group.getID() == id) {
+            if (group.getName().equals(name)) {
                 points.set(group.getPoints());
             }
         });
