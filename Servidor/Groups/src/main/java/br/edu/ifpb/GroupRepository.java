@@ -1,5 +1,6 @@
 package br.edu.ifpb;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -48,15 +49,23 @@ public class GroupRepository implements User_IF{
 
 
     //Função privada responsável pela transação de membro entre grupos, que posteriormente será aplicada na função de remoção de grupos.
-    private void realocateMember(User user, String groupName) throws RemoteException {
-        Group aux = null;
-        for (Group group : getGroups()) {
-            if (group.getName().equals(groupName)) {
-                aux = group;
-                break;
-            }
+    private void realocateMembers(Group fraco, List<User> removido) throws RemoteException {
+
+        int quantidade = removido.size();
+        int usersFracos = (int) Math.ceil((quantidade - (quantidade * 60.0) / 100.0));
+
+        List<User> aux = new ArrayList<>(List.copyOf(removido));
+
+        for (int i = 0; i < usersFracos; i++) {
+            fraco.addMember(aux.remove(i));
         }
-        if (aux != null) aux.addMember(user);
+
+        ArrayList<Group> groups = new ArrayList<>(List.copyOf(getGroups()));
+        groups.remove(fraco);
+
+        for (int i = 0; i < aux.size();i++) {
+            groups.get(i % this.getGroups().size()).addMember(aux.get(i));
+        }
     }
 
 
@@ -74,15 +83,20 @@ public class GroupRepository implements User_IF{
             LAO.iterator().forEachRemaining(group -> { aux.add(group.getName()); });
             return aux;
         }
-        this.removeGroup(LAO.get(0));
 
+        Group removido = LAO.get(0);
+
+        this.removeGroup(removido);
         LAO = lessAmountOf(round);
-        ArrayList<String> aux = new ArrayList<>();
-        for (Group group : LAO) {
-            aux.add(group.getName());
 
-        }
-        return aux;
+        Group fraco = LAO.get(0);
+
+
+
+        realocateMembers(fraco, removido.getMembers());
+
+
+        return null;
     }
 
 
@@ -160,6 +174,17 @@ public class GroupRepository implements User_IF{
         }
     }
 
+    @Override
+    public Map<String, List<String>> getGroupsMAP() throws RemoteException {
+        HashSet<Group> aux =(HashSet<Group>) getGroups();
+        HashMap<String, List<String>> retorno = new HashMap<>();
+        for (Group group : aux) {
+            Map<String, List<String>> novo = this.stringifyGroup(group);
+            for (String s : novo.keySet()) { retorno.put(s, novo.get(s)); }
+        }
+        return retorno;
+    }
+
 
 //    /*
 //        Função publica responsável por criar grupos dinamicamente de acordo com a inserção de usuários
@@ -200,21 +225,34 @@ public class GroupRepository implements User_IF{
 
 
     //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista.
-    public Group getGroupByName(String name)  throws RemoteException {
-        for (Group group : List.copyOf(this.getGroups())) { if (group.getName().equals(name)) return group; }
+    public Map<String, List<String>> getGroupByName(String name)  throws RemoteException {
+        for (Group group : List.copyOf(this.getGroups())) {
+            if (group.getName().equals(name)){
+                return this.stringifyGroup(group);
+            }
+        }
         return null;
     }
 
 
 
     //Função publica que retorna o set de grupos cadastrados.
-    public Set<Group> getGroups()  throws RemoteException { return this.groups; }
-
+    public Set<Group> getGroups() { return this.groups; }
 
 
     //função privada auxiliar que retorna o valor maximo de grupos.
     private int getMaxGroup() { return maxGroup; }
 
+
+    private Map<String, List<String>> stringifyGroup(Group group){
+        HashMap<String, List<String>> aux = new HashMap<>();
+        ArrayList<String> users = new ArrayList<>();
+        for (User user : group.getMembers()) {
+            users.add(user.getName());
+        }
+        aux.put(group.getName(), users);
+        return aux;
+    }
 
 
     //função privada auxiliar que disponibiliza a troca de numero maximo de grupos.
