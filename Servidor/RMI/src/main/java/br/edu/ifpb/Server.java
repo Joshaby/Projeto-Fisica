@@ -13,7 +13,7 @@ public class Server {
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("ServerLogic", stub);
             System.out.println("Servidor ativado");
-            serverLogic.getQuestionRepository().setQuestions(new String[]{"Média", "", ""}, 10);
+            serverLogic.getQuestionRepository().setQuestions(new String[]{"Média", "Difícil", ""}, 10);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

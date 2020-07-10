@@ -23,14 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.cache/Q058568.HTM" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Logic_IF.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Logic_IF.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/Logic_IF.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/Logic_IF.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +78,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
@@ -106,6 +113,7 @@
       <workItem from="1594062656500" duration="1244000" />
       <workItem from="1594082818674" duration="492000" />
       <workItem from="1594085449566" duration="5290000" />
+      <workItem from="1594394011650" duration="754000" />
     </task>
     <servers />
   </component>
@@ -166,18 +174,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java</url>
-          <line>127</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/App.java</url>
           <line>8</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java</url>
-          <line>17</line>
+          <line>18</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
