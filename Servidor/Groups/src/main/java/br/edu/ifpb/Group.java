@@ -77,6 +77,7 @@ public class Group implements Comparable<Group> {
     }
 
     public void addAnswer(int round, Answer answer, int time) {
+        this.answers.put(round, new Answers());
         this.answers.get(round).addAnswer(answer, time);
     }
 
@@ -84,7 +85,7 @@ public class Group implements Comparable<Group> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return this.getName() == ((Group) o).getName();
+        return this.getName().equals(((Group) o).getName());
     }
 
     @Override
