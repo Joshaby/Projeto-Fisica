@@ -10,9 +10,9 @@ public interface User_IF extends Remote {
 
     void registerGroups(Map<String, List<String>> groups, int year) throws RemoteException;
 
-    Set<Group> getGroups() throws RemoteException;
+    Map<String, List<String>> getGroupsMAP() throws RemoteException;
 
-    Group getGroupByName(String name) throws RemoteException;
+    Map<String, List<String>> getGroupByName(String name) throws RemoteException;
 
     List<String> realocateGroup(int round) throws RemoteException;
 
