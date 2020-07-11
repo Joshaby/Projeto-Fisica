@@ -23,10 +23,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.cache/Q058514.HTM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q107165.HTM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q133493.HTM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q133493_arquivos/image001.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q167509.HTM" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q167509_arquivos/image001.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q167509_arquivos/image002.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q167509_arquivos/image003.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.cache/Q167509_arquivos/image004.gif" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI$ButtonHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI$ButtonHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/Gui/target/classes/br/edu/ifpb/GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Logic_IF.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/Logic_IF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Logic_IF.class" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/Logic_IF.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/ServerConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/ServerConnection/target/classes/br/edu/ifpb/ServerConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/src/main/java/br/edu/ifpb/User_IF.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/src/main/java/br/edu/ifpb/User_IF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Answers.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Answers.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Group.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/Group.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/GroupRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/GroupRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/User_IF.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Groups/target/classes/br/edu/ifpb/User_IF.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Groups/target/test-classes/br/edu/ifpb/GroupRepositoryTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/App.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/src/main/java/br/edu/ifpb/QuestionRepository_IF.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/QuestionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/Questions/target/classes/br/edu/ifpb/QuestionRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/src/main/java/br/edu/ifpb/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/RMI/target/classes/br/edu/ifpb/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/RMI/target/classes/br/edu/ifpb/Server.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/src/main/java/br/edu/ifpb/ServerLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Servidor/ServerLogic/target/classes/br/edu/ifpb/ServerLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Servidor/ServerLogic/target/classes/br/edu/ifpb/ServerLogic.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +82,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -63,6 +91,14 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.edu.ifpb" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -114,6 +150,8 @@
       <workItem from="1594082818674" duration="492000" />
       <workItem from="1594085449566" duration="5290000" />
       <workItem from="1594394011650" duration="754000" />
+      <workItem from="1594478733258" duration="2473000" />
+      <workItem from="1594486104191" duration="3852000" />
     </task>
     <servers />
   </component>
@@ -133,38 +171,38 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1324" height="239" key="GridCell.Tab.0.bottom" timestamp="1594090846083">
+    <state width="1324" height="354" key="GridCell.Tab.0.bottom" timestamp="1594491626931">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.0.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594090846083" />
-    <state width="1324" height="239" key="GridCell.Tab.0.center" timestamp="1594090846081">
+    <state width="1324" height="354" key="GridCell.Tab.0.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594491626931" />
+    <state width="1324" height="354" key="GridCell.Tab.0.center" timestamp="1594491626929">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.0.center/0.0.1366.724@0.0.1366.724" timestamp="1594090846081" />
-    <state width="1324" height="239" key="GridCell.Tab.0.left" timestamp="1594090846080">
+    <state width="1324" height="354" key="GridCell.Tab.0.center/0.0.1366.724@0.0.1366.724" timestamp="1594491626929" />
+    <state width="1324" height="354" key="GridCell.Tab.0.left" timestamp="1594491626928">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.0.left/0.0.1366.724@0.0.1366.724" timestamp="1594090846080" />
-    <state width="1324" height="239" key="GridCell.Tab.0.right" timestamp="1594090846082">
+    <state width="1324" height="354" key="GridCell.Tab.0.left/0.0.1366.724@0.0.1366.724" timestamp="1594491626928" />
+    <state width="1324" height="354" key="GridCell.Tab.0.right" timestamp="1594491626930">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.0.right/0.0.1366.724@0.0.1366.724" timestamp="1594090846082" />
-    <state width="1324" height="239" key="GridCell.Tab.1.bottom" timestamp="1594090846086">
+    <state width="1324" height="354" key="GridCell.Tab.0.right/0.0.1366.724@0.0.1366.724" timestamp="1594491626930" />
+    <state width="1324" height="354" key="GridCell.Tab.1.bottom" timestamp="1594491590795">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.1.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594090846086" />
-    <state width="1324" height="239" key="GridCell.Tab.1.center" timestamp="1594090846084">
+    <state width="1324" height="354" key="GridCell.Tab.1.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.center" timestamp="1594491590795">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.1.center/0.0.1366.724@0.0.1366.724" timestamp="1594090846084" />
-    <state width="1324" height="239" key="GridCell.Tab.1.left" timestamp="1594090846083">
+    <state width="1324" height="354" key="GridCell.Tab.1.center/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.left" timestamp="1594491590795">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.1.left/0.0.1366.724@0.0.1366.724" timestamp="1594090846083" />
-    <state width="1324" height="239" key="GridCell.Tab.1.right" timestamp="1594090846084">
+    <state width="1324" height="354" key="GridCell.Tab.1.left/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.right" timestamp="1594491590795">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state width="1324" height="239" key="GridCell.Tab.1.right/0.0.1366.724@0.0.1366.724" timestamp="1594090846084" />
+    <state width="1324" height="354" key="GridCell.Tab.1.right/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
     <state x="187" y="0" key="SettingsEditor" timestamp="1594083309630">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
@@ -177,16 +215,6 @@
           <url>file://$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/App.java</url>
           <line>8</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb/GUI.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/ServerConnection/src/main/java/br/edu/ifpb/ServerConnection.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

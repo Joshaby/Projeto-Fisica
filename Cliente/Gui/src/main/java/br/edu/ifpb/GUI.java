@@ -8,14 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.rmi.RemoteException;
+import java.util.*;
 import java.util.List;
 
 public class GUI extends JFrame {
 
     private static int minutes = 2;
     private static int seconds = 0;
-    private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\") ;
+    private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\");
     private static ServerConnection serverConnection = new ServerConnection();
 
     private JPanel panel; // painel principal, contêm todos os outros paineis
@@ -32,23 +33,27 @@ public class GUI extends JFrame {
     private ButtonGroup buttonGroup;
     private JTextArea answerEntry;
     private List<JRadioButton> radioButtonList;
-    private int currentQuestionPosi = 1;
+
+    private int currentQuestionPosi = 1; // variáveis para a questão na GUI
     private int maxQuestionPosi;
     private boolean isMultipleChoiceQuestion;
+    private String id;
 
-    public GUI () throws IOException {
+    public GUI() throws IOException {
+        Map<String, List<String>> group = new HashMap<>();
+        group.put("Phodas", Arrays.asList(new String[]{"José", "Talison", "Henrique"}));
+        serverConnection.getGroupConnection().registerGroups(group, 1);
         try {
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            }
-            else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+            } else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
             maxQuestionPosi = serverConnection.getQuestionAmout();
             buttonGroup = new ButtonGroup();
             radioButtonList = new ArrayList<>();
             panel = new JPanel();
-            panel.setBounds(10,10,100,30);
+            panel.setBounds(10, 10, 100, 30);
             panel.setOpaque(false);
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel1 = new JPanel();
@@ -97,22 +102,20 @@ public class GUI extends JFrame {
             panel.add(Box.createRigidArea(new Dimension(10, 10)));
             add(panel);
             createQuestionComponents();
-        }
-        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+        } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void createQuestionComponents() throws IOException {
         List<String> alternatives = new ArrayList<>();
-        String id = serverConnection.getQuestion(alternatives);
+        id = serverConnection.getQuestion(alternatives);
         if (id == null) finalPanel();
         if (alternatives.isEmpty()) {
             createEssayQuestionComponents(id);
             isMultipleChoiceQuestion = false;
-        }
-        else {
-            createMultipleChoiceQuestionComponents(alternatives, id);
+        } else {
+            createMultipleChoiceQuestionComponents(alternatives);
             isMultipleChoiceQuestion = true;
         }
     }
@@ -125,17 +128,6 @@ public class GUI extends JFrame {
         editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + id + ".HTM").toURI().toURL());
         scrollPane.setPreferredSize(new Dimension(1300, 550));
         answerEntry = new JTextArea();
-        CaretListener listener = new CaretListener() {
-            public void caretUpdate(CaretEvent caretEvent) {
-                JTextArea r = (JTextArea) caretEvent.getSource();
-                if (r.getText().equals("1")) {
-                    nextButton.setEnabled(false);
-                    System.out.println("oi");
-                }
-                else nextButton.setEnabled(true);
-            }
-        };
-        answerEntry.addCaretListener(listener);
         answerEntry.setBorder(new LineBorder(Color.BLACK, 1, true));
         answerEntry.setMaximumSize(new Dimension(200, 20));
         answerEntry.setMinimumSize(new Dimension(200, 20));
@@ -150,7 +142,8 @@ public class GUI extends JFrame {
         panel2.add(panel3);
         SwingUtilities.updateComponentTreeUI(this);
     }
-    public void createMultipleChoiceQuestionComponents(List<String> alternatives, String id) throws IOException {
+
+    public void createMultipleChoiceQuestionComponents(List<String> alternatives) throws IOException {
         radioButtonList = new ArrayList<>();
         JPanel panel = new JPanel(); // painel principal com área de texto e painel das alternativas
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -159,7 +152,7 @@ public class GUI extends JFrame {
         scrollPane.setPreferredSize(new Dimension(830, 600));
         int amountOfPanels = alternatives.size();
         editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + id + ".HTM").toURI().toURL());
-        for (int i = 0; i < amountOfPanels; i ++) {
+        for (int i = 0; i < amountOfPanels; i++) {
             JPanel alternativePanel = new JPanel();
             alternativePanel.setLayout(new BoxLayout(alternativePanel, BoxLayout.X_AXIS));
             JRadioButton radioButton = new JRadioButton();
@@ -183,33 +176,46 @@ public class GUI extends JFrame {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    public void finalPanel() {
+    public void finalPanel() throws RemoteException {
+        JOptionPane.showMessageDialog(
+                this,
+                String.format("Pontos obtidos: %d", serverConnection.getPoints("Phodas")),
+                "Pontos",
+                JOptionPane.OK_OPTION
+        );
         System.exit(0);
     }
 
     public class ButtonHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
+            String answer = new String();
             if (event.getSource() == nextButton) {
                 if (isMultipleChoiceQuestion) {
-                    for (int i = 0; i < radioButtonList.size(); i ++) {
-                        if (radioButtonList.get(i).isSelected()) {
-                            String answer = radioButtonList.get(i).getText();
-                            System.out.println(answer);
-                            panel3.removeAll();
-                            panel2.remove(panel3);
-                            currentQuestionPosi ++;
-                            currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
-                            SwingUtilities.updateComponentTreeUI(GUI.this);
-                            try {
-                                createQuestionComponents();
-                            }
-                            catch (IOException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
+                    for (int i = 0; i < radioButtonList.size(); i++) {
+                        if (radioButtonList.get(i).isSelected()) answer = radioButtonList.get(i).getText();
                     }
                 }
+            } else {
+                if (answerEntry.getText().equals("")) {
+                    JOptionPane.showMessageDialog(
+                            GUI.this,
+                            "Você não digitou nenhuma resposta!",
+                            "Erro",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                } else answer = answerEntry.getText();
+            }
+            try {
+                panel3.removeAll();
+                panel2.remove(panel3);
+                currentQuestionPosi++;
+                currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
+                serverConnection.sendAnswer(1, "Phodas", GUI.this.id, answer, 1);
+                SwingUtilities.updateComponentTreeUI(GUI.this);
+                createQuestionComponents();
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
             }
         }
     }

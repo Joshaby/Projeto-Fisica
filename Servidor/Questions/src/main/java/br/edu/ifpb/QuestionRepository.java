@@ -10,21 +10,27 @@ import java.util.*;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 
-public class QuestionRepository implements QuestionRepository_IF { // classe que representa um repositório de questões
+public class QuestionRepository { // classe que representa um repositório de questões
 
     private static MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/?retryWrites=true&w=majority");
     private Map<Question, String> questions; // guarda as questões num mapa, onde as questões são chaves, e suas respostas são seu valor
+    private Map<Integer, String[]> difficulties;
     private int year; // representa o ano das questões, por exemplo, 1 ano
 
     public QuestionRepository(int year) {
         setYear(year);
         questions = new HashMap<>();
+        difficulties = new HashMap<>();
+        difficulties.put(1, new String[]{"Fácil","", ""});
+        difficulties.put(2, new String[]{"Fácil", "Média", ""});
+        difficulties.put(3, new String[]{"Média", "", ""});
+        difficulties.put(4, new String[]{"Média", "Difícil", ""});
+        difficulties.put(5, new String[]{"Difícil", "", ""});
     }
 
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
 
-    @Override
     public List<Question> getQuestions() { // pega as questões para uso do grupo
         List<Question> questionList = new ArrayList<>();
         questions.keySet().forEach(questionList::add);
@@ -43,7 +49,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
     //      String[] difficulties = lista de dificuldades, por exemplo {"Fácil", "Média"}
     //      int amount = quantidade de questões randomizadas a serem buscadas
 
-    public void setQuestions(String[] difficulties, int amount) { // método para setar as questões para uso do grupo
+    public void setQuestions(int difficulty, int amount) { // método para setar as questões para uso do grupo
         try {
             MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
             MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
@@ -52,9 +58,9 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
             for (int i = 1; i <= year; i++) {
                 MongoCollection<Document> collection = dataBase.getCollection(i + " ano");
                 randomizedQuestions.add(collection.aggregate(Arrays.asList(
-                        match(or(eq("Dificuldade", difficulties[0]),
-                                eq("Dificuldade", difficulties[1]),
-                                eq("Dificuldade", difficulties[2]))),
+                        match(or(eq("Dificuldade", difficulties.get(difficulty)[0]),
+                                eq("Dificuldade", difficulties.get(difficulty)[1]),
+                                eq("Dificuldade", difficulties.get(difficulty)[2]))),
                         sample(amount / year))));
             }
             for (AggregateIterable randomizedQuestion : randomizedQuestions) {
@@ -89,7 +95,7 @@ public class QuestionRepository implements QuestionRepository_IF { // classe que
                 else
                     questions.put(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, true), correctAlternative);
             }
-            System.out.println(id + " - " + difficulty);
+            System.out.println(id + " - " + difficulty + " - " + correctAlternative);
         }
     }
 

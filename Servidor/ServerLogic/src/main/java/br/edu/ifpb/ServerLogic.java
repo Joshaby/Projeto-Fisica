@@ -9,20 +9,25 @@ public class ServerLogic implements Logic_IF {
     private QuestionRepository questionRepository;
     private Map<String, Integer> pointsPerQuestions;
 
-    public ServerLogic(int year) {
+    public ServerLogic(int year, GroupRepository groupRepository) {
         this.questionRepository = new QuestionRepository(year);
-        this.groupRepository = new GroupRepository();
+        this.groupRepository = groupRepository;
         this.pointsPerQuestions = new HashMap<>();
-        this.setPointsPerQuestions(questionRepository.getQuestionsID());
     }
 
-    public void setPointsPerQuestions(List<String> ids) { // seta os pontos extras de cada questão, quando um resposta estiver certa de uma questão, essa pontuação extra será diminuida
-        for (String id : ids) {
-            this.pointsPerQuestions.put(id, 3);
-        }
-    }
+//    public void setPointsPerQuestions(List<String> ids) {
+//        for (String id : ids) {
+//            this.pointsPerQuestions.put(id, 3);
+//        }
+//    }
     public QuestionRepository getQuestionRepository() { return questionRepository; }
     public GroupRepository getGroupRepository() { return groupRepository; }
+    public void setQuestionAndPoints(int difficulty, int amount) { // seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão, quando um resposta estiver certa de uma questão, essa pontuação extra será diminuida
+        questionRepository.setQuestions(difficulty, amount);
+        for (String id : questionRepository.getQuestionsID()) {
+            pointsPerQuestions.put(id, 3);
+        }
+    }
 
     @Override
     public List<Question> getQuestions() { // irá retorna as questões para o grupo poder responder
@@ -45,6 +50,23 @@ public class ServerLogic implements Logic_IF {
                 });
             }
         });
+//        Answer answer = new Answer(QuestionID, res);
+//        for (Group group : groupRepository.getGroups()) {
+//            if (group.getName().equals(name)) {
+//                group.addAnswer(round, answer, time);
+//                for (Question question : questionRepository.getQuestions()) {
+//                    if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) {
+//                        if (pointsPerQuestions.get(question.getId()) != 0) {
+//                            group.addPoints(pointsPerQuestions.get(question.getId()) + 1);
+//                            pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question.getId()) - 1);
+//                        }
+//                    }
+//                }
+//            }
+        //}
+        System.out.println(name);
+        System.out.println(QuestionID);
+        System.out.println(res);
     }
     @Override
     public int getPoints(String name) throws RemoteException { // irá pegar os pontos de um grupo, de acordo com um id dado

@@ -24,6 +24,7 @@ public class ServerConnection {
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\") ;
 
     private Logic_IF serverConnection;
+    private User_IF groupConnection;
     private Stack<Question> questions;
 
     public ServerConnection() {
@@ -31,6 +32,7 @@ public class ServerConnection {
             questions = new Stack<>();
             Registry registry = LocateRegistry.getRegistry("localhost"); // irá estabelecer conexão com o servidor
             serverConnection = (Logic_IF) registry.lookup("ServerLogic"); // irá pegar a referência do stub RepoQuestoes
+            groupConnection = (User_IF) registry.lookup("GroupRepository"); // irá pegar a referência do stub GroupConnection
             for (Question question : serverConnection.getQuestions()) {
                 relativePathToURL(question);
                 questions.push(question);
@@ -44,6 +46,7 @@ public class ServerConnection {
             System.exit(0);
         }
     }
+    public int getPoints(String name) throws RemoteException { return serverConnection.getPoints(name); }
     public void relativePathToURL(Question question) throws MalformedURLException {
         if (question instanceof MultipleChoiceQuestion) {
             MultipleChoiceQuestion multipleChoiceQuestion = (MultipleChoiceQuestion) question;
@@ -63,9 +66,10 @@ public class ServerConnection {
             }
         }
     }
-    public void sendAnswer(int groupId, String id, String answer) throws RemoteException { // vai enviar a respotas por servidor
-        serverConnection.sendAnswer(groupId, id, answer);
+    public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // vai enviar a respotas por servidor
+        serverConnection.sendAnswer(round, name, QuestionID, res, time);
     }
+    public User_IF getGroupConnection() { return groupConnection; }
     public String getQuestion(List<String> alternatives) throws IOException {
         if (questions.isEmpty()) {
             removeDirectory();

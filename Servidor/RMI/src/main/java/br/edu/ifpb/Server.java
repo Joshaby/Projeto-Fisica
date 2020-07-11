@@ -7,13 +7,16 @@ import java.rmi.server.UnicastRemoteObject;
 public class Server {
     public static void main(String[] args)  {
         try {
-            ServerLogic serverLogic = new ServerLogic(2);
+            GroupRepository groupRepository = new GroupRepository();
+            ServerLogic serverLogic = new ServerLogic(2, groupRepository);
             Logic_IF stub = (Logic_IF) UnicastRemoteObject.exportObject(serverLogic, 0);
+            User_IF stub1 = (User_IF) UnicastRemoteObject.exportObject(groupRepository, 5353);
             System.setProperty("java.rmi.server.hostname","localhost");
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("ServerLogic", stub);
+            registry.bind("GroupRepository", stub1);
             System.out.println("Servidor ativado");
-            serverLogic.getQuestionRepository().setQuestions(new String[]{"Média", "Difícil", ""}, 10);
+            serverLogic.setQuestionAndPoints(4, 10);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
