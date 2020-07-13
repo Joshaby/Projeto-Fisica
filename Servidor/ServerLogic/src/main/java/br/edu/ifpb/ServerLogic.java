@@ -22,8 +22,8 @@ public class ServerLogic implements Logic_IF {
 //    }
     public QuestionRepository getQuestionRepository() { return questionRepository; }
     public GroupRepository getGroupRepository() { return groupRepository; }
-    public void setQuestionAndPoints(int difficulty, int amount) { // seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão, quando um resposta estiver certa de uma questão, essa pontuação extra será diminuida
-        questionRepository.setQuestions(difficulty, amount);
+    public void setQuestionAndPoints(int round, int amount) { // seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão, quando um resposta estiver certa de uma questão, essa pontuação extra será diminuida
+        questionRepository.setQuestions(round, amount);
         for (String id : questionRepository.getQuestionsID()) {
             pointsPerQuestions.put(id, 3);
         }
