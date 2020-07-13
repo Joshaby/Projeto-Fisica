@@ -1,7 +1,6 @@
 package br.edu.ifpb;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class App {

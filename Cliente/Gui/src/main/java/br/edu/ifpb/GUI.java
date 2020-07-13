@@ -2,7 +2,6 @@ package br.edu.ifpb;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,8 @@ public class GUI extends JFrame {
     private static int minutes = 2;
     private static int seconds = 0;
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\");
-    private static ServerConnection serverConnection = new ServerConnection();
+    private static ServerConnection serverConnection;
+    private static QuestionUtils questionUtils;
 
     private JPanel panel; // painel principal, contêm todos os outros paineis
     private JPanel panel1; // painel do headbar
@@ -40,10 +40,12 @@ public class GUI extends JFrame {
     private String id;
 
     public GUI() throws IOException {
-        Map<String, List<String>> group = new HashMap<>();
-        group.put("Phodas", Arrays.asList(new String[]{"José", "Talison", "Henrique"}));
-        serverConnection.getGroupConnection().registerGroups(group, 1);
         try {
+            serverConnection = new ServerConnection();
+            Map<String, List<String>> group = new HashMap<>();
+            group.put("Phodas", Arrays.asList(new String[]{"José", "Talison", "Henrique"}));
+            serverConnection.getConnection1().registerGroups(group, 1);
+            questionUtils = new QuestionUtils(serverConnection);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             } else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
@@ -102,14 +104,15 @@ public class GUI extends JFrame {
             panel.add(Box.createRigidArea(new Dimension(10, 10)));
             add(panel);
             createQuestionComponents();
-        } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+        }
+        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public void createQuestionComponents() throws IOException {
         List<String> alternatives = new ArrayList<>();
-        id = serverConnection.getQuestion(alternatives);
+        id = questionUtils.getQuestion(alternatives);
         if (id == null) finalPanel();
         if (alternatives.isEmpty()) {
             createEssayQuestionComponents(id);
