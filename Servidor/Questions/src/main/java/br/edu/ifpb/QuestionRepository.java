@@ -16,19 +16,19 @@ import static com.mongodb.client.model.Filters.or;
 public class QuestionRepository { // classe que representa um repositório de questões
 
     private static final MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/?retryWrites=true&w=majority");
-    private final Set<Question> questions; // guarda as questões num mapa, onde as questões são chaves, e suas respostas são seu valor
+    private Map<Question, Integer> questions; // guarda as questões num mapa, onde as questões são chaves, e suas respostas são seu valor
 
     public QuestionRepository() {
-        questions = new HashSet<>();
+        questions = new HashMap<>();
     }
 
     public List<Question> getQuestions() { // pega as questões para uso do grupo
-        return Collections.unmodifiableList(List.copyOf(questions));
+        return Collections.unmodifiableList(List.copyOf(questions.keySet()));
     }
 
     public List<String> getQuestionsID() { // pega o ID das questões para definir a pontuação extra de cada função
         List<String> aux = new ArrayList<>();
-        questions.forEach(question -> aux.add(question.getId()));
+        questions.keySet().forEach(question -> aux.add(question.getId()));
         return aux;
     }
 
@@ -75,13 +75,13 @@ public class QuestionRepository { // classe que representa um repositório de qu
         List<String> images = (List<String>) document.get("Imagens");
         if (alternatives == null) {
             if (images == null) {
-                questions.add(new Question(id, difficulty, text, correctAlternative));
-            } else questions.add(new Question(id, difficulty, text, correctAlternative, images));
+                questions.put(new Question(id, difficulty, text, correctAlternative), 5);
+            } else questions.put(new Question(id, difficulty, text, correctAlternative, images), 5);
         } else {
             if (images == null) {
-                questions.add(new MultipleChoiceQuestion(id, difficulty, text, alternatives, correctAlternative, false));
+                questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, correctAlternative, false), 5);
             } else
-                questions.add(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, correctAlternative, true));
+                questions.put(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, correctAlternative, true), 5);
         }
         System.out.println(id + " - " + difficulty + " - " + correctAlternative + " - " + y + " ano");
     }
@@ -90,7 +90,7 @@ public class QuestionRepository { // classe que representa um repositório de qu
     public String toString() {
 
         String questionsString = "";
-        for (Question question : questions) {
+        for (Question question : questions.keySet()) {
             questionsString += question + ", resposta = " + question.getCorrectAnswer() + '\n';
         }
         return "QuestionRepository{\n" +
