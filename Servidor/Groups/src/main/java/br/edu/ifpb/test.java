@@ -7,6 +7,7 @@ public class test {
     public static void main(String[] args) throws RemoteException {
         Random r = new Random();
 
+
         List<String> nomes = Arrays.asList("helen", "Luiza", "Talison", "Kennedy", "josé", "henrique", "japa",
                 "galego", "vinicius", "marcos", "roberval");
 

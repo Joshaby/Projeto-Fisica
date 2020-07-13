@@ -6,14 +6,14 @@ public class MultipleChoiceQuestion extends Question {
     private List<String> alternatives;
     private boolean containsImage;
 
-    public MultipleChoiceQuestion(String id, String difficulty, String text, List<String> alternatives, boolean containsImage) {
-        super(id, difficulty, text);
+    public MultipleChoiceQuestion(String id, String difficulty, String text, List<String> alternatives,String res, boolean containsImage) {
+        super(id, difficulty, text, res);
         setAlternatives(alternatives);
         setContainsImage(containsImage);
     }
 
-    public MultipleChoiceQuestion(String id, String difficulty, String text, List<String> images, List<String> alternatives, boolean containsImage) {
-        super(id, difficulty, text, images);
+    public MultipleChoiceQuestion(String id, String difficulty, String text, List<String> images, List<String> alternatives, String res, boolean containsImage) {
+        super(id, difficulty, text, res, images);
         setAlternatives(alternatives);
         setContainsImage(containsImage);
     }
