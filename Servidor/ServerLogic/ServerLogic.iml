@@ -13,8 +13,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Groups" />
-    <orderEntry type="module" module-name="Questions" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.12.5" level="project" />
+    <orderEntry type="module" module-name="Questions" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>

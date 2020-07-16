@@ -1,5 +1,12 @@
 package br.edu.ifpb;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -13,7 +20,8 @@ import java.util.*;
  */
 
 public class GroupRepository implements User_IF {
-    private final Set<Group> groups;
+    private Set<Group> groups;
+    private int year;
     private int maxGroup;
 
 //CONSTRUCTORS
@@ -23,15 +31,16 @@ public class GroupRepository implements User_IF {
         utiliza o valor padrão de número de grupos no inicio do jogo. Valor padrão = 5
     */
     public GroupRepository() {
-        groups = new HashSet<>();
+        this.groups = new HashSet<>();
         this.setMaxGroup(5);
+        this.setYear(-1);
     }
     /*
         Construtor alternativo que inicializa o HashSet para posterior armazenamento de grupos e
         utiliza um valor recebido para o número total de grupos possiveis.
     */
     public GroupRepository(int maxGroup) {
-        groups = new HashSet<>();
+        this();
         this.setMaxGroup(maxGroup);
     }
 
@@ -156,6 +165,7 @@ public class GroupRepository implements User_IF {
             }
             this.addGroup(newGroup);
         }
+        if(getYear() == -1) setYear(year);
     }
 
     //Função privada auxiliar para adição de um grupo ao set de grupos principal.
@@ -191,8 +201,34 @@ public class GroupRepository implements User_IF {
         return null;
     }
 
-//SECUNDARY METHODS
+// MONGO CONNECTION METHOD
+    public void initializeGroupsSet() {
+        MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/?retryWrites=true&w=majority");
+        MongoClient mongoClient = new MongoClient(uri);
+        MongoDatabase database = mongoClient.getDatabase("Grupos");
+        MongoCollection<Document> collection = database.getCollection(String.format("%d ano", year));
+        FindIterable<Document> documentAggregateIterable = collection.find();
+        Iterator iterator = documentAggregateIterable.iterator();
+        iterator.forEachRemaining(
+                doc -> {
+                    Document document = (Document) doc;
+                    String groupName = (String) document.get("nome");
+                    Set<String> members = new HashSet<>((List<String>) document.get("integrantes"));
+                    int points = (int) document.get("pontos");
+                    HashSet<User> users = new HashSet<>();
+                    members.forEach(
+                            member -> {
+                                User user = new User(member, year);
+                                user.addPoints(points);
+                                users.add(user);
+                            });
+                    groups.add(new Group(groupName, year, users, points));
+                    System.out.println(groups);
+                });
+}
 
+
+//GETTERS
     //Função publica que retorna o set de grupos cadastrados.
     public Set<Group> getGroups() {
         return this.groups;
@@ -204,6 +240,28 @@ public class GroupRepository implements User_IF {
         return maxGroup;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+
+//SETTERS
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    //função privada auxiliar que disponibiliza a troca de numero maximo de grupos.
+    private boolean setMaxGroup(int maxGroup) {
+        if (maxGroup <= 0) {
+            return false;
+        }
+        this.maxGroup = maxGroup;
+        return true;
+    }
+
+
+//STRINGIFIERS
 
     //Função Privada que stringuifica um grupo, e retorna o mesmo em formato de mapa.
     private Map<String, List<String>> stringifyGroup(Group group) {
@@ -216,18 +274,21 @@ public class GroupRepository implements User_IF {
         return aux;
     }
 
-
-    //função privada auxiliar que disponibiliza a troca de numero maximo de grupos.
-    private boolean setMaxGroup(int maxGroup) {
-        if (maxGroup <= 0) {
-            return false;
-        }
-        this.maxGroup = maxGroup;
-        return true;
+    @Override
+    public String toString() {
+        return "GroupRepository{" +
+                "groups=" + groups +
+                ", year=" + year +
+                ", maxGroup=" + maxGroup +
+                '}';
     }
 
 
-//    /*
+
+
+
+
+    //    /*
 //        Função publica responsável por criar grupos dinamicamente de acordo com a inserção de usuários
 //        disponibilizando assim a possibilidade de ter até um grupo com uma pessoa, até 5 grupos com n pessoas.
 //        Essa função atribui nomes genericos aos grupos, sendo assim impossivel aderir nomes personalizados.

@@ -2,13 +2,22 @@ package br.edu.ifpb;
 
 import java.util.*;
 
+/*
+    Classe responsavel por armazenar e organizar todos os dados relativos a cada grupo cadastrado
+ */
 public class Group implements Comparable<Group> {
-    private String name;
+
+//COLLECTIONS
+    private Map<Integer, Answers> answers;
     private Set<User> members;
+
+//DEFAULT VARIABLES
+    private String name;
     private int year;
     private int points;
-    private Map<Integer, Answers> answers;
 
+//CONSTRUCTORS
+    //DEFAULT CONSTRUCTOR
     public Group(String name, int year) {
         this.setMembers(new HashSet<>());
         this.setName(name);
@@ -16,6 +25,16 @@ public class Group implements Comparable<Group> {
         this.setPoints();
         this.setAnswers(new HashMap<>());
     }
+
+// CONSTRUCTOR WITH POINTS
+    public Group(String name, int year,HashSet<User> members, int points) {
+        this.setMembers(members);
+        this.setName(name);
+        this.setYear(year);
+        this.addPoints(points);
+        this.setAnswers(new HashMap<>());
+    }
+
 
     public String getName() {
         return name;

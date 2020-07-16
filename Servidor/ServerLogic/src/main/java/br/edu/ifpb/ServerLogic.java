@@ -5,34 +5,31 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLogic implements Logic_IF {
-    private GroupRepository groupRepository;
-    private QuestionRepository questionRepository;
-    private Map<String, Integer> pointsPerQuestions;
+// DEFAULT FINAL REPOS
+    private final GroupRepository groupRepository;
+    private final QuestionRepository questionRepository;
 
-    public ServerLogic(int year, GroupRepository groupRepository) {
-        this.questionRepository = new QuestionRepository(year);
-        this.groupRepository = groupRepository;
-        this.pointsPerQuestions = new HashMap<>();
+// DEFAULT VARIABLES
+    private Integer round;
+    private Integer amount;
+
+// CONSTRUCTOR without parameters
+    public ServerLogic() throws ServerException {
+        this.groupRepository = new GroupRepository();
+        this.questionRepository = new QuestionRepository();
+        this.setAmount(5);
+        this.setRound(1);
     }
 
-//    public void setPointsPerQuestions(List<String> ids) {
-//        for (String id : ids) {
-//            this.pointsPerQuestions.put(id, 3);
-//        }
-//    }
-    public QuestionRepository getQuestionRepository() { return questionRepository; }
-    public GroupRepository getGroupRepository() { return groupRepository; }
-    public void setQuestionAndPoints(int round, int amount) { // seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão, quando um resposta estiver certa de uma questão, essa pontuação extra será diminuida
-        questionRepository.setQuestions(round, amount);
-        for (String id : questionRepository.getQuestionsID()) {
-            pointsPerQuestions.put(id, 3);
-        }
+//CONSTRUCTOR with parameters
+
+    public ServerLogic(Integer amount) throws ServerException {
+        this();
+        this.setAmount(amount);
     }
 
-    @Override
-    public List<Question> getQuestions() { // irá retorna as questões para o grupo poder responder
-        return questionRepository.getQuestions();
-    }
+
+// METHOD TO RECIEVE DATA FROM CLIENT
 
     @Override
     public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
@@ -42,14 +39,116 @@ public class ServerLogic implements Logic_IF {
                 group.addAnswer(round, answer, time);
                 questionRepository.getQuestions().forEach(question -> {
                     if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
-                        if (pointsPerQuestions.get(question.getId()) != 0) {
-                            group.addPoints(pointsPerQuestions.get(question.getId()) + 1);
-                            pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question.getId()) - 1);
+                        if (questionRepository.getPoints(question.getId()) != 0) {
+                            group.addPoints(questionRepository.getPoints(question.getId()) + 1);
+                            questionRepository.decreasePoint(question.getId());
                         }
                     }
                 });
             }
         });
+    }
+
+
+//METHOD THAT'S FETCH DATA FROM DATABASE
+
+    /*seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão,
+      quando uma resposta enviada estiver certa, essa pontuação será decrementada.*/
+    public void setQuestion(){
+        try{
+            if(this.groupRepository.getYear() < 0)
+                throw new ServerException("Repositório de grupos não foi inicializado");
+
+            this.questionRepository.setQuestions(this.getRound(),
+                                                 this.getAmount(),
+                                                 this.groupRepository.getYear());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//METHOD THAT'S SEND QUESTIONS DATA
+
+    public List<Question> getQuestions() {
+
+        setQuestion();
+
+        return questionRepository.getQuestions();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// GETTERS
+
+    public GroupRepository getGroupRepository() { return groupRepository; }
+
+
+    // irá pegar os pontos de um grupo, de acordo com um id dado
+    @Override
+    public int getPoints(String name) throws RemoteException {
+        AtomicInteger points = new AtomicInteger(); // uma váriavel int que pode ser atualizada atômicamente, ou seja, não é possivel que o escalandor quebre a execução do programa no instante da atualização
+        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, os pontos do grupo é retornato
+            if (group.getName().equals(name)) {
+                points.set(group.getPoints());
+            }
+        });
+        return points.get();
+    }
+
+
+    public Integer getRound() {
+        return round;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    @Override
+    public int getQuestionAmout() throws RemoteException {
+        return questionRepository.getQuestions().size();
+    }
+
+
+
+//SETTERS
+
+    public void setRound(Integer round) {
+        this.round = round;
+    }
+
+    public void setAmount(Integer amount) throws ServerException{
+            if(amount <= 0) throw new ServerException("Número de questões invalido!");
+        this.amount = amount;
+    }
+
+
+//OTHERS METHODS
+
+
+    public void finishRound() {
+
+        //todo
+
+    }
+    @Override
+    public List<String> placarSources() throws RemoteException {
+        return null;
+    }
+}
+
 //        Answer answer = new Answer(QuestionID, res);
 //        for (Group group : groupRepository.getGroups()) {
 //            if (group.getName().equals(name)) {
@@ -63,35 +162,12 @@ public class ServerLogic implements Logic_IF {
 //                    }
 //                }
 //            }
-        //}
-        System.out.println(name);
-        System.out.println(QuestionID);
-        System.out.println(res);
-    }
-    @Override
-    public int getPoints(String name) throws RemoteException { // irá pegar os pontos de um grupo, de acordo com um id dado
-        AtomicInteger points = new AtomicInteger(); // uma váriavel int que pode ser atualizada atômicamente, ou seja, não é possivel que o escalandor quebre a execução do programa no instante da atualização
-        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, os pontos do grupo é retornato
-            if (group.getName().equals(name)) {
-                points.set(group.getPoints());
-            }
-        });
-        return points.get();
-    }
-    @Override
-    public void finishRound() {
+//}
+//        System.out.println(name);
+//        System.out.println(QuestionID);
+//        System.out.println(res);
 
-    }
-    @Override
-    public List<String> placarSources() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public int getQuestionAmout() throws RemoteException {
-        return questionRepository.getQuestions().size();
-    }
-    //    @Override
+//    @Override
 //    public String toString() {
 //        String answerString = "";
 //        for (Group group : answers.keySet()) {
@@ -109,4 +185,3 @@ public class ServerLogic implements Logic_IF {
 //                "PointsPerQuestions:\n" + pointsPerQuestions
 //                ;
 //    }
-}

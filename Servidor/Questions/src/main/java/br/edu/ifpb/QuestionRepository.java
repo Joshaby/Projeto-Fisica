@@ -12,38 +12,26 @@ import static com.mongodb.client.model.Filters.*;
 
 public class QuestionRepository { // classe que representa um repositório de questões
 
+// DEFAULT STATIC VALUES
     private static MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/?retryWrites=true&w=majority");
+
+// DEFAULT VARIABLES
     private Map<Question, String> questions; // guarda as questões num mapa, onde as questões são chaves, e suas respostas são seu valor
+    private Map<String, Integer> points; // guarda os pontos recebidos por questão, onde o ID das questoes são as chaves, e sua pontuação é o valor
     private int year; // representa o ano das questões, por exemplo, 1 ano
 
-    public QuestionRepository(int year) {
-        setYear(year);
+//CONSTRUCTORS
+    public QuestionRepository() {
         questions = new HashMap<>();
+        points = new HashMap<>();
+        setYear(-1);
     }
 
-    public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
+//ACQUIRE QUESTIONS
 
-    public List<Question> getQuestions() { // pega as questões para uso do grupo
-        List<Question> questionList = new ArrayList<>();
-        questions.keySet().forEach(questionList::add);
-        return Collections.unmodifiableList(questionList);
-    }
-    public List<String> getQuestionsID() { // pega o ID das questões para definir a pontuação extra de cada função
-        List<String> aux = new ArrayList<>();
-        questions.keySet().forEach(question -> aux.add(question.getId()));
-        return aux;
-    }
-    public Map<Question, String> getQuestionsMap() { // retorna o mapa questions
-        return this.questions;
-    }
-
-    // Parâmetros
-    //      String[] difficulties = lista de dificuldades, por exemplo {"Fácil", "Média"}
-    //      int amount = quantidade de questões randomizadas a serem buscadas
-
-    public void setQuestions(int round, int amount) { // método para setar as questões para uso do grupo
+    public void setQuestions(int round, int amount, int year) { // método para setar as questões para uso do grupo
         try {
+            this.setYear(year);
             MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
             MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
             List<AggregateIterable> randomizedQuestions = new ArrayList<>();
@@ -89,10 +77,41 @@ public class QuestionRepository { // classe que representa um repositório de qu
                 else
                     questions.put(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, true), correctAlternative);
             }
-            System.out.println(id + " - " + difficulty + " - " + correctAlternative);
+            points.put(id, 5);
         }
     }
 
+//SEND QUESTIONS METHODS
+
+    public List<Question> getQuestions() { // pega as questões para uso do grupo
+        return Collections.unmodifiableList(List.copyOf(questions.keySet()));
+    }
+    public List<String> getQuestionsID() { // pega o ID das questões para definir a pontuação extra de cada função
+        List<String> aux = new ArrayList<>();
+        questions.keySet().forEach(question -> aux.add(question.getId()));
+        return aux;
+    }
+    public Map<Question, String> getQuestionsMap() { // retorna o mapa questions
+        return this.questions;
+    }
+
+// POINTS MANAGEMENT METHODS
+    public void decreasePoint(String QuestionID){
+        this.points.replace(QuestionID, this.points.get(QuestionID) - 1);
+    }
+
+    public Integer getPoints(String QuestionID){
+        return this.points.get(QuestionID);
+    }
+
+
+
+// GETTERS & SETTERS
+    public int getYear() { return year; }
+
+    public void setYear(int year) { this.year = year; }
+
+//TO STRING
     @Override
     public String toString() {
 
