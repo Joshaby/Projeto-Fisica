@@ -15,9 +15,6 @@ public class Server {
             registry.bind("ServerLogic", stub);
             registry.bind("GroupRepository", stub1);
             System.out.println("Servidor ativado");
-            serverLogic.getGroupRepository().setYear(1);
-            serverLogic.setQuestion();
-            serverLogic.getQuestions().iterator().forEachRemaining(System.out::println);
         }
         catch (Exception err) {
             err.printStackTrace();
