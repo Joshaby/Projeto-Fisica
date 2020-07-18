@@ -176,31 +176,6 @@ public class GroupRepository implements User_IF {
         this.groups.add(group);
     }
 
-// INTERFACE CONNECTIONS METHODS
-
-    @Override
-    public Map<String, List<String>> getGroupsMAP() throws RemoteException {
-        HashSet<Group> aux = (HashSet<Group>) getGroups();
-        HashMap<String, List<String>> retorno = new HashMap<>();
-        for (Group group : aux) {
-            Map<String, List<String>> novo = this.stringifyGroup(group);
-            for (String s : novo.keySet()) {
-                retorno.put(s, novo.get(s));
-            }
-        }
-        return retorno;
-    }
-
-    //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista.
-    public Map<String, List<String>> getGroupByName(String name) throws RemoteException {
-        for (Group group : List.copyOf(this.getGroups())) {
-            if (group.getName().equals(name)) {
-                return this.stringifyGroup(group);
-            }
-        }
-        return null;
-    }
-
 // MONGO CONNECTION METHOD
     public void initializeGroupsSet() {
         MongoClientURI uri = new MongoClientURI("mongodb+srv://Joshaby:7070@cluster0-e8gs6.mongodb.net/?retryWrites=true&w=majority");
@@ -227,8 +202,41 @@ public class GroupRepository implements User_IF {
                 });
 }
 
-
 //GETTERS
+
+    @Override
+    public Map<String, List<String>> getGroupsMAP() throws RemoteException {
+        HashSet<Group> aux = (HashSet<Group>) getGroups();
+        HashMap<String, List<String>> retorno = new HashMap<>();
+        for (Group group : aux) {
+            Map<String, List<String>> novo = this.stringifyGroup(group);
+            for (String s : novo.keySet()) {
+                retorno.put(s, novo.get(s));
+            }
+        }
+        return retorno;
+    }
+
+    //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista em modo de mapa.
+    public Map<String, List<String>> getGroupByNameMap(String name) throws RemoteException {
+        for (Group group : List.copyOf(this.getGroups())) {
+            if (group.getName().equals(name)) {
+                return this.stringifyGroup(group);
+            }
+        }
+        return null;
+    }
+
+    //Função publica que disponibiliza uma busca pelo nome do grupo e retorna o mesmo, caso exista.
+    public Group getGroupByName(String name) throws RemoteException {
+        for (Group group : List.copyOf(this.getGroups())) {
+            if (group.getName().equals(name)) {
+                return group;
+            }
+        }
+        return null;
+    }
+
     //Função publica que retorna o set de grupos cadastrados.
     public Set<Group> getGroups() {
         return this.groups;

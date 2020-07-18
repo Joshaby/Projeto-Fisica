@@ -12,7 +12,7 @@ public interface User_IF extends Remote {
 
     Map<String, List<String>> getGroupsMAP() throws RemoteException;
 
-    Map<String, List<String>> getGroupByName(String name) throws RemoteException;
+    Map<String, List<String>> getGroupByNameMap(String name) throws RemoteException;
 
     List<String> realocateGroup(int round) throws RemoteException;
 

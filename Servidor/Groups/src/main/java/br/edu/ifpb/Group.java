@@ -35,57 +35,58 @@ public class Group implements Comparable<Group> {
         this.setAnswers(new HashMap<>());
     }
 
+// GETTERS
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Map<Integer, Answers> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Map<Integer, Answers> answers) {
-        this.answers = answers;
-    }
-
-    public void addAnswers(List<Answer> answer, Integer time, int round) {
-        this.answers.put(round, new Answers(time, answer));
-    }
-
-    public boolean validateGroup() {
-        return !(getMembers().size() > 0 && getYear() >= 1 && getYear() <= 3);
-    }
-
     public List<User> getMembers() {
         return Collections.unmodifiableList(List.copyOf(members));
-    }
-
-    public void setMembers(HashSet<User> members) {
-        this.members = members;
     }
 
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void addMember(User user) {
-        members.add(user);
-    }
-
     public int getPoints() {
         return points;
     }
 
+//SETTERS
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAnswers(Map<Integer, Answers> answers) {
+        this.answers = answers;
+    }
+
+    public void setMembers(HashSet<User> members) {
+        this.members = members;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     private void setPoints() {
         this.points = 0;
+    }
+
+// INCREMENTORS
+
+    public void addAnswers(List<Answer> answer, Integer time, int round) {
+        this.answers.put(round, new Answers(time, answer));
+    }
+
+    public void addMember(User user) {
+        members.add(user);
     }
 
     public void addPoints(int point) {
@@ -100,11 +101,15 @@ public class Group implements Comparable<Group> {
         this.answers.get(round).addAnswer(answer, time);
     }
 
+// OTHER METHODS
+
+    public boolean validateGroup() {
+        return !(getMembers().size() > 0 && getYear() >= 1 && getYear() <= 3);
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        return this.getName().equals(((Group) o).getName());
+        return (o != null && getClass() == o.getClass()) && this.getName().equals(((Group) o).getName());
     }
 
     @Override
@@ -122,8 +127,7 @@ public class Group implements Comparable<Group> {
 
     @Override
     public int compareTo(Group o) {
-        return this.getName().compareTo(o.getName());
+        return Integer.compare(this.getPoints(), o.getPoints());
     }
-
 
 }

@@ -13,7 +13,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Groups" target="10" />
+      <module name="Groups" target="11" />
       <module name="Questions" target="11" />
       <module name="RMI" target="11" />
       <module name="ServerLogic" target="11" />
