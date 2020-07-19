@@ -1,9 +1,10 @@
 package br.edu.ifpb;
 
 import java.rmi.RemoteException;
+import junit.framework.*;
 import java.util.*;
 
-public class test {
+public class GroupRemoverTest{
     public static void main(String[] args) throws RemoteException {
         Random r = new Random();
 

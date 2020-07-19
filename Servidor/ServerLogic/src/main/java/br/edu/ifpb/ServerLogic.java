@@ -2,6 +2,7 @@ package br.edu.ifpb;
 
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLogic implements Logic_IF {
@@ -14,7 +15,7 @@ public class ServerLogic implements Logic_IF {
     private Integer amount;
 
 // CONSTRUCTOR without parameters
-    public ServerLogic() throws ServerException {
+    public ServerLogic(){
         this.groupRepository = new GroupRepository();
         this.questionRepository = new QuestionRepository();
         this.setAmount(5);
@@ -47,6 +48,11 @@ public class ServerLogic implements Logic_IF {
                 });
             }
         });
+
+        if(this.finishRoundChecker()) {
+            this.incrementRound();
+            setQuestion();
+        }
     }
 
 
@@ -68,9 +74,14 @@ public class ServerLogic implements Logic_IF {
         }
     }
 
+
 // CHECKING QUESTIONS ANSWERED BY THE GROUP
 
-    private List<String> groupNotAnsweredQuestions(String name) throws RemoteException {
+    private List<String> groupNotAnsweredQuestions(String name) throws RemoteException, ServerException {
+        if(this.groupRepository.getGroupByName(name) == null) throw new ServerException(
+                "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
+        );
+
         ArrayList<String> answeredIDs = new ArrayList<>();
 
         getGroupRepository()
@@ -96,22 +107,45 @@ public class ServerLogic implements Logic_IF {
 //METHOD THAT'S SEND QUESTIONS TO CLIENT SESSION
 
     public List<Question> getQuestions(String GroupName) throws RemoteException {
+        try {
 
-        setQuestion();
+            List<String> ids = this.groupNotAnsweredQuestions(GroupName);
 
-        ArrayList<Question> NotAnsweredQuestions = new ArrayList<>();
+            if(this.questionRepository.getQuestionsID().size() == 0) setQuestion();
 
-        List<String> ids = this.groupNotAnsweredQuestions(GroupName);
+            ArrayList<Question> NotAnsweredQuestions = new ArrayList<>();
 
-        questionRepository
-                .getQuestions()
-                .iterator()
-                .forEachRemaining(question -> {
-            if(ids.contains(question.getId())) NotAnsweredQuestions.add(question);
-        });
-
-        return NotAnsweredQuestions;
+            questionRepository
+                    .getQuestions()
+                    .iterator()
+                    .forEachRemaining(question -> {
+                        if(ids.contains(question.getId())) NotAnsweredQuestions.add(question);
+                    });
+            return NotAnsweredQuestions;
+        }
+        catch (ServerException err){
+            err.printStackTrace();
+            return null;
+        }
     }
+
+
+// METHOD THAT'S CHECK IF THE ROUND CAN BE FINISHED
+
+    public boolean finishRoundChecker() {
+        AtomicBoolean cond = new AtomicBoolean(true);
+
+        this.groupRepository
+                .getGroups()
+                .iterator()
+                .forEachRemaining(group -> {
+                    if(group.getAnswers().keySet().size() < this.questionRepository.getQuestionsID().size()){
+                        cond.set(false);
+                    }
+                });
+        return cond.get();
+    }
+
 
 // GETTERS
 
@@ -142,21 +176,26 @@ public class ServerLogic implements Logic_IF {
         return questionRepository.getQuestions().size();
     }
 
+
 //SETTERS
 
     public void setRound(Integer round) {
         this.round = round;
     }
 
-    public void setAmount(Integer amount) throws ServerException{
+    public void setAmount(Integer amount){
+        try {
             if(amount <= 0) throw new ServerException("Número de questões invalido!");
-        this.amount = amount;
+            this.amount = amount;
+        }catch (ServerException err) {
+            err.printStackTrace();
+        }
     }
 
 //OTHERS METHODS
 
-    public void finishRound() {
-        //todo
+    private void incrementRound(){
+        this.setRound(this.getRound() + 1);
     }
 
     @Override
