@@ -13,8 +13,7 @@ import java.util.List;
 
 public class GUI extends JFrame {
 
-    private static int minutes = 2;
-    private static int seconds = 0;
+    private static int seconds = 300;
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\");
     private static ServerConnection serverConnection;
     private static QuestionUtils questionUtils;
@@ -38,6 +37,8 @@ public class GUI extends JFrame {
     private int maxQuestionPosi;
     private boolean isMultipleChoiceQuestion;
     private String id;
+    private StopWatch stopWatch;
+    private boolean threadExecute = false;
 
     public GUI() throws IOException {
         try {
@@ -48,7 +49,8 @@ public class GUI extends JFrame {
             questionUtils = new QuestionUtils(serverConnection);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            } else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+            }
+            else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
             maxQuestionPosi = serverConnection.getQuestionAmout();
@@ -72,7 +74,7 @@ public class GUI extends JFrame {
             appName = new JLabel("Jogo de física");
             appName.setFont(new Font("Jogo de física", Font.BOLD, 15));
             currentQuestion = new JLabel("Questão 1 de " + maxQuestionPosi);
-            time = new JLabel("Tempo restante: 2:00");
+            time = new JLabel();
             nextButton = new JButton("Avançar");
             nextButton.addActionListener(new ButtonHandler());
             panel1.add(Box.createRigidArea(new Dimension(15, 15)));
@@ -88,6 +90,7 @@ public class GUI extends JFrame {
             panel1.add(Box.createRigidArea(new Dimension(15, 15)));
             panel1.add(nextButton);
             panel1.add(Box.createRigidArea(new Dimension(10, 10)));
+            stopWatch = new StopWatch(time);
 
             // Painel2 e seus componentes
 
@@ -104,6 +107,7 @@ public class GUI extends JFrame {
             panel.add(Box.createRigidArea(new Dimension(10, 10)));
             add(panel);
             createQuestionComponents();
+            stopWatch.start();
         }
         catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -143,6 +147,7 @@ public class GUI extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(10, 10)));
         panel3.add(panel);
         panel2.add(panel3);
+        stopWatch.setSeconds(GUI.seconds);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -176,10 +181,12 @@ public class GUI extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
         panel3.add(panel);
         panel2.add(panel3);
+        stopWatch.setSeconds(GUI.seconds);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
     public void finalPanel() throws RemoteException {
+        this.setVisible(false);
         JOptionPane.showMessageDialog(
                 this,
                 String.format("Pontos obtidos: %d", serverConnection.getPoints("Phodas")),
@@ -214,10 +221,11 @@ public class GUI extends JFrame {
                 panel2.remove(panel3);
                 currentQuestionPosi++;
                 currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
-                serverConnection.sendAnswer(1, "Phodas", GUI.this.id, answer, 1);
+                serverConnection.sendAnswer(1, "Phodas", GUI.this.id, answer, seconds - stopWatch.getSeconds());
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }

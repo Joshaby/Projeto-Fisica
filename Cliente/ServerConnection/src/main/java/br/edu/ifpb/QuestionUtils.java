@@ -65,6 +65,9 @@ public class QuestionUtils {
     }
     public void createImagesQuestionDirectory(String id, List<String> images) throws IOException {
         String directory = ".cache" + SEPARATOR + "Q" + id + "_arquivos";
+        if (! Files.exists(Path.of(".cache"))) {
+            Files.createDirectory(Path.of(".cache"));
+        }
         Files.createDirectories(Path.of(directory));
         if (images != null) {
             for (String s : images) {
@@ -79,6 +82,9 @@ public class QuestionUtils {
         }
     }
     public void createHTMlFile(String id, String text) throws IOException {
+        if (! Files.exists(Path.of(".cache"))) { // crirá um pasta oculta chamada cache, com o HTML e imagens das questões
+            Files.createDirectory(Path.of(".cache"));
+        }
         Files.write(Path.of(".cache" + SEPARATOR + "Q" + id + ".HTM")
                 , Collections.singletonList(text)
                 , StandardCharsets.ISO_8859_1
