@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLogic implements Logic_IF {
+
 // DEFAULT FINAL REPOS
     private final GroupRepository groupRepository;
     private final QuestionRepository questionRepository;
@@ -18,8 +19,8 @@ public class ServerLogic implements Logic_IF {
     public ServerLogic(){
         this.groupRepository = new GroupRepository();
         this.questionRepository = new QuestionRepository();
-        this.setAmount(5);
-        this.setRound(1);
+        setAmount(5);
+        setRound(1);
     }
 
 //CONSTRUCTOR with parameters
@@ -51,7 +52,7 @@ public class ServerLogic implements Logic_IF {
 
         if(this.finishRoundChecker()) {
             this.incrementRound();
-            setQuestion();
+            this.setQuestion();
         }
     }
 
@@ -87,7 +88,7 @@ public class ServerLogic implements Logic_IF {
         getGroupRepository()
                 .getGroupByName(name)
                 .getAnswers()
-                .get(this.getRound())
+                .get(getRound())
                 .getAnswers()
                 .iterator()
                 .forEachRemaining(answer -> {
@@ -109,7 +110,7 @@ public class ServerLogic implements Logic_IF {
     public List<Question> getQuestions(String GroupName) throws RemoteException {
         try {
 
-            List<String> ids = this.groupNotAnsweredQuestions(GroupName);
+            List<String> ids = groupNotAnsweredQuestions(GroupName);
 
             if(this.questionRepository.getQuestionsID().size() == 0) setQuestion();
 
@@ -195,7 +196,7 @@ public class ServerLogic implements Logic_IF {
 //OTHERS METHODS
 
     private void incrementRound(){
-        this.setRound(this.getRound() + 1);
+        setRound(getRound() + 1);
     }
 
     @Override

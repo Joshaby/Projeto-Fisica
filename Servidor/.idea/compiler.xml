@@ -6,16 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ServerLogic" />
-        <module name="Groups" />
         <module name="Questions" />
+        <module name="Gui" />
+        <module name="Scoreboard" />
+        <module name="Groups" />
+        <module name="ServerLogic" />
         <module name="RMI" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Groups" target="11" />
+      <module name="Gui" target="11" />
       <module name="Questions" target="11" />
       <module name="RMI" target="11" />
+      <module name="Scoreboard" target="11" />
       <module name="ServerLogic" target="11" />
       <module name="Servidor" target="11" />
     </bytecodeTargetLevel>
