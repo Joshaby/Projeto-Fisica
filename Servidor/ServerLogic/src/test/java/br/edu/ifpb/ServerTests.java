@@ -42,6 +42,6 @@ public class ServerTests {
                                          (g.getGroups().size() == 5 && !res.isEmpty()));
         } catch (RemoteException e) {
             e.printStackTrace();
-        } fl
+        }
     }
 }
