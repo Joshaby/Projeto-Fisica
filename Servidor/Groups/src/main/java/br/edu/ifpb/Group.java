@@ -97,7 +97,7 @@ public class Group implements Comparable<Group> {
     }
 
     public void addAnswer(int round, Answer answer, int time) {
-        this.answers.put(round, new Answers());
+        if(this.answers.isEmpty())this.answers.put(round, new Answers());
         this.answers.get(round).addAnswer(answer, time);
     }
 

@@ -24,7 +24,7 @@ public class ServerLogic implements Logic_IF {
 
 //CONSTRUCTOR with parameters
 
-    public ServerLogic(Integer amount) throws ServerException {
+    public ServerLogic(Integer amount){
         this();
         this.setAmount(amount);
     }
@@ -35,19 +35,11 @@ public class ServerLogic implements Logic_IF {
     @Override
     public void sendAnswer(int round, String GroupName, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
         Answer answer = new Answer(QuestionID, res); // cria um objeto Answer
-        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu nome igual ao parâmentro name, se for igual, o answer é adicionado no HashMap de respostas.
-            if (group.getName().equals(GroupName)) {
-                group.addAnswer(round, answer, time);
-                questionRepository.getQuestions().forEach(question -> {
-                    if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
-                        if (questionRepository.getPoints(question.getId()) != 0) {
-                            group.addPoints(questionRepository.getPoints(question.getId()) + 1);
-                            questionRepository.decreasePoint(question.getId());
-                        }
-                    }
-                });
-            }
-        });
+        groupRepository.getGroupByName(GroupName).addAnswer(round, answer, time);
+        if(questionRepository.validateAnswer(QuestionID,res)){
+            groupRepository.getGroupByName(GroupName).addPoints(questionRepository.getPoints(QuestionID) + 1);
+            questionRepository.decreasePoint(QuestionID);
+        }
 
         if(this.finishRoundChecker()) {
             this.incrementRound();
@@ -82,6 +74,10 @@ public class ServerLogic implements Logic_IF {
                 "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
         );
 
+        if(getGroupRepository().getGroupByName(name).getAnswers().isEmpty()) {
+            return questionRepository.getQuestionsID();
+        }
+
         ArrayList<String> answeredIDs = new ArrayList<>();
 
         getGroupRepository()
@@ -95,11 +91,9 @@ public class ServerLogic implements Logic_IF {
         });
 
         ArrayList<String> aux = new ArrayList<>();
-
         questionRepository.getQuestionsID().iterator().forEachRemaining(s -> {
             if(!answeredIDs.contains(s)) aux.add(s);
         });
-
         return aux;
     }
 
@@ -109,9 +103,9 @@ public class ServerLogic implements Logic_IF {
     public List<Question> getQuestions(String GroupName) throws RemoteException {
         try {
 
-            List<String> ids = this.groupNotAnsweredQuestions(GroupName);
-
             if(this.questionRepository.getQuestionsID().size() == 0) setQuestion();
+
+            List<String> ids = this.groupNotAnsweredQuestions(GroupName);
 
             ArrayList<Question> NotAnsweredQuestions = new ArrayList<>();
 

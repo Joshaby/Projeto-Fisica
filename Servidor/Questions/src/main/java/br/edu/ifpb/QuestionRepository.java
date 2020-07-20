@@ -7,6 +7,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
 
@@ -86,11 +88,19 @@ public class QuestionRepository { // classe que representa um repositório de qu
     public List<Question> getQuestions() { // pega as questões para uso do grupo
         return Collections.unmodifiableList(List.copyOf(questions.keySet()));
     }
+
     public List<String> getQuestionsID() { // pega o ID das questões para definir a pontuação extra de cada função
         List<String> aux = new ArrayList<>();
         questions.keySet().forEach(question -> aux.add(question.getId()));
         return aux;
     }
+
+    private Question getQuestionById(String QuestionID){
+        AtomicReference<Question> aux = new AtomicReference<Question>();
+        questions.keySet().iterator().forEachRemaining(question -> {if(question.getId().equals(QuestionID)) aux.set(question);});
+        return (aux == null)? null : aux.get();
+    }
+
     public Map<Question, String> getQuestionsMap() { // retorna o mapa questions
         return this.questions;
     }
@@ -104,7 +114,10 @@ public class QuestionRepository { // classe que representa um repositório de qu
         return this.points.get(QuestionID);
     }
 
-
+// AnswerAnaliser
+    public boolean validateAnswer(String QuestionID, String res){
+        return this.questions.get(getQuestionById(QuestionID)).equals(res);
+    }
 
 // GETTERS & SETTERS
     public int getYear() { return year; }
