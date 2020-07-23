@@ -1,6 +1,6 @@
 package br.edu.ifpb;
 
-public class ServerException extends Exception{
+public class ServerException extends Exception {
 
     public ServerException() {
         super("Erro ocorrido na gestão do servidor!");

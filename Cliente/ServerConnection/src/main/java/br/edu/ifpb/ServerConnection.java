@@ -19,13 +19,18 @@ public class ServerConnection {
             Registry registry = LocateRegistry.getRegistry("localhost"); // irá estabelecer conexão com o servidor
             connection = (Logic_IF) registry.lookup("ServerLogic"); // irá pegar a referência do stub RepoQuestoes
             connection1 = (User_IF) registry.lookup("GroupRepository"); // irá pegar a referência do stub GroupConnection
-            for (Question question : connection.getQuestions()) questions.push(question);
         }
         catch (NotBoundException | IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             System.exit(0);
         }
     }
+
+    public void initializateQuestions(String groupName) throws RemoteException {
+        System.out.println(connection.getQuestions(groupName));
+        for (Question question : connection.getQuestions(groupName)) questions.push(question);
+    }
+
     public int getPoints(String name) throws RemoteException { return connection.getPoints(name); }
     public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // vai enviar a respotas por servidor
         connection.sendAnswer(round, name, QuestionID, res, time);

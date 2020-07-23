@@ -38,14 +38,17 @@ public class GUI extends JFrame {
     private boolean isMultipleChoiceQuestion;
     private String id;
     private StopWatch stopWatch;
-    private boolean threadExecute = false;
+    private String groupName;
 
     public GUI() throws IOException {
+
         try {
-            serverConnection = new ServerConnection();
+            groupName = "Pho";
             Map<String, List<String>> group = new HashMap<>();
-            group.put("Phodas", Arrays.asList(new String[]{"José", "Talison", "Henrique"}));
+            group.put(groupName, Arrays.asList("José", "Talison", "Henrique"));
+            serverConnection = new ServerConnection();
             serverConnection.getConnection1().registerGroups(group, 1);
+            serverConnection.initializateQuestions(groupName);
             questionUtils = new QuestionUtils(serverConnection);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
@@ -189,7 +192,7 @@ public class GUI extends JFrame {
         this.setVisible(false);
         JOptionPane.showMessageDialog(
                 this,
-                String.format("Pontos obtidos: %d", serverConnection.getPoints("Phodas")),
+                String.format("Pontos obtidos: %d", serverConnection.getPoints(groupName)),
                 "Pontos",
                 JOptionPane.OK_OPTION
         );
@@ -221,7 +224,7 @@ public class GUI extends JFrame {
                 panel2.remove(panel3);
                 currentQuestionPosi++;
                 currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
-                serverConnection.sendAnswer(1, "Phodas", GUI.this.id, answer, seconds - stopWatch.getSeconds());
+                serverConnection.sendAnswer(1, groupName, GUI.this.id, answer, seconds - stopWatch.getSeconds());
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();
             }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class MenuGUI extends JFrame {
 
-    private Dimension dimension = new Dimension(140, 35);
+    private Dimension dimension = new Dimension(150, 35);
     private Scoreboard_IF connection;
 
     private JPanel panel;
@@ -38,7 +38,7 @@ public class MenuGUI extends JFrame {
             } else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
-            Registry localRegitry = LocateRegistry.getRegistry("localhost");
+            Registry localRegitry = LocateRegistry.getRegistry("localhost", 1026);
             connection = (Scoreboard_IF) localRegitry.lookup("Scoreboard");
         } catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | RemoteException | NotBoundException e) {
             System.err.println(e.getMessage());

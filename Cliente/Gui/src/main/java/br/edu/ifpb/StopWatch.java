@@ -20,7 +20,7 @@ public class StopWatch extends Thread {
             int hour = this.seconds / 60;
             int minutes = hour % 60;
             hour = hour / 60;
-            label.setText("Tempo restante: " + minutes + ":" + seconds);
+            label.setText("Tempo restante: " + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds));
             try {
                 Thread.currentThread().sleep(1000);
             }

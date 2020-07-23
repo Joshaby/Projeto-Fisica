@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface Logic_IF  extends Remote {
-    List<Question> getQuestions() throws RemoteException;
+public interface Logic_IF extends Remote {
+    List<Question> getQuestions(String groupName) throws RemoteException;
     void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException;
     int getPoints(String name) throws RemoteException;
     void finishRound() throws RemoteException;

@@ -7,7 +7,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Scoreboard implements Scoreboard_IF {
 

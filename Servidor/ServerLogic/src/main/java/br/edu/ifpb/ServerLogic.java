@@ -7,16 +7,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerLogic implements Logic_IF {
 
-// DEFAULT FINAL REPOS
+    // DEFAULT FINAL REPOS
     private final GroupRepository groupRepository;
     private final QuestionRepository questionRepository;
 
-// DEFAULT VARIABLES
+    // DEFAULT VARIABLES
     private Integer round;
     private Integer amount;
 
-// CONSTRUCTOR without parameters
-    public ServerLogic(){
+    // CONSTRUCTOR without parameters
+    public ServerLogic() {
         this.groupRepository = new GroupRepository();
         this.questionRepository = new QuestionRepository();
         setAmount(5);
@@ -34,10 +34,10 @@ public class ServerLogic implements Logic_IF {
 // METHOD TO RECIEVE DATA FROM CLIENT
 
     @Override
-    public void sendAnswer(int round, String GroupName, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
+    public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
         Answer answer = new Answer(QuestionID, res); // cria um objeto Answer
         groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu nome igual ao parâmentro name, se for igual, o answer é adicionado no HashMap de respostas.
-            if (group.getName().equals(GroupName)) {
+            if (group.getName().equals(name)) {
                 group.addAnswer(round, answer, time);
                 questionRepository.getQuestions().forEach(question -> {
                     if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) { // varredura para saber se a respotas do grupo está certa, se sim, o grupo ganha o ponto
@@ -50,7 +50,7 @@ public class ServerLogic implements Logic_IF {
             }
         });
 
-        if(this.finishRoundChecker()) {
+        if (this.finishRoundChecker()) {
             this.incrementRound();
             this.setQuestion();
         }
@@ -61,14 +61,14 @@ public class ServerLogic implements Logic_IF {
 
     /*seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão,
       quando uma resposta enviada estiver certa, essa pontuação será decrementada.*/
-    public void setQuestion(){
-        try{
-            if(this.groupRepository.getYear() < 0)
+    public void setQuestion() {
+        try {
+            if (this.groupRepository.getYear() < 0)
                 throw new ServerException("Repositório de grupos não foi inicializado");
 
             this.questionRepository.setQuestions(this.getRound(),
-                                                 this.getAmount(),
-                                                 this.groupRepository.getYear());
+                    this.getAmount(),
+                    this.groupRepository.getYear());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class ServerLogic implements Logic_IF {
 // CHECKING QUESTIONS ANSWERED BY THE GROUP
 
     private List<String> groupNotAnsweredQuestions(String name) throws RemoteException, ServerException {
-        if(this.groupRepository.getGroupByName(name) == null) throw new ServerException(
+        if (this.groupRepository.getGroupByName(name) == null) throw new ServerException(
                 "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
         );
 
@@ -92,13 +92,13 @@ public class ServerLogic implements Logic_IF {
                 .getAnswers()
                 .iterator()
                 .forEachRemaining(answer -> {
-                answeredIDs.add(answer.getID());
-        });
+                    answeredIDs.add(answer.getID());
+                });
 
         ArrayList<String> aux = new ArrayList<>();
 
         questionRepository.getQuestionsID().iterator().forEachRemaining(s -> {
-            if(!answeredIDs.contains(s)) aux.add(s);
+            if (!answeredIDs.contains(s)) aux.add(s);
         });
 
         return aux;
@@ -112,7 +112,7 @@ public class ServerLogic implements Logic_IF {
 
             List<String> ids = groupNotAnsweredQuestions(GroupName);
 
-            if(this.questionRepository.getQuestionsID().size() == 0) setQuestion();
+            if (this.questionRepository.getQuestionsID().size() == 0) setQuestion();
 
             ArrayList<Question> NotAnsweredQuestions = new ArrayList<>();
 
@@ -120,11 +120,10 @@ public class ServerLogic implements Logic_IF {
                     .getQuestions()
                     .iterator()
                     .forEachRemaining(question -> {
-                        if(ids.contains(question.getId())) NotAnsweredQuestions.add(question);
+                        if (ids.contains(question.getId())) NotAnsweredQuestions.add(question);
                     });
             return NotAnsweredQuestions;
-        }
-        catch (ServerException err){
+        } catch (ServerException err) {
             err.printStackTrace();
             return null;
         }
@@ -140,7 +139,7 @@ public class ServerLogic implements Logic_IF {
                 .getGroups()
                 .iterator()
                 .forEachRemaining(group -> {
-                    if(group.getAnswers().keySet().size() < this.questionRepository.getQuestionsID().size()){
+                    if (group.getAnswers().keySet().size() < this.questionRepository.getQuestionsID().size()) {
                         cond.set(false);
                     }
                 });
@@ -150,7 +149,9 @@ public class ServerLogic implements Logic_IF {
 
 // GETTERS
 
-    public GroupRepository getGroupRepository() { return groupRepository; }
+    public GroupRepository getGroupRepository() {
+        return groupRepository;
+    }
 
     // irá pegar os pontos de um grupo, de acordo com um id dado
     @Override
@@ -184,18 +185,18 @@ public class ServerLogic implements Logic_IF {
         this.round = round;
     }
 
-    public void setAmount(Integer amount){
+    public void setAmount(Integer amount) {
         try {
-            if(amount <= 0) throw new ServerException("Número de questões invalido!");
+            if (amount <= 0) throw new ServerException("Número de questões invalido!");
             this.amount = amount;
-        }catch (ServerException err) {
+        } catch (ServerException err) {
             err.printStackTrace();
         }
     }
 
 //OTHERS METHODS
 
-    private void incrementRound(){
+    private void incrementRound() {
         setRound(getRound() + 1);
     }
 
