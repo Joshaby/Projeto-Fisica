@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="loginGui.Controller">
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Button layoutX="302.0" layoutY="330.0" mnemonicParsing="false" text="OK" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="82.0" layoutX="141.0" layoutY="32.0" stroke="BLACK" strokeType="INSIDE" width="397.0" />
+                <Text layoutX="151.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Equipe :" />
+                <Text layoutX="151.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ano :" />
+                <Text layoutX="403.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Integrantes :" />
+                <Text layoutX="70.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 1 :" />
+                <Text layoutX="70.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 2 :" />
+                <Text layoutX="70.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 3 :" />
+                <Text layoutX="70.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 4 :" />
+                <Text layoutX="70.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador 5 :" />
+                <ChoiceBox layoutX="496.0" layoutY="80.0" prefHeight="26.0" prefWidth="37.0" />
+                <ChoiceBox layoutX="193.0" layoutY="81.0" prefHeight="15.0" prefWidth="36.0" />
+                <TextArea layoutX="141.0" layoutY="251.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="397.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="251.0" />
+                <TextArea layoutX="141.0" layoutY="223.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="397.0" />
+                <TextArea layoutX="141.0" layoutY="195.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="397.0" />
+                <TextArea layoutX="141.0" layoutY="130.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="397.0" />
+                <TextArea layoutX="141.0" layoutY="162.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="397.0" />
+                <TextArea layoutX="211.0" layoutY="47.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="321.0" styleClass="color" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
