@@ -188,49 +188,24 @@ public class ServerLogic implements Logic_IF {
 
 //OTHERS METHODS
 
+    public int totalNumberOfQuestions() throws RemoteException{
+        return this.questionRepository.getQuestionsID().size();
+    }
+
     private void incrementRound(){
         this.setRound(this.getRound() + 1);
     }
 
     @Override
-    public List<String> placarSources() throws RemoteException {
-        return null;
+    public Map<String, Integer> placarSources() throws RemoteException {
+        Map<String, Integer> aux = new HashMap<>();
+
+        this.groupRepository
+                .getGroups()
+                .iterator()
+                .forEachRemaining(group -> {
+                    aux.put(group.getName(), group.getPoints());
+                });
+        return aux;
     }
 }
-
-//        Answer answer = new Answer(QuestionID, res);
-//        for (Group group : groupRepository.getGroups()) {
-//            if (group.getName().equals(name)) {
-//                group.addAnswer(round, answer, time);
-//                for (Question question : questionRepository.getQuestions()) {
-//                    if (question.getId().equals(QuestionID) && questionRepository.getQuestionsMap().get(question).equals(res)) {
-//                        if (pointsPerQuestions.get(question.getId()) != 0) {
-//                            group.addPoints(pointsPerQuestions.get(question.getId()) + 1);
-//                            pointsPerQuestions.put(question.getId(), pointsPerQuestions.get(question.getId()) - 1);
-//                        }
-//                    }
-//                }
-//            }
-//}
-//        System.out.println(name);
-//        System.out.println(QuestionID);
-//        System.out.println(res);
-
-//    @Override
-//    public String toString() {
-//        String answerString = "";
-//        for (Group group : answers.keySet()) {
-//            answerString += group + ", Resposta = " + answers.get(group) + '\n';
-//        }
-//
-//        String pointString = "";
-//        for (Group group : points.keySet()) {
-//            pointString += group + ", Pontos = " + points.get(group) + "\n";
-//        }
-//
-//        return "Server:" + "\n\n" +
-//                "Answers:\n" + answerString + "\n\n" +
-//                "Points:\n" + pointString + "\n\n" +
-//                "PointsPerQuestions:\n" + pointsPerQuestions
-//                ;
-//    }

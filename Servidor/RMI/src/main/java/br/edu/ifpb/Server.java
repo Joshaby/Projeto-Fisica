@@ -8,8 +8,8 @@ public class Server {
     public static void main(String[] args)  {
         try {
             ServerLogic serverLogic = new ServerLogic(5);
-            Logic_IF stub = (Logic_IF) UnicastRemoteObject.exportObject(serverLogic, 0);
-            User_IF stub1 = (User_IF) UnicastRemoteObject.exportObject(serverLogic.getGroupRepository(), 5355);
+            Logic_IF stub = (Logic_IF) UnicastRemoteObject.exportObject(serverLogic, 1026);
+            User_IF stub1 = (User_IF) UnicastRemoteObject.exportObject(serverLogic.getGroupRepository(), 1026);
             System.setProperty("java.rmi.server.hostname","localhost");
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("ServerLogic", stub);
