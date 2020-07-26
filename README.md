@@ -1,7 +1,7 @@
 # Projeto-Fisica
 >Pedagogical game with multiple choice questions for high school students (1st - 3rd year).
 
-![GitHub top language](https://img.shields.io/github/languages/top/Joshaby/Projeto-Fisica?logo=Java) ![GitHub repo size](https://img.shields.io/github/repo-size/Joshaby/Projeto-Fisica?logo=Discogs) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Joshaby/Projeto-Fisica?color=%2361c94d&label=Commits&logo=Pocket&logoColor=%2331db0f)
+![GitHub repo size](https://img.shields.io/github/repo-size/Joshaby/Projeto-Fisica?logo=Discogs) ![GitHub top language](https://img.shields.io/github/languages/top/Joshaby/Projeto-Fisica?color=%23e89654&logo=Java) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/Joshaby/Projeto-Fisica?color=%2361c94d&label=Commits&logo=Pocket&logoColor=%2331db0f)
 
 ![GitHub watchers](https://img.shields.io/github/watchers/Joshaby/Projeto-Fisica?style=social)
 
