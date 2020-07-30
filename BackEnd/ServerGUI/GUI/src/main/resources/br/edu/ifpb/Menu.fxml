@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="374.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifpb.MenuController">
+    <effect>
+        <Blend />
+    </effect>
+    <TableView fx:id="score_table" layoutX="458.0" layoutY="26.0" prefHeight="342.0" prefWidth="278.0" style="-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );">
+      <columns>
+          <TableColumn fx:id="col_Grupo" editable="false" prefWidth="195.0" text="Grupos" />
+          <TableColumn fx:id="col_ponto" editable="false" prefWidth="81.0" text="Pontos" />
+      </columns>
+        <columnResizePolicy>
+          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+     <Pane layoutX="14.0" layoutY="26.0" prefHeight="342.0" prefWidth="416.0" style="-fx-background-color: #f0f2f0; -fx-background-radius: 5px; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );">
+         <Pane layoutX="34.0" layoutY="39.0" prefHeight="119.0" prefWidth="130.0">
+             <Button defaultButton="true" layoutX="16.0" layoutY="21.0" mnemonicParsing="false" onAction="#AddTestGroup" prefHeight="32.0" prefWidth="99.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="Adiciona">
+                 <font>
+                     <Font size="12.0" />
+                 </font>
+             </Button>
+             <Button defaultButton="true" layoutX="16.0" layoutY="73.0" mnemonicParsing="false" onAction="#RemoveTestGroup" prefHeight="32.0" prefWidth="99.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="Remover">
+                 <font>
+                     <Font size="12.0" />
+                 </font>
+             </Button>
+            <Label layoutX="8.0" layoutY="-8.0" text="Testes de Grupos" />
+         </Pane>
+         <Label layoutX="131.0" layoutY="5.0" text="Painel de controle">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+         <Pane layoutX="248.0" layoutY="39.0" prefHeight="119.0" prefWidth="122.0">
+             <Button defaultButton="true" layoutX="12.0" layoutY="73.0" mnemonicParsing="false" onAction="#ResetQuestions" prefHeight="32.0" prefWidth="99.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="Reset">
+                 <font>
+                     <Font size="12.0" />
+                 </font>
+             </Button>
+            <Label layoutX="-11.0" layoutY="-8.0" text="Manipulador Questões" />
+         <TextField fx:id="AnularQTXT" layoutX="9.0" layoutY="23.0" prefHeight="26.0" prefWidth="105.0" visible="false" />
+         <Button fx:id="AnulaQButton" defaultButton="true" layoutX="12.0" layoutY="20.0" mnemonicParsing="false" onAction="#cancelQuestion" prefHeight="32.0" prefWidth="99.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="Anular">
+            <font>
+               <Font size="12.0" />
+            </font>
+         </Button>
+         </Pane>
+         <Separator layoutX="205.0" layoutY="53.0" orientation="VERTICAL" prefHeight="105.0" prefWidth="6.0" />
+          <Button defaultButton="true" layoutX="143.0" layoutY="200.0" mnemonicParsing="false" onAction="#ResetPoints" prefHeight="32.0" prefWidth="114.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="zerar pontos">
+              <font>
+                  <Font size="12.0" />
+              </font>
+          </Button>
+          <Button defaultButton="true" layoutX="278.0" layoutY="200.0" mnemonicParsing="false" onAction="#cleanGroups" prefHeight="32.0" prefWidth="114.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="Limpar Grupos">
+              <font>
+                  <Font size="12.0" />
+              </font>
+          </Button>
+      <Separator layoutX="7.0" layoutY="164.0" prefHeight="6.0" prefWidth="398.0" />
+      <Label layoutX="126.0" layoutY="170.0" text="DataBase Managers">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+         <Button layoutX="285.0" layoutY="302.0" mnemonicParsing="false" onAction="#StartGame" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: #276e24,                 linear-gradient(#35b030 0%, #1ccc14 20%, #33d92b 100%),                 radial-gradient(center 50% 0%, radius 100%, rgba(43, 117, 40,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: White; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );" text="Start" />
+         <Button layoutX="158.0" layoutY="302.0" mnemonicParsing="false" onAction="#RestartGame" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: #38515e,        linear-gradient(#5f83a3 20%, #42586e 20%, #34465c 70%),        linear-gradient(#41596e, #3e5169),        radial-gradient(center 50% 0%, radius 100%, rgba(136, 171, 207,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );" text="Reiniciar" textFill="WHITE" />
+         <Button layoutX="34.0" layoutY="302.0" mnemonicParsing="false" onAction="#FinishGame" prefHeight="32.0" prefWidth="99.0" style="-fx-background-color: #7a0f0f,        linear-gradient(#c43f3f 0%, #b54e4e 20%, #d62727 100%),        radial-gradient(center 50% 0%, radius 100%, rgba(181, 49, 49,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );" text="Fechar" textFill="WHITE" />
+      <Separator layoutX="8.0" layoutY="241.0" prefHeight="6.0" prefWidth="398.0" />
+      <Label layoutX="153.0" layoutY="257.0" text="Server Status">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="status" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="275.0" prefHeight="16.0" prefWidth="210.0" textOverrun="LEADING_ELLIPSIS" />
+      <Button fx:id="QOkQuestao" layoutX="365.0" layoutY="63.0" mnemonicParsing="false" onAction="#AnularOKButton" prefHeight="26.0" prefWidth="38.0" text="OK" visible="false" />
+      <Button fx:id="NquestionButton" defaultButton="true" layoutX="21.0" layoutY="200.0" mnemonicParsing="false" onAction="#changeAmount" prefHeight="32.0" prefWidth="99.0" style="-fx-alignment: center; -fx-background-color: #090a0c,        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),        linear-gradient(#20262b, #191d22),        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: white;" text="NQuestoes">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="NQTXT" layoutX="17.0" layoutY="203.0" prefHeight="26.0" prefWidth="108.0" visible="false" />
+      <Button fx:id="NQOKButton" layoutX="53.0" layoutY="175.0" mnemonicParsing="false" onAction="#changeAmountReverse" text="Ok" visible="false" />
+     </Pane>
+   <ProgressBar fx:id="ProgressBar" layoutX="3.0" prefHeight="20.0" prefWidth="744.0" progress="0.0" />
+   <Label disable="true" layoutX="323.0" layoutY="3.0" text="Progress - Round 1">
+      <font>
+         <Font size="11.0" />
+      </font>
+   </Label>
+</AnchorPane>

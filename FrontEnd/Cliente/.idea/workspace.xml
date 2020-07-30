@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="module-info" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1eHKjSUVIjAzwXSUnOedIWrNEok" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propGUI" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.edu.ifpb" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Gui/src/main/java/br/edu/ifpb" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MenuTest">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.edu.ifpb.App" />
+      <module name="Gui" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.edu.ifpb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MenuTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.edu.ifpb.MenuTest" />
+      <module name="Gui" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="br.edu.ifpb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MenuTest" />
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c7c63569-25e7-4f33-a526-08365f7c448a" name="Default Changelist" comment="" />
+      <created>1593973215471</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593973215471</updated>
+      <workItem from="1593973219017" duration="1015000" />
+      <workItem from="1593974514410" duration="116000" />
+      <workItem from="1593974646419" duration="196000" />
+      <workItem from="1593975380276" duration="155000" />
+      <workItem from="1593975564284" duration="4213000" />
+      <workItem from="1594052819532" duration="2672000" />
+      <workItem from="1594055889241" duration="5558000" />
+      <workItem from="1594062656500" duration="1244000" />
+      <workItem from="1594082818674" duration="492000" />
+      <workItem from="1594085449566" duration="5290000" />
+      <workItem from="1594394011650" duration="754000" />
+      <workItem from="1594478733258" duration="2473000" />
+      <workItem from="1594486104191" duration="3852000" />
+      <workItem from="1594653407892" duration="3124000" />
+      <workItem from="1594669396118" duration="205000" />
+      <workItem from="1594669628508" duration="342000" />
+      <workItem from="1594670044967" duration="1151000" />
+      <workItem from="1594755859565" duration="223000" />
+      <workItem from="1594756111361" duration="10465000" />
+      <workItem from="1594820305921" duration="12689000" />
+      <workItem from="1594913954836" duration="60000" />
+      <workItem from="1594914077843" duration="1817000" />
+      <workItem from="1594915945335" duration="5395000" />
+      <workItem from="1594943409306" duration="6819000" />
+      <workItem from="1594998881115" duration="133000" />
+      <workItem from="1595012347796" duration="4814000" />
+      <workItem from="1596143728280" duration="973000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="496" y="72" width="374" height="588" key="#com.intellij.ide.util.MemberChooser" timestamp="1596144019605">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="496" y="68" key="#com.intellij.ide.util.MemberChooser/0.0.1366.724@0.0.1366.724" timestamp="1594946772244" />
+    <state x="496" y="72" width="374" height="588" key="#com.intellij.ide.util.MemberChooser/0.0.1366.768@0.0.1366.768" timestamp="1596144019605" />
+    <state x="108" y="0" width="1140" height="724" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1594654068232">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state x="108" y="0" width="1140" height="724" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.724@0.0.1366.724" timestamp="1594654068232" />
+    <state width="1324" height="183" key="GridCell.Tab.0.bottom" timestamp="1596144700594">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.0.bottom/0.0.1366.724@0.0.1366.724" timestamp="1595018216181" />
+    <state width="1324" height="183" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1596144700594" />
+    <state width="1324" height="183" key="GridCell.Tab.0.center" timestamp="1596144700593">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.0.center/0.0.1366.724@0.0.1366.724" timestamp="1595018216178" />
+    <state width="1324" height="183" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1596144700593" />
+    <state width="1324" height="183" key="GridCell.Tab.0.left" timestamp="1596144700592">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.0.left/0.0.1366.724@0.0.1366.724" timestamp="1595018216176" />
+    <state width="1324" height="183" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1596144700592" />
+    <state width="1324" height="183" key="GridCell.Tab.0.right" timestamp="1596144700594">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.0.right/0.0.1366.724@0.0.1366.724" timestamp="1595018216180" />
+    <state width="1324" height="183" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1596144700594" />
+    <state width="1324" height="354" key="GridCell.Tab.1.bottom" timestamp="1594491590795">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.1.bottom/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.center" timestamp="1594491590795">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.1.center/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.left" timestamp="1594491590795">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.1.left/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state width="1324" height="354" key="GridCell.Tab.1.right" timestamp="1594491590795">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state width="1324" height="354" key="GridCell.Tab.1.right/0.0.1366.724@0.0.1366.724" timestamp="1594491590795" />
+    <state x="187" y="0" width="1024" height="768" key="SettingsEditor" timestamp="1596143781486">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="187" y="0" key="SettingsEditor/0.0.1366.724@0.0.1366.724" timestamp="1594946515823" />
+    <state x="187" y="0" width="1024" height="768" key="SettingsEditor/0.0.1366.768@0.0.1366.768" timestamp="1596143781486" />
+    <state x="0" y="89" width="1356" height="597" key="new project wizard" timestamp="1596143778739">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="0" y="89" width="1356" height="597" key="new project wizard/0.0.1366.768@0.0.1366.768" timestamp="1596143778739" />
+  </component>
+</project>
