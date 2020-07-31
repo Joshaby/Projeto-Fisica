@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 public class App extends Application {
     private static Stage stage;
-
     private static Scene loginScene;
     private static Scene menuScene;
 

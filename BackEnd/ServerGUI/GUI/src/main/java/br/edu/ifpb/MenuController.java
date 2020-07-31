@@ -46,15 +46,21 @@ public class MenuController {
 
 
     public MenuController() throws RemoteException {
+        boolean serverOffline = true;
         for(int port = 1099; port < 10000; port++){
             try {
                 server = new RMIConnection(port).getServerAdm();
                 System.out.println(port);
+                serverOffline = false;
                 break;
-            }catch (RemoteException | NotBoundException err){
-                continue;
+            }catch (RemoteException | NotBoundException ignored){
             }
         }
+        if(serverOffline){
+            System.out.println("Talvez o servidor esteja desligado!");
+            System.exit(0);
+        }
+
         //initTable();
         //Updatecols();
 
