@@ -13,4 +13,6 @@ public interface Logic_IF  extends Remote {
     Map<String, Integer> placarSources() throws RemoteException;
     int getQuestionAmout() throws RemoteException;
     void removeGroupByName(String name) throws RemoteException;
+    Integer getRound() throws RemoteException;
+    List<String> bonusQuestionCheck() throws RemoteException;
 }

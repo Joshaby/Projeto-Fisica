@@ -35,7 +35,7 @@ public class MenuController {
     private TableColumn<Group, String> col_ponto;
 
     @FXML
-    private TextField NumerodeQuestao, AnularQTXT, NQTXT;
+    private TextField AnularQTXT, NQTXT;
 
     @FXML
     private Button AnulaQButton, QOkQuestao, NquestionButton, NQOKButton;

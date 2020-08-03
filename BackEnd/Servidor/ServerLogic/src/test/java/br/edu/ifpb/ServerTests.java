@@ -12,26 +12,40 @@ public class ServerTests {
 
     @Test
     public void QuestsConsumerTest() throws RemoteException {
-        ServerLogic s = new ServerLogic(3);
-        s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(5), 1);
+        int grupos = 5;
+        Random r = new Random();
+        for(int vezes = 0; vezes < 10000; vezes++){
+            System.out.println("===================== Test: " + vezes + " =====================");
+            ServerLogic s = new ServerLogic(5);
+            s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(grupos), 3);
+            s.startGame();
+            for(int i = 0; i < grupos-1 ; i++){
+                //"helen", "Luiza", "Talison", "Kennedy", "josé"
 
-
-        s.getQuestions("helen").iterator().forEachRemaining(question -> {
-            try {
-                s.sendAnswer(1, "helen", question.getId(), "A", 1200);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+                s.groupRepository.getGroups().iterator().forEachRemaining(group -> {
+                    try {
+                        s.getQuestions(group.getName()).iterator().forEachRemaining(question -> {
+                            try {
+                                s.sendAnswer(s.getRound(), group.getName(), question.getId(), String.valueOf((char) (65 + r.nextInt(4))), r.nextInt(200));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
-        });
-
-        Assert.assertTrue(s.getQuestions("helen").isEmpty());
+            Assert.assertEquals(1,s.groupRepository.getGroups().size());
+            Assert.assertFalse(s.isGameStarted);
+        }
     }
 
     @Test
     public void GroupRemoverTest() {
+        Random r = new Random();
+        GroupRepository g = new GroupRepository();
         try {
-            Random r = new Random();
-            GroupRepository g = new GroupRepository();
             g.registerGroups(AuxiliarMethods.groupGen(5), 1);
             g.getGroups().iterator().forEachRemaining(group -> {
                 group.addPoints(r.nextInt(15));

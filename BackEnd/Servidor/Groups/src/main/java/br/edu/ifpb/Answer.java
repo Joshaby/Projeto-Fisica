@@ -11,10 +11,12 @@ package br.edu.ifpb;
 public class Answer {
     private String ID;
     private String answer;
+    private int time;
 
-    public Answer(String ID, String answer) {
+    public Answer(String ID, String answer, int time) {
         setID(ID);
         setAnswer(answer);
+        setTime(time);
     }
 
     public String getID() {
@@ -33,9 +35,20 @@ public class Answer {
         this.answer = answer;
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
-        return "ID='" + ID + '\'' +
-                ", answer='" + answer + '\'';
+        return "Answer{" +
+                "ID='" + ID + '\'' +
+                ", answer='" + answer + '\'' +
+                ", time=" + time +
+                '}';
     }
 }

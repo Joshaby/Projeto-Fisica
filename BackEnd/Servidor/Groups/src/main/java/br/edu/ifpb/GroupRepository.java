@@ -65,23 +65,9 @@ public class GroupRepository implements User_IF {
         this.removeGroup(removido);
         LAO = lessAmountOf(round);
         Group fraco = LAO.get(0);
+        if(groups.size() == 1) return null;
         realocateMembers(fraco, removido.getMembers());
         return null;
-    }
-
-    @Override
-    public boolean registerSingleGroup(String groupName, List<String> members, int year) throws RemoteException {
-        if(groupName.isEmpty() || members.size() == 0 || year <= 0 || year >= 4 || (getYear() > 0 && year != getYear())) return false;
-
-        Group newGroup = new Group(groupName, year);
-
-        for (String user : members) {
-            User novo = new User(user, year);
-            newGroup.addMember(novo);
-        }
-        this.addGroup(newGroup);
-        if(getYear() < 0) setYear(year);
-        return true;
     }
 
     //Função privada responsável por remover um grupo recebido como parametro.
@@ -90,7 +76,7 @@ public class GroupRepository implements User_IF {
         this.groups.remove(group);
     }
 
-    //Função privada responsável pela transação de membro entre grupos, que posteriormente será aplicada na função de remoção de grupos.
+    //Função privada responsável pela transação de membro entre grupos, posteriormente aplicada na função de remoção de grupos.
     private void realocateMembers(Group fraco, List<User> removido) throws RemoteException {
 
         int quantidade = removido.size();
@@ -104,7 +90,7 @@ public class GroupRepository implements User_IF {
         groups.remove(fraco);
 
         for (int i = 0; i < aux.size(); i++) {
-            groups.get(i % this.getGroups().size()).addMember(aux.get(i));
+            groups.get(i % groups.size()).addMember(aux.get(i));
         }
     }
 
@@ -163,9 +149,10 @@ public class GroupRepository implements User_IF {
      */
     public void registerGroups(Map<String, List<String>> groups, int year) throws RemoteException {
         groups.keySet().iterator().forEachRemaining(group -> {
-            if (groups.get(group).size() == 0) {
+            if (groups.get(group).size() < 1) {
                 try {
-                    throw new GroupException("Número de usuários inválido: 0");
+                    throw new GroupException(
+                            "Número de usuários no grupo" + group +" inválido: " + groups.get(group).size());
                 } catch (GroupException e) {
                     e.printStackTrace();
                 }
@@ -173,7 +160,7 @@ public class GroupRepository implements User_IF {
         });
 
         for (String group : groups.keySet()) {
-            Group newGroup = new Group(group, year);
+            Group newGroup = new Group(group, year, groups.get(group).size());
             for (String user : groups.get(group)) {
                 User novo = new User(user, year);
                 newGroup.addMember(novo);
@@ -181,6 +168,21 @@ public class GroupRepository implements User_IF {
             this.addGroup(newGroup);
         }
         if(getYear() == -1) setYear(year);
+    }
+
+    @Override
+    public boolean registerSingleGroup(String groupName, List<String> members, int year) throws RemoteException {
+        if(groupName.isEmpty() || members.size() == 0 || year <= 0 || year >= 4 || (getYear() > 0 && year != getYear())) return false;
+
+        Group newGroup = new Group(groupName, year);
+
+        for (String user : members) {
+            User novo = new User(user, year);
+            newGroup.addMember(novo);
+        }
+        this.addGroup(newGroup);
+        if(getYear() < 0) setYear(year);
+        return true;
     }
 
     //Função privada auxiliar para adição de um grupo ao set de grupos principal.
@@ -197,9 +199,17 @@ public class GroupRepository implements User_IF {
     }
 
 // RESET ALL GROUPS POINTS
-    public void resetPoints(){
-        this.groups.iterator().forEachRemaining(group -> {
+    public void resetAllPoints(){
+        this.getGroups().iterator().forEachRemaining(group -> {
             group.setAnswers(new HashMap<>());
+        });
+    }
+
+
+// Reset a single round group points
+    public void resetPoints(int round){
+        this.groups.iterator().forEachRemaining(group -> {
+            group.getAnswers().get(round).setAnswers(new ArrayList<>());
         });
     }
 

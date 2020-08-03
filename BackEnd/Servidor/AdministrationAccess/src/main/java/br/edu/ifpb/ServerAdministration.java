@@ -58,10 +58,12 @@ public class ServerAdministration implements ServerAdm_IF{
     @Override
     public void cancelQuestion(String id) throws RemoteException {
         System.out.println("Pedido de cancelamento recebido no round: " + serverLogic.getRound() + ", Questao: " + id);
+        serverLogic.cancelQuestion(id);
     }
 
     @Override
     public void resetQuestions() throws RemoteException {
+        serverLogic.groupRepository.resetPoints(serverLogic.getRound());
         serverLogic.questionRepository.resetQuestions(serverLogic.getRound(),
                                                       serverLogic.getAmount(),
                                                       serverLogic.groupRepository.getYear());
@@ -69,7 +71,7 @@ public class ServerAdministration implements ServerAdm_IF{
 
     @Override
     public void resetPontos() throws RemoteException {
-        serverLogic.groupRepository.resetPoints();
+        serverLogic.groupRepository.resetAllPoints();
     }
 
     @Override

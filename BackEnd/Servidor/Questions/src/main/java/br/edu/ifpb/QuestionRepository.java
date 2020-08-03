@@ -31,11 +31,51 @@ public class QuestionRepository { // classe que representa um repositório de qu
         setYear(-1);
     }
 
+// Bonus question method
+    public String bonusQuestionFetch(int round, int year){
+        MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
+        MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
+        Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+        mongoLogger.setLevel(Level.SEVERE);
+        List<AggregateIterable> randomizedQuestions = new ArrayList<>();
+        MongoCollection<Document> collection = dataBase.getCollection(year + " ano");
+        randomizedQuestions.add(collection.aggregate(Arrays.asList(
+                match(or(eq("Dificuldade", (round >= 1 && round <= 2) ? "Fácil" : ""),
+                        eq("Dificuldade", (round >= 2 && round <= 4) ? "Média" : ""),
+                        eq("Dificuldade", (round >= 4) ? "Difícil" : ""))),
+                sample(1))));
+
+        Document questionDoc = (Document) randomizedQuestions.iterator().next();
+
+        String id = (String) questionDoc.get("ID");
+        String difficulty = (String) questionDoc.get("Dificuldade");
+        String text = (String) questionDoc.get("Texto");
+        String correctAlternative = (String) questionDoc.get("Alternativa correta");
+        List<String> alternatives = (List<String>) questionDoc.get("Alternativas");
+        List<String> images = (List<String>) questionDoc.get("Imagens");
+        if (alternatives == null) {
+            if (images == null) {
+                questions.put(new Question(id, difficulty, text), correctAlternative);
+            }
+            else questions.put(new Question(id, difficulty, text, images), correctAlternative);
+        }
+        else {
+            if (images == null) {
+                questions.put(new MultipleChoiceQuestion(id, difficulty, text, alternatives, false), correctAlternative);
+            }
+            else
+                questions.put(new MultipleChoiceQuestion(id, difficulty, text, images, alternatives, true), correctAlternative);
+        }
+        return id;
+    }
+
 //METHOD THATS REACH MONGODB ON CLOUD AND RETURN THE NUMBER OF QUESTIONS EXPECTED
 
     public void setQuestions(int round, int amount, int year) { // método para setar as questões para uso do grupo
         try {
             this.setYear(year);
+            this.questions = new HashMap<>();
+            this.points = new HashMap<>();
             MongoClient client = new MongoClient(uri); // estabelece a conexão com o cluster com MongoDB
             MongoDatabase dataBase = client.getDatabase("Questões"); // pega o banco de dados Questões
             Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
