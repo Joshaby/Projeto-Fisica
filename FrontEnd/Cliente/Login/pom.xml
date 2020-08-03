@@ -20,6 +20,11 @@
             <artifactId>javafx-controls</artifactId>
             <version>11.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>br.edu.ifpb</groupId>
+            <artifactId>ServerConnection</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <artifactId>Login</artifactId>
