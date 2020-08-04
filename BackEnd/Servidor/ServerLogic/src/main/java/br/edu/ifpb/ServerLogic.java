@@ -9,6 +9,7 @@ public class ServerLogic implements Logic_IF {
 // GLOBAL VARIABLES
     public GroupRepository groupRepository;
     public QuestionRepository questionRepository;
+    public BonusQuestions bonusQuestions;
     public Integer round;
     public Integer amount;
     public boolean isGameStarted;
@@ -20,6 +21,7 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(5);
         this.setRound(1);
         this.isGameStarted = false;
+        this.bonusQuestions = new BonusQuestions();
     }
 
 //CONSTRUCTOR with parameters
@@ -29,24 +31,27 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(amount);
     }
 
-
 // METHOD TO RECIEVE DATA FROM CLIENT
 
     @Override
     public void sendAnswer(int round, String GroupName, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
-        Answer answer = new Answer(QuestionID, res); // cria um objeto Answer
-        groupRepository.getGroupByName(GroupName).addAnswer(round, answer, time);
+        Answer answer = new Answer(QuestionID, res, time); // cria um objeto Answer
+        groupRepository.getGroupByName(GroupName).addAnswer(round, answer);
         if(questionRepository.validateAnswer(QuestionID,res)){
             groupRepository.getGroupByName(GroupName).addPoints(questionRepository.getPoints(QuestionID) + 1);
             questionRepository.decreasePoint(QuestionID);
         }
 
         if(this.finishRoundChecker()) {
-            groupRepository.realocateGroup(getRound());
-            if( EndGameChecker() && getRound() == 5){
+            System.out.println("Round: "+ getRound());
+            if( EndGameChecker() ) {
                 isGameStarted = false;
             }
             else {
+                bonusQuestionManager(groupRepository.realocateGroup(getRound()));
+            }
+
+            if(isGameStarted){
                 this.incrementRound();
                 setQuestion();
             }
@@ -62,6 +67,7 @@ public class ServerLogic implements Logic_IF {
         try{
             if(this.groupRepository.getYear() < 0)
                 throw new ServerException("Repositório de grupos não foi inicializado");
+
 
             this.questionRepository.setQuestions(this.getRound(),
                                                  this.getAmount(),
@@ -80,20 +86,20 @@ public class ServerLogic implements Logic_IF {
                 "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
         );
 
-        if(getGroupRepository().getGroupByName(name).getAnswers().isEmpty()) {
+        if(getGroupRepository().getGroupByName(name).getAnswers() == null) {
             return questionRepository.getQuestionsID();
         }
 
         ArrayList<String> answeredIDs = new ArrayList<>();
 
-        getGroupRepository()
-                .getGroupByName(name)
-                .getAnswers()
-                .get(this.getRound())
-                .getAnswers()
-                .iterator()
-                .forEachRemaining(answer -> {
-                answeredIDs.add(answer.getID());
+        Answers ans = groupRepository.getGroupByName(name).getAnswers().get(this.getRound());
+
+        if(ans == null) {
+            return questionRepository.getQuestionsID();
+        }
+
+        ans.getAnswers().iterator().forEachRemaining(answer -> {
+            answeredIDs.add(answer.getID());
         });
 
         ArrayList<String> aux = new ArrayList<>();
@@ -101,6 +107,32 @@ public class ServerLogic implements Logic_IF {
             if(!answeredIDs.contains(s)) aux.add(s);
         });
         return aux;
+    }
+
+
+// BONUS QUESTIONS MANAGEMENT METHODS
+    // Show up method
+    public List<String> bonusQuestionCheck() throws RemoteException{
+
+        // The game already ended.
+        if(EndGameChecker()) {
+            return Arrays.asList("EndOfTheGame", groupRepository.getGroups().iterator().next().getName());
+        }
+
+        // The round has finished, and a BonusQuestion has been generated, and is waiting for answers. With a draw has occurred.
+        if(finishRoundChecker()) return bonusQuestions.getGroups();
+
+        // The round and the game has not yet finish.
+        return new ArrayList<>();
+    }
+
+    // Management method
+
+    private void bonusQuestionManager(List<String> groups) throws RemoteException {
+
+        questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear());
+
+
     }
 
 
@@ -139,8 +171,12 @@ public class ServerLogic implements Logic_IF {
                 .getGroups()
                 .iterator()
                 .forEachRemaining(group -> {
-                    if(group.getAnswers().keySet().size() < this.questionRepository.getQuestionsID().size()){
-                        cond.set(false);
+                    try {
+                        if(group.getAnswers().get(getRound()).getAnswers().size() < this.getAmount()){
+                            cond.set(false);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
                     }
                 });
         return cond.get();
@@ -148,10 +184,37 @@ public class ServerLogic implements Logic_IF {
 
 // CHECK IF GAME HAS ENDED OR NOT
     public boolean EndGameChecker(){
-        if(groupRepository.getGroups().size() == 1){
-            return true;
+        return groupRepository.getGroups().size() == 1;
+    }
+
+// METHOD THAT CANCEL A SINGLE QUESTION AND FETCH ANOTHER IN PLACE
+    public void cancelQuestion(String id){
+        //Remove all groups answers for this question
+        Map<String, Answer> aux = new HashMap<>();
+        this.groupRepository.getGroups().iterator().forEachRemaining(group -> {
+            try {
+                if(group.getAnswers().get(getRound()).hasAnswer(id)){
+                    aux.put(group.getName(),group.getAnswers().get(getRound()).getAnswer(id));
+                    group.getAnswers().get(getRound()).removeAnswerbyID(id);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ArrayList<Answer> sortedList = new ArrayList<>();
+        while (aux.size() > 0){
+            int menor = (int) Double.POSITIVE_INFINITY;
+            String menorG = "";
+            for (String s : aux.keySet()) {
+                if(aux.get(s).getTime() < menor){
+                    menor = aux.get(s).getTime();
+                    menorG = s;
+                }
+                System.out.println(sortedList);
+            }
+            sortedList.add(aux.get(menorG));
         }
-        else return false;
     }
 
 // GETTERS
@@ -174,7 +237,7 @@ public class ServerLogic implements Logic_IF {
         return !this.isGameStarted;
     }
 
-    public Integer getRound() {
+    public Integer getRound() throws RemoteException{
         return round;
     }
 
@@ -187,7 +250,7 @@ public class ServerLogic implements Logic_IF {
         return questionRepository.getQuestions().size();
     }
 
-//SETTERS
+    //SETTERS
 
     public void setRound(Integer round) {
         this.round = round;
@@ -218,7 +281,7 @@ public class ServerLogic implements Logic_IF {
         return this.questionRepository.getQuestionsID().size();
     }
 
-    private void incrementRound(){
+    private void incrementRound() throws RemoteException {
         this.setRound(this.getRound() + 1);
     }
 

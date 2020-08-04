@@ -15,15 +15,27 @@ public class Group implements Comparable<Group> {
     private String name;
     private int year;
     private int points;
+    private int rounds;
 
 //CONSTRUCTORS
     //DEFAULT CONSTRUCTOR
+
     public Group(String name, int year) {
         this.setMembers(new HashSet<>());
         this.setName(name);
         this.setYear(year);
         this.setPoints();
-        this.setAnswers(new HashMap<>());
+        this.initializateAnswers(5);
+        this.setRounds(4);
+    }
+
+    public Group(String name, int year, int rounds) {
+        this.setMembers(new HashSet<>());
+        this.setName(name);
+        this.setYear(year);
+        this.setPoints();
+        this.initializateAnswers(rounds);
+        this.setRounds(rounds);
     }
 
 // CONSTRUCTOR WITH POINTS
@@ -33,6 +45,7 @@ public class Group implements Comparable<Group> {
         this.setYear(year);
         this.addPoints(points);
         this.setAnswers(new HashMap<>());
+        this.setRounds(4);
     }
 
 // GETTERS
@@ -57,6 +70,10 @@ public class Group implements Comparable<Group> {
         return points;
     }
 
+    public int getRounds() {
+        return rounds;
+    }
+
 //SETTERS
 
     public void setName(String name) {
@@ -79,7 +96,11 @@ public class Group implements Comparable<Group> {
         this.points = 0;
     }
 
-// INCREMENTORS
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    // INCREMENTORS
 
     public void addAnswers(List<Answer> answer, Integer time, int round) {
         this.answers.put(round, new Answers(time, answer));
@@ -96,12 +117,21 @@ public class Group implements Comparable<Group> {
         });
     }
 
-    public void addAnswer(int round, Answer answer, int time) {
-        if(this.answers.isEmpty())this.answers.put(round, new Answers());
-        this.answers.get(round).addAnswer(answer, time);
+    public void addAnswer(int round, Answer answer) {
+        if(this.answers.get(round) == null)this.answers.put(round, new Answers());
+        this.answers.get(round).addAnswer(answer);
     }
 
 // OTHER METHODS
+
+    public void initializateAnswers(int rounds){
+        HashMap<Integer, Answers> aux = new HashMap<>();
+
+        for (int i = 1; i <= rounds; i++) {
+             aux.put(i, new Answers());
+        }
+        this.setAnswers(aux);
+    }
 
     public boolean validateGroup() {
         return !(getMembers().size() > 0 && getYear() >= 1 && getYear() <= 3);

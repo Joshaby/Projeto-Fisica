@@ -6,8 +6,14 @@ public class AuxiliarMethods{
     public static Map<String, List<String>> groupGen(Integer GroupsNum) {
 
         Random r = new Random();
-        List<String> nomes = Arrays.asList("helen", "Luiza", "Talison", "Kennedy", "josé", "henrique", "japa",
-                "galego", "vinicius", "marcos", "roberval");
+        List<String> nomes = new ArrayList<>();
+        for(int i = 0; i < GroupsNum; i++){
+            for (int k = 0; k < 5; k++) {
+                StringBuilder user = new StringBuilder();
+                for (int j = 0; j < 6; j++) { user.append((char) (65 + r.nextInt(25))); }
+                nomes.add(String.valueOf(user));
+            }
+        }
 
         HashMap<String, List<String>> grupos = new HashMap<>();
         for (int j = 0; j < GroupsNum; j++) {

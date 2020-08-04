@@ -17,9 +17,33 @@ public class Answers{
         setTime(time);
     }
 
-    public void addAnswer(Answer answer, int time){
+    public void addAnswer(Answer answer){
         this.answers.add(answer);
-        this.time += time;
+        this.time += answer.getTime();
+    }
+
+    public boolean hasAnswer(String id){
+        for (Answer answer : answers) {
+            if(answer.getID().equals(id)) return true;
+        }
+        return false;
+    }
+
+    public Answer getAnswer(String id){
+        for (Answer answer : answers) {
+            if(answer.getID().equals(id))
+                return answer;
+        }
+        return null;
+    }
+
+    public void removeAnswerbyID(String id){
+        for (Answer answer : answers) {
+            if(answer.getID().equals(id)){
+                answers.remove(answer);
+                setTime(getTime() - answer.getTime());
+            }
+        }
     }
 
     public List<Answer> getAnswers() {
