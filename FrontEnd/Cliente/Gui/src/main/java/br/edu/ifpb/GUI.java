@@ -2,14 +2,12 @@ package br.edu.ifpb;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
@@ -21,11 +19,11 @@ public class GUI extends JFrame {
     private static ServerConnection serverConnection;
     private static QuestionUtils questionUtils;
 
-    private JPanel panel; // painel principal, contêm todos os outros paineis
-    private JPanel panel1; // painel do headbar
-    private JPanel panel2; // painel do editorPane, onde será mostrado o HTML, e da entrada de respostas, seja digitada ou selecionada
-    private JPanel panel3; // painel das alternativas
-    private JPanel panel4;
+    private JPanel mainPanel; // painel principal, contêm todos os outros paineis
+    private JPanel TopBarPanel; // painel do headbar
+    private JPanel questionPanel; // painel do editorPane, onde será mostrado o HTML, e da entrada de respostas, seja digitada ou selecionada
+    private JPanel alternativesPanel; // painel das alternativas
+    private JPanel bottomPanel;
     private JLabel icon; // ícone do app
     private JLabel appName; // nome do Aplicativo
     private JLabel time; // tempo restante para responder a questão
@@ -46,15 +44,19 @@ public class GUI extends JFrame {
     private StopWatch stopWatch;
     private boolean threadExecute = false;
 
-    public GUI() throws IOException {
+    private String groupName; // variáveis do grupo
+    private int year;
+    private int round = 1;
+
+    public GUI(String groupName, List<String> members, int year) throws IOException {
         super("Jogo de física");
         try {
+            this.groupName = groupName;
+            this.year = year;
             serverConnection = new ServerConnection();
             Map<String, List<String>> group = new HashMap<>();
-            group.put("Phod", Arrays.asList(new String[]{"José", "Talison", "Henrique"}));
-            serverConnection.getConnection1().registerGroups(group, 1);
-            serverConnection.initializateQuestions("Phod");
-            questionUtils = new QuestionUtils(serverConnection);
+            group.put(groupName, members);
+            serverConnection.getConnection1().registerGroups(group, year);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             }
@@ -64,80 +66,100 @@ public class GUI extends JFrame {
             maxQuestionPosi = serverConnection.getQuestionAmout();
             buttonGroup = new ButtonGroup();
             radioButtonList = new ArrayList<>();
-            panel = new JPanel();
-            panel.setBounds(10, 10, 100, 30);
-            panel.setOpaque(false);
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel1 = new JPanel();
-            panel1.setOpaque(false);
-            panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-            panel2 = new JPanel();
-            panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-            panel2.setOpaque(false);
-            panel3 = new JPanel();
-            panel3.setLayout(new BoxLayout(panel3, BoxLayout.X_AXIS));
-            panel3.setOpaque(false);
-            panel4 = new JPanel();
-            panel4.setOpaque(false);
-            panel4.setLayout(new BoxLayout(panel4, BoxLayout.X_AXIS));
-            questionScrollPane = new JScrollPane(panel2);
+            mainPanel = new JPanel();
+            mainPanel.setBounds(10, 10, 100, 30);
+            mainPanel.setOpaque(false);
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+            TopBarPanel = new JPanel();
+            TopBarPanel.setOpaque(false);
+            TopBarPanel.setLayout(new BoxLayout(TopBarPanel, BoxLayout.X_AXIS));
+            questionPanel = new JPanel();
+            questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
+            questionPanel.setOpaque(false);
+            alternativesPanel = new JPanel();
+            alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.X_AXIS));
+            alternativesPanel.setOpaque(false);
+            bottomPanel = new JPanel();
+            bottomPanel.setOpaque(false);
+            bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+            questionScrollPane = new JScrollPane(questionPanel);
 
-            // Painel1 e seus componentes
-
-            appName = new JLabel("Jogo de física");
-            appName.setFont(new Font("Jogo de física", Font.BOLD, 15));
-            currentQuestion = new JLabel("Questão 1 de " + maxQuestionPosi);
-            time = new JLabel();
-            nextButton = new JButton("Avançar");
-            nextButton.addActionListener(new ButtonHandler());
-            panel1.add(Box.createRigidArea(new Dimension(15, 15)));
-            icon = new JLabel();
-            //icon.setIcon(new ImageIcon(getClass().getResource("logo.png")));
-            panel1.add(icon);
-            panel1.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel1.add(appName);
-            panel1.add(Box.createHorizontalGlue());
-            panel1.add(time);
-            panel1.add(Box.createHorizontalGlue());
-            panel1.add(currentQuestion);
-            panel1.add(Box.createRigidArea(new Dimension(15, 15)));
-            panel1.add(nextButton);
-            panel1.add(Box.createRigidArea(new Dimension(10, 10)));
-            stopWatch = new StopWatch(time, seconds);
-
-            // Painel2 e seus componentes
-
-            editorPane = new JEditorPane();
-            editorPane.setEditable(false);
-            editorPane.setBorder(BorderFactory.createEmptyBorder());
-            scrollPane = new JScrollPane(editorPane);
-
-            // Painel4
-
-            panel4.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel4.add(new JLabel("Grupo: Phod"));
-            panel4.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel4.add(new JLabel("Série: 1 ano"));
-            panel4.add(Box.createHorizontalGlue());
-            panel4.add(new JLabel("Versão: 1.0-SNAPSHOT"));
-            panel4.add(Box.createRigidArea(new Dimension(10, 10)));
-
-            //
-
-            panel.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel.add(panel1);
-            panel.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel.add(questionScrollPane);
-            panel.add(Box.createRigidArea(new Dimension(10, 10)));
-            panel.add(panel4);
-            panel.add(Box.createRigidArea(new Dimension(10, 10)));
-            add(panel);
-            createQuestionComponents();
-            stopWatch.start();
+            initComponents();
         }
-        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException e) {
+        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initComponents() throws IOException, InterruptedException {
+
+        waitMessage("Aguarde o servidor liberar as questões!");
+
+        // Painel1 e seus componentes
+
+        appName = new JLabel("Jogo de física");
+        appName.setFont(new Font("Jogo de física", Font.BOLD, 15));
+        currentQuestion = new JLabel("Questão 1 de " + maxQuestionPosi);
+        time = new JLabel();
+        nextButton = new JButton("Avançar");
+        nextButton.addActionListener(new ButtonHandler());
+        TopBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+        icon = new JLabel();
+        //icon.setIcon(new ImageIcon(getClass().getResource("logo.png")));
+        TopBarPanel.add(icon);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        TopBarPanel.add(appName);
+        TopBarPanel.add(Box.createHorizontalGlue());
+        TopBarPanel.add(time);
+        TopBarPanel.add(Box.createHorizontalGlue());
+        TopBarPanel.add(currentQuestion);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+        TopBarPanel.add(nextButton);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        stopWatch = new StopWatch(time, seconds);
+
+        // Painel2 e seus componentes
+
+        editorPane = new JEditorPane();
+        editorPane.setEditable(false);
+        editorPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane = new JScrollPane(editorPane);
+
+        // Painel4 e seus componentes
+
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        bottomPanel.add(new JLabel("Grupo: " + groupName));
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        bottomPanel.add(new JLabel(String.format("Série: %d ano", year)));
+        bottomPanel.add(Box.createHorizontalGlue());
+        bottomPanel.add(new JLabel("Versão: 1.0-SNAPSHOT"));
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+
+        //
+
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        mainPanel.add(TopBarPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        mainPanel.add(questionScrollPane);
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        mainPanel.add(bottomPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        add(mainPanel);
+        createQuestionComponents();
+        stopWatch.start();
+    }
+
+    public void waitMessage(String message) throws IOException, InterruptedException {
+        while (serverConnection.initializateQuestions(groupName)) {
+            mainPanel.removeAll();
+            JLabel label = new JLabel(message);
+            label.setFont(new Font(message, Font.BOLD, 34));
+            mainPanel.add(label);
+            Thread.currentThread().sleep(1000);
+        }
+        mainPanel.removeAll();
+        removeAll();
+        questionUtils = new QuestionUtils(serverConnection);
     }
 
     public void createQuestionComponents() throws IOException {
@@ -176,8 +198,8 @@ public class GUI extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(30, 30)));
         panel.add(panel1);
         panel.add(Box.createRigidArea(new Dimension(10, 10)));
-        panel3.add(panel);
-        panel2.add(panel3);
+        alternativesPanel.add(panel);
+        questionPanel.add(alternativesPanel);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -219,8 +241,8 @@ public class GUI extends JFrame {
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
         panel.add(panel1);
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
-        panel3.add(panel);
-        panel2.add(panel3);
+        alternativesPanel.add(panel);
+        questionPanel.add(alternativesPanel);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -228,7 +250,7 @@ public class GUI extends JFrame {
         this.setVisible(false);
         JOptionPane.showMessageDialog(
                 this,
-                String.format("Pontos obtidos: %d", serverConnection.getPoints("Phod")),
+                String.format("Pontos obtidos: %d", serverConnection.getPoints(groupName)),
                 "Pontos",
                 JOptionPane.OK_OPTION
         );
@@ -256,11 +278,11 @@ public class GUI extends JFrame {
                 } else answer = answerEntry.getText();
             }
             try {
-                panel3.removeAll();
-                panel2.remove(panel3);
+                alternativesPanel.removeAll();
+                questionPanel.remove(alternativesPanel);
                 currentQuestionPosi++;
                 currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
-                serverConnection.sendAnswer(1, "Phod", GUI.this.id, answer, seconds - stopWatch.getSeconds());
+                serverConnection.sendAnswer(year, groupName, GUI.this.id, answer, seconds - stopWatch.getSeconds());
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();
             }
