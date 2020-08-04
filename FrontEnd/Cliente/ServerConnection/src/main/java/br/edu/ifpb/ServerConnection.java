@@ -13,10 +13,10 @@ public class ServerConnection {
     private User_IF connection1;
     private Stack<Question> questions;
 
-    public ServerConnection(String ip, int port) {
+    public ServerConnection() {
         try {
             questions = new Stack<>();
-            Registry registry = LocateRegistry.getRegistry(ip, port); // irá estabelecer conexão com o servidor
+            Registry registry = LocateRegistry.getRegistry("localhost", 1026); // irá estabelecer conexão com o servidor
             connection = (Logic_IF) registry.lookup("ServerLogic"); // irá pegar a referência do stub RepoQuestoes
             connection1 = (User_IF) registry.lookup("GroupRepository"); // irá pegar a referência do stub GroupConnection
         }
