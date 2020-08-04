@@ -6,8 +6,9 @@ public class StopWatch extends Thread {
     private Integer seconds;
     private JLabel label;
 
-    public StopWatch(JLabel label) {
+    public StopWatch(JLabel label, Integer seconds) {
         this.label = label;
+        this.seconds = seconds;
     }
 
     public void setSeconds(Integer seconds) { this.seconds = seconds; }

@@ -20,6 +20,7 @@ public class QuestionUtils {
 
     public QuestionUtils(ServerConnection serverConnection) throws IOException {
         this.serverConnection = serverConnection;
+        System.out.println(serverConnection.getQuestions());
         for (Question question : serverConnection.getQuestions()) {
             relativePathToURL(question);
         }
@@ -68,7 +69,7 @@ public class QuestionUtils {
         if (! Files.exists(Path.of(".cache"))) {
             Files.createDirectory(Path.of(".cache"));
         }
-        Files.createDirectories(Path.of(directory));
+        if (! Files.exists(Path.of(directory))) Files.createDirectories(Path.of(directory));
         if (images != null) {
             for (String s : images) {
                 String imageName = s.substring(0, 12);
@@ -77,7 +78,7 @@ public class QuestionUtils {
                 byte[] bytes = Base64.getDecoder().decode(base64);
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
                 BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
-                ImageIO.write(bufferedImage, format, new File(directory + SEPARATOR + imageName));
+                if (! Files.exists(Path.of(directory + SEPARATOR + imageName)))ImageIO.write(bufferedImage, format, new File(directory + SEPARATOR + imageName));
             }
         }
     }
@@ -85,10 +86,12 @@ public class QuestionUtils {
         if (! Files.exists(Path.of(".cache"))) { // crirá um pasta oculta chamada cache, com o HTML e imagens das questões
             Files.createDirectory(Path.of(".cache"));
         }
-        Files.write(Path.of(".cache" + SEPARATOR + "Q" + id + ".HTM")
-                , Collections.singletonList(text)
-                , StandardCharsets.ISO_8859_1
-                , StandardOpenOption.CREATE_NEW);
+        if (! Files.exists(Path.of(".cache" + SEPARATOR + "Q" + id + ".HTM"))) {
+            Files.write(Path.of(".cache" + SEPARATOR + "Q" + id + ".HTM")
+                    , Collections.singletonList(text)
+                    , StandardCharsets.ISO_8859_1
+                    , StandardOpenOption.CREATE_NEW);
+        }
     }
     public void removeDirectory() throws IOException {
         DirectoryStream<Path> directoriesAndFiles = Files.newDirectoryStream(Path.of(".cache"));

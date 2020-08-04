@@ -1,6 +1,7 @@
 package br.edu.ifpb;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,42 +14,49 @@ import java.util.List;
 
 public class GUI extends JFrame {
 
-    private static int seconds = 300;
+    private static int seconds = 600;
     private final String SEPARATOR = System.getProperty("os.name").toLowerCase().equals("linux") ? "/" : String.format("\\");
     private static ServerConnection serverConnection;
     private static QuestionUtils questionUtils;
 
     private JPanel mainPanel; // painel principal, contêm todos os outros paineis
-    private JPanel headBarPanel; // painel do headbar
+    private JPanel TopBarPanel; // painel do headbar
     private JPanel questionPanel; // painel do editorPane, onde será mostrado o HTML, e da entrada de respostas, seja digitada ou selecionada
     private JPanel alternativesPanel; // painel das alternativas
+    private JPanel bottomPanel;
+    private JLabel icon; // ícone do app
     private JLabel appName; // nome do Aplicativo
     private JLabel time; // tempo restante para responder a questão
     private JLabel currentQuestion; // questão atual
     private JButton nextButton; // botão para avançar para a próxima questão
     private JEditorPane editorPane; // painel de exibição do HTML
-    private JScrollPane scrollPane; // scroll bar do editrPane
+    private JScrollPane scrollPane; // scroll bar do editorPane
+    private JScrollPane questionScrollPane; // Scrollpane para a questão, com texto e alternativas
+
     private ButtonGroup buttonGroup;
     private JTextArea answerEntry;
     private List<JRadioButton> radioButtonList;
 
-    // variáveis para a questão na GUI
-    private int currentQuestionPosi = 1;
+    private int currentQuestionPosi = 1; // variáveis para a questão na GUI
     private int maxQuestionPosi;
     private boolean isMultipleChoiceQuestion;
-    private String questionID;
+    private String id;
     private StopWatch stopWatch;
-    private int round;
+    private boolean threadExecute = false;
 
-    // grupo do nome
-    private String groupName;
+    private String groupName; // variáveis do grupo
+    private int year;
+    private int round = 1;
 
-    public GUI(String groupName, int round, String ip, int port) {
+    public GUI(String groupName, List<String> members, int year) throws IOException {
         super("Jogo de física");
         try {
-
-            serverConnection = new ServerConnection(ip, port);
-            questionUtils = new QuestionUtils(serverConnection);
+            this.groupName = groupName;
+            this.year = year;
+            serverConnection = new ServerConnection();
+            Map<String, List<String>> group = new HashMap<>();
+            group.put(groupName, members);
+            serverConnection.getConnection1().registerGroups(group, year);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             }
@@ -62,29 +70,30 @@ public class GUI extends JFrame {
             mainPanel.setBounds(10, 10, 100, 30);
             mainPanel.setOpaque(false);
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            headBarPanel = new JPanel();
-            headBarPanel.setOpaque(false);
-            headBarPanel.setLayout(new BoxLayout(headBarPanel, BoxLayout.X_AXIS));
+            TopBarPanel = new JPanel();
+            TopBarPanel.setOpaque(false);
+            TopBarPanel.setLayout(new BoxLayout(TopBarPanel, BoxLayout.X_AXIS));
             questionPanel = new JPanel();
             questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.X_AXIS));
             questionPanel.setOpaque(false);
             alternativesPanel = new JPanel();
+            alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.X_AXIS));
             alternativesPanel.setOpaque(false);
+            bottomPanel = new JPanel();
+            bottomPanel.setOpaque(false);
+            bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
+            questionScrollPane = new JScrollPane(questionPanel);
 
-            initComponentes(round);
+            initComponents();
         }
-        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | IOException | InterruptedException e) {
+        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void initComponentes(int round) throws IOException, InterruptedException {
+    public void initComponents() throws IOException, InterruptedException {
 
-        this.round = round;
-
-        // loop com delay para verificar se as questões estão disponíveis
-
-        waitMessage("Aguarde! As questões ainda não estão disponíveis!");
+        waitMessage("Aguarde o servidor liberar as questões!");
 
         // Painel1 e seus componentes
 
@@ -94,44 +103,73 @@ public class GUI extends JFrame {
         time = new JLabel();
         nextButton = new JButton("Avançar");
         nextButton.addActionListener(new ButtonHandler());
-        headBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
-        headBarPanel.add(appName);
-        headBarPanel.add(Box.createHorizontalGlue());
-        headBarPanel.add(time);
-        headBarPanel.add(Box.createHorizontalGlue());
-        headBarPanel.add(currentQuestion);
-        headBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
-        headBarPanel.add(nextButton);
-        headBarPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-        stopWatch = new StopWatch(time);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+        icon = new JLabel();
+        //icon.setIcon(new ImageIcon(getClass().getResource("logo.png")));
+        TopBarPanel.add(icon);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        TopBarPanel.add(appName);
+        TopBarPanel.add(Box.createHorizontalGlue());
+        TopBarPanel.add(time);
+        TopBarPanel.add(Box.createHorizontalGlue());
+        TopBarPanel.add(currentQuestion);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(15, 15)));
+        TopBarPanel.add(nextButton);
+        TopBarPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        stopWatch = new StopWatch(time, seconds);
 
         // Painel2 e seus componentes
 
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
+        editorPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane = new JScrollPane(editorPane);
 
-        // composição final
+        // Painel4 e seus componentes
 
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        mainPanel.add(headBarPanel);
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        bottomPanel.add(new JLabel("Grupo: " + groupName));
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        bottomPanel.add(new JLabel(String.format("Série: %d ano", year)));
+        bottomPanel.add(Box.createHorizontalGlue());
+        bottomPanel.add(new JLabel("Versão: 1.0-SNAPSHOT"));
+        bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+
+        //
+
         mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-        mainPanel.add(questionPanel);
+        mainPanel.add(TopBarPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        mainPanel.add(questionScrollPane);
+        mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
+        mainPanel.add(bottomPanel);
         mainPanel.add(Box.createRigidArea(new Dimension(10, 10)));
         add(mainPanel);
         createQuestionComponents();
         stopWatch.start();
     }
 
+    public void waitMessage(String message) throws IOException, InterruptedException {
+        while (serverConnection.initializateQuestions(groupName)) {
+            mainPanel.removeAll();
+            JLabel label = new JLabel(message);
+            label.setFont(new Font(message, Font.BOLD, 34));
+            mainPanel.add(label);
+            Thread.currentThread().sleep(1000);
+        }
+        mainPanel.removeAll();
+        removeAll();
+        questionUtils = new QuestionUtils(serverConnection);
+    }
+
     public void createQuestionComponents() throws IOException {
         List<String> alternatives = new ArrayList<>();
-        questionID = questionUtils.getQuestion(alternatives);
-        if (questionID == null) finalPanel();
+        id = questionUtils.getQuestion(alternatives);
+        if (id == null) finalPanel();
         if (alternatives.isEmpty()) {
-            createEssayQuestionComponents(questionID);
+            createEssayQuestionComponents(id);
             isMultipleChoiceQuestion = false;
-        }
-        else {
+        } else {
             createMultipleChoiceQuestionComponents(alternatives);
             isMultipleChoiceQuestion = true;
         }
@@ -140,10 +178,13 @@ public class GUI extends JFrame {
     public void createEssayQuestionComponents(String id) throws IOException {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
+        panel1.setOpaque(false);
         editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + id + ".HTM").toURI().toURL());
         scrollPane.setPreferredSize(new Dimension(1300, 550));
+        scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 5), new LineBorder(new Color(255, 255, 255), 5)));
         answerEntry = new JTextArea();
         answerEntry.setBorder(new LineBorder(Color.BLACK, 1, true));
         answerEntry.setMaximumSize(new Dimension(200, 20));
@@ -152,12 +193,13 @@ public class GUI extends JFrame {
         panel1.add(Box.createRigidArea(new Dimension(10, 10)));
         panel1.add(answerEntry);
         panel.add(scrollPane);
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        panel.add(separator);
         panel.add(Box.createRigidArea(new Dimension(30, 30)));
         panel.add(panel1);
         panel.add(Box.createRigidArea(new Dimension(10, 10)));
         alternativesPanel.add(panel);
         questionPanel.add(alternativesPanel);
-        stopWatch.setSeconds(GUI.seconds);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -165,14 +207,19 @@ public class GUI extends JFrame {
         radioButtonList = new ArrayList<>();
         JPanel panel = new JPanel(); // painel principal com área de texto e painel das alternativas
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setOpaque(false);
         JPanel panel1 = new JPanel(); // painel das alternativas
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-        scrollPane.setPreferredSize(new Dimension(830, 600));
+        panel1.setOpaque(false);
+        scrollPane.setPreferredSize(new Dimension(845, 600));
         int amountOfPanels = alternatives.size();
-        editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + questionID + ".HTM").toURI().toURL());
+        editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + id + ".HTM").toURI().toURL());
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
         for (int i = 0; i < amountOfPanels; i++) {
             JPanel alternativePanel = new JPanel();
             alternativePanel.setLayout(new BoxLayout(alternativePanel, BoxLayout.X_AXIS));
+            alternativePanel.setOpaque(false);
             JRadioButton radioButton = new JRadioButton();
             radioButton.setText(String.format("%c", i + 65));
             buttonGroup.add(radioButton);
@@ -182,16 +229,20 @@ public class GUI extends JFrame {
             alternativePanel.add(Box.createRigidArea(new Dimension(10, 10)));
             alternativePanel.add(label);
             panel1.add(alternativePanel);
+            panel1.add(Box.createRigidArea(new Dimension(25, 25)));
         }
         panel1.setPreferredSize(new Dimension(430, 600));
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
         panel.add(scrollPane);
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setSize(new Dimension(1000, 1));
+        panel.add(separator);
+        panel.add(Box.createRigidArea(new Dimension(15, 15)));
         panel.add(panel1);
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
         alternativesPanel.add(panel);
         questionPanel.add(alternativesPanel);
-        stopWatch.setSeconds(GUI.seconds);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
@@ -203,29 +254,7 @@ public class GUI extends JFrame {
                 "Pontos",
                 JOptionPane.OK_OPTION
         );
-        /*
-        if (serverConnection.nextRound()) {
-                mainPanel.removeAll();
-                headBarPanel.removeAll();
-                questionPanel.removeAll();
-                alternativesPanel.removeAll();
-                this.setVisible(true);
-                initComponents(serverConnection.proxRound());
-        }
-        else waitMessage("Aguarde os outros grupos terminarem o round! ");
-         */
-    }
-
-    public void waitMessage(String message) throws RemoteException, InterruptedException {
-        while (serverConnection.initializateQuestions(groupName)) {
-            mainPanel.removeAll();
-            JLabel label = new JLabel(message);
-            label.setFont(new Font(message, Font.BOLD, 34));
-            mainPanel.add(label);
-            Thread.currentThread().sleep(1000);
-        }
-        mainPanel.removeAll();
-        removeAll();
+        System.exit(0);
     }
 
     public class ButtonHandler implements ActionListener {
@@ -253,7 +282,7 @@ public class GUI extends JFrame {
                 questionPanel.remove(alternativesPanel);
                 currentQuestionPosi++;
                 currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
-                serverConnection.sendAnswer(round, groupName, GUI.this.questionID, answer, seconds - stopWatch.getSeconds());
+                serverConnection.sendAnswer(year, groupName, GUI.this.id, answer, seconds - stopWatch.getSeconds());
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();
             }
