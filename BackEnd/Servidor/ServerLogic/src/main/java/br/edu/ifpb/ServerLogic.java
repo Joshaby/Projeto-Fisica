@@ -31,10 +31,16 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(amount);
     }
 
-// METHOD TO RECIEVE DATA FROM CLIENT
+// METHOD TO RECEIVE DATA FROM CLIENT
 
     @Override
     public void sendAnswer(int round, String GroupName, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
+
+        if(this.bonusQuestions.hasQuestion(QuestionID)) {
+            this.bonusQuestions.addAnswer(GroupName, res);
+            return;
+        }
+
         Answer answer = new Answer(QuestionID, res, time); // cria um objeto Answer
         groupRepository.getGroupByName(GroupName).addAnswer(round, answer);
         if(questionRepository.validateAnswer(QuestionID,res)){
@@ -44,11 +50,11 @@ public class ServerLogic implements Logic_IF {
 
         if(this.finishRoundChecker()) {
             System.out.println("Round: "+ getRound());
-            if( EndGameChecker() ) {
-                isGameStarted = false;
-            }
+
+            if( EndGameChecker() ) { isGameStarted = false; }
+
             else {
-                bonusQuestionManager(groupRepository.realocateGroup(getRound()));
+
             }
 
             if(isGameStarted){
@@ -63,7 +69,7 @@ public class ServerLogic implements Logic_IF {
 
     /*seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão,
       quando uma resposta enviada estiver certa, essa pontuação será decrementada.*/
-    public void setQuestion(){
+    private void setQuestion(){
         try{
             if(this.groupRepository.getYear() < 0)
                 throw new ServerException("Repositório de grupos não foi inicializado");
@@ -98,9 +104,7 @@ public class ServerLogic implements Logic_IF {
             return questionRepository.getQuestionsID();
         }
 
-        ans.getAnswers().iterator().forEachRemaining(answer -> {
-            answeredIDs.add(answer.getID());
-        });
+        ans.getAnswers().iterator().forEachRemaining(answer -> answeredIDs.add(answer.getID()));
 
         ArrayList<String> aux = new ArrayList<>();
         questionRepository.getQuestionsID().iterator().forEachRemaining(s -> {
@@ -128,7 +132,11 @@ public class ServerLogic implements Logic_IF {
 
     // Management method
 
-    private void bonusQuestionManager(List<String> groups) throws RemoteException {
+    private void bonusQuestionManager() throws RemoteException {
+
+        List<String> aux = groupRepository.realocateGroup(getRound());
+
+        if(aux != null) bonusQuestions = new BonusQuestions();
 
         questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear());
 
@@ -137,7 +145,6 @@ public class ServerLogic implements Logic_IF {
 
 
 //METHOD THAT'S SEND QUESTIONS TO CLIENT SESSION
-
     public List<Question> getQuestions(String GroupName) throws RemoteException {
         try {
             if (this.getGameState()) return null;
@@ -161,10 +168,8 @@ public class ServerLogic implements Logic_IF {
         }
     }
 
-
 // METHOD THAT'S CHECK IF THE ROUND CAN BE FINISHED
-
-    public boolean finishRoundChecker() {
+    private boolean finishRoundChecker() {
         AtomicBoolean cond = new AtomicBoolean(true);
 
         this.groupRepository
@@ -183,7 +188,7 @@ public class ServerLogic implements Logic_IF {
     }
 
 // CHECK IF GAME HAS ENDED OR NOT
-    public boolean EndGameChecker(){
+    private boolean EndGameChecker(){
         return groupRepository.getGroups().size() == 1;
     }
 
@@ -218,7 +223,6 @@ public class ServerLogic implements Logic_IF {
     }
 
 // GETTERS
-
     public GroupRepository getGroupRepository() { return groupRepository; }
 
     // irá pegar os pontos de um grupo, de acordo com um id dado
@@ -250,8 +254,7 @@ public class ServerLogic implements Logic_IF {
         return questionRepository.getQuestions().size();
     }
 
-    //SETTERS
-
+//SETTERS
     public void setRound(Integer round) {
         this.round = round;
     }
@@ -270,7 +273,6 @@ public class ServerLogic implements Logic_IF {
     }
 
 //OTHERS METHODS
-
     @Override
     public void removeGroupByName(String name) throws RemoteException {
         this.groupRepository.removeGroupByName(name);
