@@ -46,10 +46,11 @@ public class ServerLogic implements Logic_IF {
             System.out.println("Round: "+ getRound());
             if( EndGameChecker() ) {
                 isGameStarted = false;
+                System.out.println(groupRepository.getGroups());
             }
-            else {
-                bonusQuestionManager(groupRepository.realocateGroup(getRound()));
-            }
+//            else {
+//                bonusQuestionManager(groupRepository.realocateGroup(getRound()));
+//            }
 
             if(isGameStarted){
                 this.incrementRound();

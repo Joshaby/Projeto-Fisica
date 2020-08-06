@@ -10,7 +10,7 @@ public class RMIConnection {
     private final User_IF user_if;
 
     public RMIConnection(int port) throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry("localhost");
+        Registry registry = LocateRegistry.getRegistry("localhost", 1026);
         user_if = (User_IF) registry.lookup("GroupRepository");
         registry = LocateRegistry.createRegistry(port);
 

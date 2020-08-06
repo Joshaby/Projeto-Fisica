@@ -23,7 +23,7 @@ public class GUI extends JFrame {
     private JPanel TopBarPanel; // painel do headbar
     private JPanel questionPanel; // painel do editorPane, onde será mostrado o HTML, e da entrada de respostas, seja digitada ou selecionada
     private JPanel alternativesPanel; // painel das alternativas
-    private JPanel bottomPanel;
+    private JPanel bottomPanel; // painel inferior
     private JLabel icon; // ícone do app
     private JLabel appName; // nome do Aplicativo
     private JLabel time; // tempo restante para responder a questão
@@ -46,23 +46,24 @@ public class GUI extends JFrame {
 
     private String groupName; // variáveis do grupo
     private int year;
-    private int round = 1;
+    private int round;
 
     public GUI(String groupName, List<String> members, int year) throws IOException {
         super("Jogo de física");
         try {
-            this.groupName = groupName;
-            this.year = year;
-            serverConnection = new ServerConnection();
-            Map<String, List<String>> group = new HashMap<>();
-            group.put(groupName, members);
-            serverConnection.getConnection1().registerGroups(group, year);
             if (System.getProperty("os.name").toLowerCase().equals("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             }
             else if (System.getProperty("os.name").toLowerCase().equals("windows")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
+            this.groupName = groupName;
+            this.year = year;
+            serverConnection = new ServerConnection();
+            round = serverConnection.getRound();
+            Map<String, List<String>> group = new HashMap<>();
+            group.put(groupName, members);
+            serverConnection.getConnection1().registerGroups(group, year);
             maxQuestionPosi = serverConnection.getQuestionAmout();
             buttonGroup = new ButtonGroup();
             radioButtonList = new ArrayList<>();
@@ -150,15 +151,20 @@ public class GUI extends JFrame {
     }
 
     public void waitMessage(String message) throws IOException, InterruptedException {
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        JLabel label = new JLabel(message);
+        label.setFont(new Font(message, Font.BOLD, 34));
+        label.setForeground(Color.BLACK);
+        frame.add(label);
+        frame.setSize(new Dimension(725, 100));
+        frame.setLocationRelativeTo(null);
+        frame.setUndecorated(true);
+        frame.setVisible(true);
         while (serverConnection.initializateQuestions(groupName)) {
-            mainPanel.removeAll();
-            JLabel label = new JLabel(message);
-            label.setFont(new Font(message, Font.BOLD, 34));
-            mainPanel.add(label);
             Thread.currentThread().sleep(1000);
         }
-        mainPanel.removeAll();
-        removeAll();
+        frame.setVisible(false);
         questionUtils = new QuestionUtils(serverConnection);
     }
 
@@ -184,7 +190,6 @@ public class GUI extends JFrame {
         panel1.setOpaque(false);
         editorPane.setPage(new File(".cache" + SEPARATOR + "Q" + id + ".HTM").toURI().toURL());
         scrollPane.setPreferredSize(new Dimension(1300, 550));
-        scrollPane.setBorder(new CompoundBorder(new LineBorder(new Color(255, 255, 255), 5), new LineBorder(new Color(255, 255, 255), 5)));
         answerEntry = new JTextArea();
         answerEntry.setBorder(new LineBorder(Color.BLACK, 1, true));
         answerEntry.setMaximumSize(new Dimension(200, 20));
@@ -231,7 +236,6 @@ public class GUI extends JFrame {
             panel1.add(alternativePanel);
             panel1.add(Box.createRigidArea(new Dimension(25, 25)));
         }
-        panel1.setPreferredSize(new Dimension(430, 600));
         panel.add(Box.createRigidArea(new Dimension(15, 15)));
         panel.add(scrollPane);
         panel.add(Box.createRigidArea(new Dimension(15, 15)));

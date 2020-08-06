@@ -10,7 +10,7 @@ import java.util.List;
 
 public class App {
     public static void main( String[] args ) throws IOException, InterruptedException {
-        GUI gui = new GUI("Phodas", Arrays.asList("José", "Talison", "Vinicius"), 1);
+        GUI gui = new GUI("Phodas12", Arrays.asList("José", "Talison", "Vinicius"), 1);
         gui.setSize(1306, 714);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //gui.setUndecorated(true);

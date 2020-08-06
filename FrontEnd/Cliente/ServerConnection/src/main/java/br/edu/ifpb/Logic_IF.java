@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-public interface Logic_IF extends Remote {
+public interface Logic_IF  extends Remote {
     List<Question> getQuestions(String GroupName) throws RemoteException;
     void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException;
     int getPoints(String name) throws RemoteException;
@@ -13,4 +13,6 @@ public interface Logic_IF extends Remote {
     Map<String, Integer> placarSources() throws RemoteException;
     int getQuestionAmout() throws RemoteException;
     void removeGroupByName(String name) throws RemoteException;
+    Integer getRound() throws RemoteException;
+    List<String> bonusQuestionCheck() throws RemoteException;
 }

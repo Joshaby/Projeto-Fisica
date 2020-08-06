@@ -20,7 +20,6 @@ public class QuestionUtils {
 
     public QuestionUtils(ServerConnection serverConnection) throws IOException {
         this.serverConnection = serverConnection;
-        System.out.println(serverConnection.getQuestions());
         for (Question question : serverConnection.getQuestions()) {
             relativePathToURL(question);
         }

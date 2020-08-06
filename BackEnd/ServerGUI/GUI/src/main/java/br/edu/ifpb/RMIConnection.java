@@ -10,7 +10,7 @@ public class RMIConnection {
     private final ServerAdm_IF serverAdm;
 
     public RMIConnection(int port) throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry("localhost");
+        Registry registry = LocateRegistry.getRegistry("localhost", 1026);
         serverAdm = (ServerAdm_IF) registry.lookup("ServerAdministration");
         registry = LocateRegistry.createRegistry(port);
 
