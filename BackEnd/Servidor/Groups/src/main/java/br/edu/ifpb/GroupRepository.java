@@ -177,8 +177,9 @@ public class GroupRepository implements User_IF {
         Group newGroup = new Group(groupName, year);
 
         for (String user : members) {
-            User novo = new User(user, year);
-            newGroup.addMember(novo);
+            if(!user.equals("")){
+                newGroup.addMember(new User(user, year));
+            }
         }
         this.addGroup(newGroup);
         if(getYear() < 0) setYear(year);

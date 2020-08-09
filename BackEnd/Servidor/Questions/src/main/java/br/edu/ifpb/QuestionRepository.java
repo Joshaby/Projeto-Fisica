@@ -139,10 +139,14 @@ public class QuestionRepository { // classe que representa um repositório de qu
         return aux;
     }
 
-    private Question getQuestionById(String QuestionID){
+    public Question getQuestionById(String QuestionID){
         AtomicReference<Question> aux = new AtomicReference<Question>();
         questions.keySet().iterator().forEachRemaining(question -> {if(question.getId().equals(QuestionID)) aux.set(question);});
         return (aux == null)? null : aux.get();
+    }
+
+    public String getCorrectAnswer(String QuestionID){
+        return questions.get(getQuestionById(QuestionID));
     }
 
     public Map<Question, String> getQuestionsMap() { // retorna o mapa questions
