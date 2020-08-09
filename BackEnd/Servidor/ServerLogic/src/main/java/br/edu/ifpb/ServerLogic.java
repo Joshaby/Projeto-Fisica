@@ -21,7 +21,7 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(5);
         this.setRound(1);
         this.isGameStarted = false;
-        this.bonusQuestions = new BonusQuestions();
+        this.bonusQuestions = new BonusQuestions(questionRepository, groupRepository, round, "");
     }
 
 //CONSTRUCTOR with parameters
@@ -53,9 +53,7 @@ public class ServerLogic implements Logic_IF {
 
             if( EndGameChecker() ) { isGameStarted = false; }
 
-            else {
-
-            }
+            this.bonusQuestionManager();
 
             if(isGameStarted){
                 this.incrementRound();
@@ -136,11 +134,14 @@ public class ServerLogic implements Logic_IF {
 
         List<String> aux = groupRepository.realocateGroup(getRound());
 
-        if(aux != null) bonusQuestions = new BonusQuestions();
+        if(aux != null)
+            bonusQuestions =
+                new BonusQuestions(questionRepository,
+                    groupRepository,
+                    this.round,
+                    questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear()));
 
-        questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear());
-
-
+        if( EndGameChecker() ) { isGameStarted = false; }
     }
 
 
@@ -160,11 +161,18 @@ public class ServerLogic implements Logic_IF {
                     .forEachRemaining(question -> {
                         if(ids.contains(question.getId())) NotAnsweredQuestions.add(question);
                     });
+
+            if(bonusQuestions.getState()){
+                if(bonusQuestions.hasGroup(GroupName)){
+                    return NotAnsweredQuestions;
+                }
+                else return new ArrayList<>();
+            }
+
             return NotAnsweredQuestions;
-        }
-        catch (ServerException err){
-            err.printStackTrace();
-            return null;
+        } catch (ServerException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 
@@ -251,7 +259,7 @@ public class ServerLogic implements Logic_IF {
 
     @Override
     public int getQuestionAmout() throws RemoteException {
-        return questionRepository.getQuestions().size();
+        return getAmount();
     }
 
 //SETTERS
@@ -263,7 +271,8 @@ public class ServerLogic implements Logic_IF {
         try {
             if(amount <= 0) throw new ServerException("Número de questões invalido!");
             this.amount = amount;
-        }catch (ServerException err) {
+            this.questionRepository.resetQuestions(getRound(), getAmount(), groupRepository.getYear());
+        }catch (ServerException | RemoteException err) {
             err.printStackTrace();
         }
     }

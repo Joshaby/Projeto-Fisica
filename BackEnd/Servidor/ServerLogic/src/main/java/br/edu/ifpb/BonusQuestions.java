@@ -1,25 +1,26 @@
 package br.edu.ifpb;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
 public class BonusQuestions {
 
-    private List<String> ids;
+    private QuestionRepository questionRepository;
+    private GroupRepository groupRepository;
+    private String ID;
     private List<String> groups;
     private Map<String, String> answers;
     private boolean bonusState;
+    private int round;
 
-    public BonusQuestions() {
-        ids = new ArrayList<>();
+    public BonusQuestions(QuestionRepository questionRepository, GroupRepository groupRepository, int round, String id) {
+        ID = id;
         groups = new ArrayList<>();
         answers = new HashMap<>();
         bonusState = false;
-    }
-
-    public BonusQuestions(List<String> groups) {
-        this();
-        this.groups = groups;
-        ids = new ArrayList<>();
+        this.questionRepository = questionRepository;
+        this.groupRepository = groupRepository;
+        this.round = round;
     }
 
     public List<String> getGroups() {
@@ -28,16 +29,19 @@ public class BonusQuestions {
 
     public void setQuestions(List<String> grupos, String id){
         this.groups.addAll(grupos);
-        ids.add(id);
+        ID = id;
         setState();
     }
 
     public boolean hasQuestion(String id){
-        return ids.contains(id);
+        return ID.contains(id);
     }
 
-    public void addAnswer(String groupName, String res) {
+    public void addAnswer(String groupName, String res) throws RemoteException {
         answers.put(groupName, res);
+        if(checkAnswers()){
+             tiebreaker();
+        }
     }
 
     private boolean checkAnswers() {
@@ -45,7 +49,28 @@ public class BonusQuestions {
             if(!answers.containsKey(group)) return false;
         }
         return true;
+    }
 
+    private void tiebreaker() throws RemoteException {
+        String correctAnswer = questionRepository.getCorrectAnswer(this.ID);
+
+        for (String group : answers.keySet()) {
+            if(answers.get(group).equals(correctAnswer)) {
+                groupRepository.getGroupByName(group).addPoints(1);
+            }
+        }
+
+        List<String> aux = groupRepository.realocateGroup(round);
+        if(aux == null){
+        }
+    }
+
+    public boolean hasGroup(String name){
+        return this.groups.contains(name);
+    }
+
+    public boolean getState(){
+        return this.bonusState;
     }
 
     private void setState(){
@@ -56,8 +81,14 @@ public class BonusQuestions {
         this.bonusState = false;
     }
 
+    private void finishBonusState(){
+        resetState();
+        this.groups = new ArrayList<>();
+
+    }
+
     private void addBonusQuestion(String id){
-        this.ids.add(id);
+        this.ID = id;
     }
 
 

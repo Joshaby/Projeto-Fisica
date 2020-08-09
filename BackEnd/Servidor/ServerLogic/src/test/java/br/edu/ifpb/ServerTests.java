@@ -14,10 +14,10 @@ public class ServerTests {
     public void QuestsConsumerTest() throws RemoteException {
         int grupos = 5;
         Random r = new Random();
-        for(int vezes = 0; vezes < 10000; vezes++){
+        for(int vezes = 0; vezes < 30; vezes++){
             System.out.println("===================== Test: " + vezes + " =====================");
             ServerLogic s = new ServerLogic(5);
-            s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(grupos), 3);
+            s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(grupos), 1);
             s.startGame();
             for(int i = 0; i < grupos-1 ; i++){
                 //"helen", "Luiza", "Talison", "Kennedy", "josé"
