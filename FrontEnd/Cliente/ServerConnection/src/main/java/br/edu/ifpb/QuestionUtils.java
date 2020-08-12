@@ -48,8 +48,8 @@ public class QuestionUtils {
     }
     public String getQuestion(List<String> alternatives) throws IOException {
         if (serverConnection.getQuestions().isEmpty()) {
-            removeDirectory();
-            return null;
+            //removeDirectory();
+            return "";
         }
         Question question = serverConnection.getQuestions().pop();
         createHTMlFile(question.getId(), question.getText());

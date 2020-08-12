@@ -11,7 +11,6 @@ public interface Logic_IF  extends Remote {
     int getPoints(String name) throws RemoteException;
     int totalNumberOfQuestions() throws RemoteException;
     Map<String, Integer> placarSources() throws RemoteException;
-    int getQuestionAmout() throws RemoteException;
     void removeGroupByName(String name) throws RemoteException;
     Integer getRound() throws RemoteException;
     List<String> bonusQuestionCheck() throws RemoteException;

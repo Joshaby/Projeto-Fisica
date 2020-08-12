@@ -1,7 +1,6 @@
 package br.edu.ifpb;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,7 +63,7 @@ public class GUI extends JFrame {
             Map<String, List<String>> group = new HashMap<>();
             group.put(groupName, members);
             serverConnection.getConnection1().registerGroups(group, year);
-            maxQuestionPosi = serverConnection.getQuestionAmout();
+            maxQuestionPosi = serverConnection.getQuestionAmount();
             buttonGroup = new ButtonGroup();
             radioButtonList = new ArrayList<>();
             mainPanel = new JPanel();
@@ -100,7 +99,7 @@ public class GUI extends JFrame {
 
         appName = new JLabel("Jogo de física");
         appName.setFont(new Font("Jogo de física", Font.BOLD, 15));
-        currentQuestion = new JLabel("Questão 1 de " + maxQuestionPosi);
+        currentQuestion = new JLabel();
         time = new JLabel();
         nextButton = new JButton("Avançar");
         nextButton.addActionListener(new ButtonHandler());
@@ -155,7 +154,6 @@ public class GUI extends JFrame {
         frame.setLayout(new FlowLayout());
         JLabel label = new JLabel(message);
         label.setFont(new Font(message, Font.BOLD, 34));
-        label.setForeground(Color.BLACK);
         frame.add(label);
         frame.setSize(new Dimension(725, 100));
         frame.setLocationRelativeTo(null);
@@ -172,6 +170,7 @@ public class GUI extends JFrame {
         List<String> alternatives = new ArrayList<>();
         id = questionUtils.getQuestion(alternatives);
         if (id == null) finalPanel();
+        currentQuestion.setText(String.format("Questão %d (ID: %s) de %d", currentQuestionPosi, GUI.this.id, maxQuestionPosi));
         if (alternatives.isEmpty()) {
             createEssayQuestionComponents(id);
             isMultipleChoiceQuestion = false;
@@ -285,7 +284,6 @@ public class GUI extends JFrame {
                 alternativesPanel.removeAll();
                 questionPanel.remove(alternativesPanel);
                 currentQuestionPosi++;
-                currentQuestion.setText(String.format("Questão %d de %d", currentQuestionPosi, maxQuestionPosi));
                 serverConnection.sendAnswer(year, groupName, GUI.this.id, answer, seconds - stopWatch.getSeconds());
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();

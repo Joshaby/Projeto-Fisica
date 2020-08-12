@@ -271,8 +271,8 @@ public class ServerLogic implements Logic_IF {
         try {
             if(amount <= 0) throw new ServerException("Número de questões invalido!");
             this.amount = amount;
-            this.questionRepository.resetQuestions(getRound(), getAmount(), groupRepository.getYear());
-        }catch (ServerException | RemoteException err) {
+            //this.questionRepository.resetQuestions(getRound(), getAmount(), groupRepository.getYear());
+        }catch (ServerException err) {
             err.printStackTrace();
         }
     }

@@ -28,6 +28,7 @@ public class ServerConnection {
 
     public boolean initializateQuestions(String groupName) throws RemoteException {
         List<Question> aux = connection.getQuestions(groupName);
+        System.out.println(aux);
         if (aux == null) return true;
         if (aux.isEmpty()) return false;
         for (Question question : aux) questions.push(question);
@@ -39,7 +40,7 @@ public class ServerConnection {
         connection.sendAnswer(round, name, QuestionID, res, time);
     }
     public User_IF getConnection1() { return connection1; }
-    public int getQuestionAmout() throws RemoteException { return connection.getQuestionAmout(); }
     public Stack<Question> getQuestions() { return questions; }
     public int getRound() throws RemoteException { return connection.getRound(); }
+    public int getQuestionAmount() { return questions.size(); }
 }
