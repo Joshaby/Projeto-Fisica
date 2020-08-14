@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -57,5 +59,38 @@ public class ServerTests {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void GroupStupidTest(){
+        Random r = new Random();
+        try{
+            ServerLogic s = new ServerLogic(10);
+            s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(4), 1);
+            s.startGame();
+
+            List<Group> groups = List.copyOf(s.groupRepository.getGroups());
+
+            List<String> aux = new ArrayList<>();
+
+//            s.getQuestions(group).iterator().forEachRemaining(question -> {
+//                aux.add(question.getId());
+//            });
+//
+//            String sa = "";
+//
+//            for (String aux1 : aux) {
+//                s.sendAnswer(1, group, aux1, "A", r.nextInt(200));
+//                sa = aux1;
+//            }
+//            System.out.println(s.getQuestions(group));
+//            System.out.println(s.getQuestions(group));
+//            s.sendAnswer(1, group, sa, /*String.valueOf((char) (65 + r.nextInt(4)))*/"G", r.nextInt(200));
+            System.out.println("cu");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

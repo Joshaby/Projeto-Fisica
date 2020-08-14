@@ -41,6 +41,9 @@ public class ServerAdministration implements ServerAdm_IF{
         if (serverLogic.getGameState()) {
             System.out.println("Mudando o número de questões para " + amount);
             serverLogic.setAmount(amount);
+            serverLogic.questionRepository.resetQuestions(serverLogic.getRound(),
+                                                          serverLogic.getAmount(),
+                                                          serverLogic.groupRepository.getYear());
         }
     }
 

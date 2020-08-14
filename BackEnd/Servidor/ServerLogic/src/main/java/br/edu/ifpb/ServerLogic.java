@@ -31,12 +31,16 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(amount);
     }
 
-// METHOD TO RECEIVE DATA FROM CLIENT
 
+//===================CLIENT METHODS===================
+
+
+    //METHOD TO RECEIVE DATA FROM CLIENT
     @Override
     public void sendAnswer(int round, String GroupName, String QuestionID, String res, int time) throws RemoteException { // irá receber uma resposta de um grupo, o objeto Answer guarda o ID de um questão e a possível resposta da questão pelo usuário
 
-        if(this.bonusQuestions.hasQuestion(QuestionID)) {
+        if(!isGameStarted || round != getRound()) return;
+        if(this.bonusQuestions.getState() && this.bonusQuestions.hasQuestion(QuestionID)) {
             this.bonusQuestions.addAnswer(GroupName, res);
             return;
         }
@@ -62,58 +66,8 @@ public class ServerLogic implements Logic_IF {
         }
     }
 
-
-//METHOD THAT'S FETCH DATA FROM DATABASE
-
-    /*seleciona as questões randomicamente no mongo e seta os pontos extras de cada questão,
-      quando uma resposta enviada estiver certa, essa pontuação será decrementada.*/
-    private void setQuestion(){
-        try{
-            if(this.groupRepository.getYear() < 0)
-                throw new ServerException("Repositório de grupos não foi inicializado");
-
-
-            this.questionRepository.setQuestions(this.getRound(),
-                                                 this.getAmount(),
-                                                 this.groupRepository.getYear());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-// CHECKING QUESTIONS ANSWERED BY THE GROUP
-
-    private List<String> groupNotAnsweredQuestions(String name) throws RemoteException, ServerException {
-        if(this.groupRepository.getGroupByName(name) == null) throw new ServerException(
-                "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
-        );
-
-        if(getGroupRepository().getGroupByName(name).getAnswers() == null) {
-            return questionRepository.getQuestionsID();
-        }
-
-        ArrayList<String> answeredIDs = new ArrayList<>();
-
-        Answers ans = groupRepository.getGroupByName(name).getAnswers().get(this.getRound());
-
-        if(ans == null) {
-            return questionRepository.getQuestionsID();
-        }
-
-        ans.getAnswers().iterator().forEachRemaining(answer -> answeredIDs.add(answer.getID()));
-
-        ArrayList<String> aux = new ArrayList<>();
-        questionRepository.getQuestionsID().iterator().forEachRemaining(s -> {
-            if(!answeredIDs.contains(s)) aux.add(s);
-        });
-        return aux;
-    }
-
-
-// BONUS QUESTIONS MANAGEMENT METHODS
-    // Show up method
+    //BONUS QUESTION CHECKER
+    @Override
     public List<String> bonusQuestionCheck() throws RemoteException{
 
         // The game already ended.
@@ -128,27 +82,11 @@ public class ServerLogic implements Logic_IF {
         return new ArrayList<>();
     }
 
-    // Management method
-
-    private void bonusQuestionManager() throws RemoteException {
-
-        List<String> aux = groupRepository.realocateGroup(getRound());
-
-        if(aux != null)
-            bonusQuestions =
-                new BonusQuestions(questionRepository,
-                    groupRepository,
-                    this.round,
-                    questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear()));
-
-        if( EndGameChecker() ) { isGameStarted = false; }
-    }
-
-
-//METHOD THAT'S SEND QUESTIONS TO CLIENT SESSION
+    //METHOD THAT'S SEND QUESTIONS TO CLIENT SESSION
+    @Override
     public List<Question> getQuestions(String GroupName) throws RemoteException {
         try {
-            if (this.getGameState()) return null;
+            if ( this.getGameState() ) return null;
             if(this.questionRepository.getQuestionsID().size() == 0) setQuestion();
 
             List<String> ids = this.groupNotAnsweredQuestions(GroupName);
@@ -163,6 +101,7 @@ public class ServerLogic implements Logic_IF {
                     });
 
             if(bonusQuestions.getState()){
+                System.out.println("Bonus ");
                 if(bonusQuestions.hasGroup(GroupName)){
                     return NotAnsweredQuestions;
                 }
@@ -172,43 +111,133 @@ public class ServerLogic implements Logic_IF {
             return NotAnsweredQuestions;
         } catch (ServerException e) {
             e.printStackTrace();
-            return new ArrayList<>();
+            return null;
         }
     }
 
-// METHOD THAT'S CHECK IF THE ROUND CAN BE FINISHED
-    private boolean finishRoundChecker() {
-        AtomicBoolean cond = new AtomicBoolean(true);
+    //will take the points of a group, according to a given id
+    @Override
+    public int getPoints(String name) throws RemoteException {
+        AtomicInteger points = new AtomicInteger(); // uma váriavel int que pode ser atualizada atômicamente, ou seja, não é possivel que o escalandor quebre a execução do programa no instante da atualização
+        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, os pontos do grupo é retornato
+            if (group.getName().equals(name)) {
+                points.set(group.getPoints());
+            }
+        });
+        return points.get();
+    }
 
-        this.groupRepository
-                .getGroups()
-                .iterator()
-                .forEachRemaining(group -> {
-                    try {
-                        if(group.getAnswers().get(getRound()).getAnswers().size() < this.getAmount()){
-                            cond.set(false);
-                        }
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
+    @Override
+    public int totalNumberOfQuestions() throws RemoteException{
+        return this.questionRepository.getQuestionsID().size();
+    }
+
+    @Override
+    public Map<String, Integer> placarSources() throws RemoteException {
+        Map<String, Integer> aux = new HashMap<>();
+        this.groupRepository.getGroups().iterator().forEachRemaining(
+                group -> {
+                    aux.put(group.getName(), group.getPoints());
                 });
-        return cond.get();
+        return aux;
     }
 
-// CHECK IF GAME HAS ENDED OR NOT
-    private boolean EndGameChecker(){
-        return groupRepository.getGroups().size() == 1;
+    @Override
+    public int getQuestionAmount() throws RemoteException {
+        return getAmount();
     }
 
-// METHOD THAT CANCEL A SINGLE QUESTION AND FETCH ANOTHER IN PLACE
+    @Override
+    public Integer getRound() throws RemoteException{
+        return round;
+    }
+
+    @Override
+    public boolean getGameState() throws RemoteException{
+        return !this.isGameStarted;
+    }
+
+
+//===================GROUPS MANAGEMENT METHODS===================
+
+    // CHECKING QUESTIONS ANSWERED BY THE GROUP
+    private List<String> groupNotAnsweredQuestions(String name) throws RemoteException, ServerException {
+        if(this.groupRepository.getGroupByName(name) == null) throw new ServerException(
+                "O nome do grupo passado não se encontra cadastrado, ou não existe!" + name
+        );
+
+        if(getGroupRepository().getGroupByName(name).getAnswers() == null) {
+            return questionRepository.getQuestionsID();
+        }
+
+        ArrayList<String> answeredIDs = new ArrayList<>();
+
+        Answers ans = groupRepository.getGroupByName(name).getAnswersByRound(this.getRound());
+
+        if(ans == null) {
+            return questionRepository.getQuestionsID();
+        }
+
+        ans.getAnswers().iterator().forEachRemaining(answer -> answeredIDs.add(answer.getID()));
+
+        ArrayList<String> aux = new ArrayList<>();
+        questionRepository.getQuestionsID().iterator().forEachRemaining(s -> {
+            if(!answeredIDs.contains(s)) aux.add(s);
+        });
+        return aux;
+    }
+
+    public GroupRepository getGroupRepository() { return groupRepository; }
+
+    public void removeGroupByName(String name) throws RemoteException {
+        this.groupRepository.removeGroupByName(name);
+    }
+
+
+//===================QUESTIONS MANAGEMENT METHODS===================
+
+    // BONUS QUESTIONS MANAGEMENT METHOD
+    private void bonusQuestionManager() throws RemoteException {
+
+        List<String> aux = groupRepository.realocateGroup(getRound());
+
+        if(aux != null)
+            bonusQuestions =
+                    new BonusQuestions(questionRepository,
+                            groupRepository,
+                            this.round,
+                            questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear()));
+
+        if( EndGameChecker() ) { isGameStarted = false; }
+    }
+
+    //METHOD THAT'S FETCH DATA FROM DATABASE
+    /*fetch questions randomly from mongo and set the extra points for each question,
+     when an answer get sended is correct, this score will be decreased.*/
+    private void setQuestion(){
+        try{
+            if(this.groupRepository.getYear() < 0)
+                throw new ServerException("Repositório de grupos não foi inicializado");
+
+
+            this.questionRepository.setQuestions(this.getRound(),
+                    this.getAmount(),
+                    this.groupRepository.getYear());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // METHOD THAT CANCEL A SINGLE QUESTION AND FETCH ANOTHER IN PLACE
     public void cancelQuestion(String id){
         //Remove all groups answers for this question
         Map<String, Answer> aux = new HashMap<>();
         this.groupRepository.getGroups().iterator().forEachRemaining(group -> {
             try {
-                if(group.getAnswers().get(getRound()).hasAnswer(id)){
-                    aux.put(group.getName(),group.getAnswers().get(getRound()).getAnswer(id));
-                    group.getAnswers().get(getRound()).removeAnswerbyID(id);
+                if(group.getAnswersByRound(getRound()).hasAnswer(id)){
+                    aux.put(group.getName(),group.getAnswersByRound(getRound()).getAnswer(id));
+                    group.getAnswersByRound(getRound()).removeAnswerbyID(id);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -230,83 +259,35 @@ public class ServerLogic implements Logic_IF {
         }
     }
 
-// GETTERS
-    public GroupRepository getGroupRepository() { return groupRepository; }
 
-    // irá pegar os pontos de um grupo, de acordo com um id dado
-    @Override
-    public int getPoints(String name) throws RemoteException {
-        AtomicInteger points = new AtomicInteger(); // uma váriavel int que pode ser atualizada atômicamente, ou seja, não é possivel que o escalandor quebre a execução do programa no instante da atualização
-        groupRepository.getGroups().forEach(group -> { // varredura com lambda para verificar qual grupo possui seu id igual ao parâmentro id, se for igual, os pontos do grupo é retornato
-            if (group.getName().equals(name)) {
-                points.set(group.getPoints());
-            }
-        });
-        return points.get();
-    }
+//===================GAME MANAGEMENT METHODS===================
 
-    public boolean getGameState(){
-        return !this.isGameStarted;
-    }
-
-    public Integer getRound() throws RemoteException{
-        return round;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    @Override
-    public int getQuestionAmout() throws RemoteException {
-        return getAmount();
-    }
-
-//SETTERS
-    public void setRound(Integer round) {
-        this.round = round;
-    }
-
-    public void setAmount(Integer amount){
-        try {
-            if(amount <= 0) throw new ServerException("Número de questões invalido!");
-            this.amount = amount;
-            this.questionRepository.resetQuestions(getRound(), getAmount(), groupRepository.getYear());
-        }catch (ServerException | RemoteException err) {
-            err.printStackTrace();
-        }
-    }
-
-    public void startGame(){
-        this.isGameStarted = true;
-    }
-
-//OTHERS METHODS
-    @Override
-    public void removeGroupByName(String name) throws RemoteException {
-        this.groupRepository.removeGroupByName(name);
-    }
-
-
-    public int totalNumberOfQuestions() throws RemoteException{
-        return this.questionRepository.getQuestionsID().size();
-    }
-
-    private void incrementRound() throws RemoteException {
-        this.setRound(this.getRound() + 1);
-    }
-
-    @Override
-    public Map<String, Integer> placarSources() throws RemoteException {
-        Map<String, Integer> aux = new HashMap<>();
+    // METHOD THAT'S CHECK IF THE ROUND CAN BE FINISHED
+    private boolean finishRoundChecker() {
+        AtomicBoolean cond = new AtomicBoolean(true);
 
         this.groupRepository
                 .getGroups()
                 .iterator()
                 .forEachRemaining(group -> {
-                    aux.put(group.getName(), group.getPoints());
+                    try {
+                        if(group.getAnswersByRound(getRound()).getAnswers().size() < this.getAmount()){
+                            cond.set(false);
+                        }
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
                 });
-        return aux;
+        return cond.get();
+    }
+
+    // CHECK IF GAME HAS ENDED OR NOT
+    private boolean EndGameChecker(){
+        return groupRepository.getGroups().size() == 1;
+    }
+
+    private void incrementRound() throws RemoteException {
+        this.setRound(this.getRound() + 1);
     }
 
     public Map<String, Integer> UsersPlacarSources(){
@@ -321,5 +302,32 @@ public class ServerLogic implements Logic_IF {
                     }
                 });
         return aux;
+    }
+
+
+//===================GETTERS===================
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+
+//===================SETTERS===================
+    public void setRound(Integer round) {
+        this.round = round;
+    }
+
+    public void setAmount(Integer amount){
+        try {
+            if(amount <= 0) throw new ServerException("Número de questões invalido!");
+            this.amount = amount;
+
+        }catch (ServerException err) {
+            err.printStackTrace();
+        }
+    }
+
+    public void startGame(){
+        this.isGameStarted = true;
     }
 }

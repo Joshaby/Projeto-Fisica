@@ -62,7 +62,11 @@ public class BonusQuestions {
 
         List<String> aux = groupRepository.realocateGroup(round);
         if(aux == null){
+            resetState();
         }
+        groups = new ArrayList<>();
+        answers = new HashMap<>();
+        ID = "";
     }
 
     public boolean hasGroup(String name){

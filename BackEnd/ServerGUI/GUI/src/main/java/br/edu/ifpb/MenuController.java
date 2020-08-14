@@ -46,13 +46,12 @@ public class MenuController {
 
 
     public MenuController() throws RemoteException {
-        for(int port = 1099; port < 10000; port++){
+        for(int port = 1000; port < 10000; port++){
             try {
                 server = new RMIConnection(port).getServerAdm();
                 System.out.println(port);
                 break;
-            }catch (RemoteException | NotBoundException err){
-                continue;
+            }catch (RemoteException | NotBoundException ignored){
             }
         }
         //initTable();

@@ -25,7 +25,7 @@ public class Group implements Comparable<Group> {
         this.setName(name);
         this.setYear(year);
         this.setPoints();
-        this.initializateAnswers(5);
+        this.setAnswers(new HashMap<>());
         this.setRounds(4);
     }
 
@@ -34,7 +34,7 @@ public class Group implements Comparable<Group> {
         this.setName(name);
         this.setYear(year);
         this.setPoints();
-        this.initializateAnswers(rounds);
+        this.setAnswers(new HashMap<>());
         this.setRounds(rounds);
     }
 
@@ -56,6 +56,13 @@ public class Group implements Comparable<Group> {
 
     public Map<Integer, Answers> getAnswers() {
         return answers;
+    }
+
+    public Answers getAnswersByRound(int round){
+        if(answers.get(round) == null){
+            answers.put(round, new Answers());
+        }
+        return answers.get(round);
     }
 
     public List<User> getMembers() {
@@ -118,20 +125,17 @@ public class Group implements Comparable<Group> {
     }
 
     public void addAnswer(int round, Answer answer) {
-        if(this.answers.get(round) == null)this.answers.put(round, new Answers());
-        this.answers.get(round).addAnswer(answer);
+        try{
+            this.answers.get(round).addAnswer(answer);
+        }
+        catch (Exception e){
+            this.answers.put(round, new Answers());
+            this.answers.get(round).addAnswer(answer);
+        }
+
     }
 
 // OTHER METHODS
-
-    public void initializateAnswers(int rounds){
-        HashMap<Integer, Answers> aux = new HashMap<>();
-
-        for (int i = 1; i <= rounds; i++) {
-             aux.put(i, new Answers());
-        }
-        this.setAnswers(aux);
-    }
 
     public boolean validateGroup() {
         return !(getMembers().size() > 0 && getYear() >= 1 && getYear() <= 3);

@@ -12,11 +12,12 @@ public class Server {
             Logic_IF stub = (Logic_IF) UnicastRemoteObject.exportObject(server.getServerLogic(), 1026);
             User_IF stub1 = (User_IF) UnicastRemoteObject.exportObject(server.getServerLogic().getGroupRepository(), 1026);
             System.setProperty("java.rmi.server.hostname","localhost");
-            Registry registry = LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(1026);
             registry.bind("ServerLogic", stub);
             registry.bind("GroupRepository", stub1);
             registry.bind("ServerAdministration", stub2);
             System.out.println("Servidor ativado");
+            server.startGame();
         }
         catch (Exception err) {
             err.printStackTrace();

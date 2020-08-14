@@ -129,7 +129,7 @@ public class GroupRepository implements User_IF {
         ArrayList<Group> LAOT = new ArrayList<>();
         for (Group group : laops) {
             if (group.getAnswers().size() == 0) return laops;
-            int groupTime = group.getAnswers().get(round).getTime();
+            int groupTime = group.getAnswersByRound(round).getTime();
             if (groupTime >= time) {
                 if (groupTime != time) LAOT.clear();
                 LAOT.add(group);
@@ -210,7 +210,7 @@ public class GroupRepository implements User_IF {
 // Reset a single round group points
     public void resetPoints(int round){
         this.groups.iterator().forEachRemaining(group -> {
-            group.getAnswers().get(round).setAnswers(new ArrayList<>());
+            group.getAnswersByRound(round).setAnswers(new ArrayList<>());
         });
     }
 
