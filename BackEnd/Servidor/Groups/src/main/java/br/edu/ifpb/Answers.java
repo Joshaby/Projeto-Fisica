@@ -1,18 +1,20 @@
 package br.edu.ifpb;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Answers{
-    private List<Answer> answers;
+    private Set<Answer> answers;
     private Integer time;
 
     public Answers() {
-        setAnswers(new ArrayList<>());
+        setAnswers(new HashSet<>());
         setTime(0);
     }
 
-    public Answers(Integer time, List<Answer> answers) {
+    public Answers(Integer time, Set<Answer> answers) {
         setAnswers(answers);
         setTime(time);
     }
@@ -46,11 +48,11 @@ public class Answers{
         }
     }
 
-    public List<Answer> getAnswers() {
+    public Set<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<Answer> answers) {
+    public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
     }
 

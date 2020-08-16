@@ -21,7 +21,7 @@ public class ServerLogic implements Logic_IF {
         this.setAmount(5);
         this.setRound(1);
         this.isGameStarted = false;
-        this.bonusQuestions = new BonusQuestions(questionRepository, groupRepository, round, "");
+        this.bonusQuestions = new BonusQuestions(questionRepository, groupRepository, round);
     }
 
 //CONSTRUCTOR with parameters
@@ -59,8 +59,10 @@ public class ServerLogic implements Logic_IF {
 
             this.bonusQuestionManager();
 
+            if( EndGameChecker() ) { isGameStarted = false; }
             if(isGameStarted){
                 this.incrementRound();
+                this.bonusQuestions.increaseround();
                 setQuestion();
             }
         }
@@ -201,13 +203,13 @@ public class ServerLogic implements Logic_IF {
 
         List<String> aux = groupRepository.realocateGroup(getRound());
 
-        if(aux != null)
-            bonusQuestions =
-                    new BonusQuestions(questionRepository,
-                            groupRepository,
-                            this.round,
-                            questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear()));
-
+        if(aux != null){
+            bonusQuestions.startBonusQuestion(
+                    questionRepository.bonusQuestionFetch(getRound(), groupRepository.getYear()),
+                    aux);
+        }
+        if(bonusQuestions.getState()) bonusQuestionManager();
+        else return;
         if( EndGameChecker() ) { isGameStarted = false; }
     }
 

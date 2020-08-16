@@ -13,8 +13,8 @@ public class BonusQuestions {
     private boolean bonusState;
     private int round;
 
-    public BonusQuestions(QuestionRepository questionRepository, GroupRepository groupRepository, int round, String id) {
-        ID = id;
+    public BonusQuestions(QuestionRepository questionRepository, GroupRepository groupRepository, int round) {
+        ID = "";
         groups = new ArrayList<>();
         answers = new HashMap<>();
         bonusState = false;
@@ -63,8 +63,10 @@ public class BonusQuestions {
         List<String> aux = groupRepository.realocateGroup(round);
         if(aux == null){
             resetState();
+            groups = new ArrayList<>();
         }
-        groups = new ArrayList<>();
+        else { groups = aux; }
+
         answers = new HashMap<>();
         ID = "";
     }
@@ -93,6 +95,14 @@ public class BonusQuestions {
 
     private void addBonusQuestion(String id){
         this.ID = id;
+    }
+
+    public void startBonusQuestion(String id, List<String> groups){
+
+    }
+
+    public void increaseround(){
+        round++;
     }
 
 

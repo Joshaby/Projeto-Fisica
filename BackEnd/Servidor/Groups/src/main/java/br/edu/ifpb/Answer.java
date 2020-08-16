@@ -8,6 +8,8 @@ package br.edu.ifpb;
 
 */
 
+import java.util.Objects;
+
 public class Answer {
     private String ID;
     private String answer;
@@ -41,6 +43,21 @@ public class Answer {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer = (Answer) o;
+
+        return Objects.equals(ID, answer.ID);
+    }
+
+    @Override
+    public int hashCode() {
+        return ID != null ? ID.hashCode() : 0;
     }
 
     @Override

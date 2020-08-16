@@ -109,7 +109,7 @@ public class Group implements Comparable<Group> {
 
     // INCREMENTORS
 
-    public void addAnswers(List<Answer> answer, Integer time, int round) {
+    public void addAnswers(Set<Answer> answer, Integer time, int round) {
         this.answers.put(round, new Answers(time, answer));
     }
 

@@ -16,7 +16,7 @@ public class ServerTests {
     public void QuestsConsumerTest() throws RemoteException {
         int grupos = 5;
         Random r = new Random();
-        for(int vezes = 0; vezes < 30; vezes++){
+        for(int vezes = 0; vezes < 5; vezes++){
             System.out.println("===================== Test: " + vezes + " =====================");
             ServerLogic s = new ServerLogic(5);
             s.getGroupRepository().registerGroups(AuxiliarMethods.groupGen(grupos), 1);
@@ -73,19 +73,19 @@ public class ServerTests {
 
             List<String> aux = new ArrayList<>();
 
-//            s.getQuestions(group).iterator().forEachRemaining(question -> {
-//                aux.add(question.getId());
-//            });
-//
-//            String sa = "";
-//
-//            for (String aux1 : aux) {
-//                s.sendAnswer(1, group, aux1, "A", r.nextInt(200));
-//                sa = aux1;
-//            }
-//            System.out.println(s.getQuestions(group));
-//            System.out.println(s.getQuestions(group));
-//            s.sendAnswer(1, group, sa, /*String.valueOf((char) (65 + r.nextInt(4)))*/"G", r.nextInt(200));
+            s.getQuestions(groups.get(0).getName()).iterator().forEachRemaining(question -> {
+                aux.add(question.getId());
+            });
+
+            String sa = "";
+
+            for (String aux1 : aux) {
+                s.sendAnswer(1, groups.get(0).getName(), aux1, "A", 200);
+                sa = aux1;
+            }
+            System.out.println(s.getQuestions(groups.get(0).getName()));
+            System.out.println(s.getQuestions(groups.get(0).getName()));
+            s.sendAnswer(1, groups.get(0).getName(), sa, /*String.valueOf((char) (65 + r.nextInt(4)))*/"G", r.nextInt(200));
             System.out.println("cu");
         } catch (RemoteException e) {
             e.printStackTrace();

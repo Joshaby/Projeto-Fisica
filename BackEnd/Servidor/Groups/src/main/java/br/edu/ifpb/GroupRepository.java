@@ -210,7 +210,7 @@ public class GroupRepository implements User_IF {
 // Reset a single round group points
     public void resetPoints(int round){
         this.groups.iterator().forEachRemaining(group -> {
-            group.getAnswersByRound(round).setAnswers(new ArrayList<>());
+            group.getAnswersByRound(round).setAnswers(new HashSet<>());
         });
     }
 
