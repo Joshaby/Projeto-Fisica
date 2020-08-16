@@ -27,8 +27,7 @@ public class ServerConnection {
     }
 
     public boolean initializateQuestions(String groupName) throws RemoteException {
-        List<Question> aux = connection.getQuestions(groupName);
-        System.out.println(aux);
+        List<Question> aux = getQuestionsList(groupName);
         if (aux == null) return true;
         if (aux.isEmpty()) return false;
         for (Question question : aux) questions.push(question);
@@ -43,4 +42,6 @@ public class ServerConnection {
     public Stack<Question> getQuestions() { return questions; }
     public int getRound() throws RemoteException { return connection.getRound(); }
     public int getQuestionAmount() { return questions.size(); }
+    public List<String> bonusQuestionCheck() throws RemoteException { return connection.bonusQuestionCheck(); }
+    public List<Question> getQuestionsList(String groupName) throws RemoteException { return connection.getQuestions(groupName); }
 }

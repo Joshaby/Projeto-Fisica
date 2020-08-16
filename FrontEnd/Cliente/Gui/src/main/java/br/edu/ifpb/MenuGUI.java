@@ -43,7 +43,7 @@ public class MenuGUI extends JFrame {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             }
             Registry localRegitry = LocateRegistry.getRegistry(ip, port);
-            connection = (Scoreboard_IF) localRegitry.lookup("Scoreboard");
+            //connection = (Scoreboard_IF) localRegitry.lookup("Scoreboard");
             buttonsAndAppNamePanel = new JPanel();
             secondaryPanel = new JPanel();
             mainPanel = new JPanel();
@@ -82,10 +82,6 @@ public class MenuGUI extends JFrame {
             buttonsAndAppNamePanel.add(exitButton);
             buttonsAndAppNamePanel.add(Box.createRigidArea(new Dimension(20, 20)));
 
-            bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-            bottomPanel.add(new JLabel("Grupo: Phodas"));
-            bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
-            bottomPanel.add(new JLabel("Série: 1 ano"));
             bottomPanel.add(Box.createHorizontalGlue());
             bottomPanel.add(new JLabel("Versão: 1.0-SNAPSHOT"));
             bottomPanel.add(Box.createRigidArea(new Dimension(10, 10)));
@@ -106,7 +102,7 @@ public class MenuGUI extends JFrame {
             mainPanel.add(Box.createRigidArea(new Dimension(4, 4)));
             add(mainPanel);
         }
-        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | RemoteException | NotBoundException e) {
+        catch (IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException | ClassNotFoundException | RemoteException e) {
             e.printStackTrace();
         }
     }

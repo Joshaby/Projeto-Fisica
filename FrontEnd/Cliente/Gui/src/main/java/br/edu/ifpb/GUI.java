@@ -59,7 +59,6 @@ public class GUI extends JFrame {
             this.groupName = groupName;
             this.year = year;
             serverConnection = new ServerConnection();
-            round = serverConnection.getRound();
             Map<String, List<String>> group = new HashMap<>();
             group.put(groupName, members);
             serverConnection.getConnection1().registerGroups(group, year);
@@ -93,7 +92,7 @@ public class GUI extends JFrame {
 
     public void initComponents() throws IOException, InterruptedException {
 
-        waitMessage("Aguarde o servidor liberar as questões!");
+        waitMessage("Espere o servidor liberar as questões!");
 
         // Painel1 e seus componentes
 
@@ -166,11 +165,42 @@ public class GUI extends JFrame {
         questionUtils = new QuestionUtils(serverConnection);
     }
 
-    public void createQuestionComponents() throws IOException {
+    public void bonusCheck() throws IOException, InterruptedException {
+        List<String> bonus = serverConnection.bonusQuestionCheck();
+        if (bonus.isEmpty()) {
+            pointsPanel();
+            mainPanel.removeAll();
+            alternativesPanel.removeAll();
+            questionPanel.removeAll();
+            TopBarPanel.removeAll();
+            bottomPanel.removeAll();
+            removeAll();
+            initComponents();
+        }
+        if (bonus.size() > 2) {
+            while (serverConnection.getQuestionsList(groupName) == null && (! serverConnection.getQuestionsList(groupName).isEmpty())) {
+                bonusCheck();
+            }
+        }
+        else if (bonus.size() == 2) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    String.format("O vencedor do jogo foi o grupo: %s", bonus.get(1)),
+                    "Fim de jogo",
+                    JOptionPane.OK_OPTION
+            );
+            System.exit(0);
+        }
+    }
+
+    public void createQuestionComponents() throws IOException, InterruptedException {
+        round = serverConnection.getRound();
         List<String> alternatives = new ArrayList<>();
         id = questionUtils.getQuestion(alternatives);
-        if (id == null) finalPanel();
-        currentQuestion.setText(String.format("Questão %d (ID: %s) de %d", currentQuestionPosi, GUI.this.id, maxQuestionPosi));
+        if (id == null) {
+            bonusCheck();
+        }
+        currentQuestion.setText(String.format("(ID: %s) Questão %d de %d", GUI.this.id, currentQuestionPosi, maxQuestionPosi));
         if (alternatives.isEmpty()) {
             createEssayQuestionComponents(id);
             isMultipleChoiceQuestion = false;
@@ -249,7 +279,7 @@ public class GUI extends JFrame {
         SwingUtilities.updateComponentTreeUI(this);
     }
 
-    public void finalPanel() throws RemoteException {
+    public void pointsPanel() throws IOException, InterruptedException {
         this.setVisible(false);
         JOptionPane.showMessageDialog(
                 this,
@@ -257,7 +287,6 @@ public class GUI extends JFrame {
                 "Pontos",
                 JOptionPane.OK_OPTION
         );
-        System.exit(0);
     }
 
     public class ButtonHandler implements ActionListener {
@@ -288,7 +317,7 @@ public class GUI extends JFrame {
                 SwingUtilities.updateComponentTreeUI(GUI.this);
                 createQuestionComponents();
             }
-            catch (IOException e) {
+            catch (IOException | InterruptedException e) {
                 System.out.println(e.getMessage());
             }
         }

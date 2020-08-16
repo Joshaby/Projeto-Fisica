@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 
-public class ServerAdministration implements ServerAdm_IF{
+public class ServerAdministration implements ServerAdm_IF {
 
     private final ServerLogic serverLogic;
 
