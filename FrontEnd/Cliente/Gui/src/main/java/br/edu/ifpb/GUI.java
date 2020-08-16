@@ -182,7 +182,7 @@ public class GUI extends JFrame {
                 bonusCheck();
             }
         }
-        else if (bonus.size() == 2) {
+        else if (bonus.get(0).equals("EOTG")) {
             JOptionPane.showMessageDialog(
                     this,
                     String.format("O vencedor do jogo foi o grupo: %s", bonus.get(1)),
@@ -200,7 +200,7 @@ public class GUI extends JFrame {
         if (id == null) {
             bonusCheck();
         }
-        currentQuestion.setText(String.format("(ID: %s) Questão %d de %d", GUI.this.id, currentQuestionPosi, maxQuestionPosi));
+        currentQuestion.setText(String.format("(ID: %s) Questão %d de %d", GUI.this.id, serverConnection.getConnection().getQuestionAmount() - serverConnection.currentQuestionsNumber(), serverConnection.getConnection().getQuestionAmount()));
         if (alternatives.isEmpty()) {
             createEssayQuestionComponents(id);
             isMultipleChoiceQuestion = false;

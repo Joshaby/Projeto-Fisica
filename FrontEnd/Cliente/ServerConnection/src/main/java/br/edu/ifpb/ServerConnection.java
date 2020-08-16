@@ -16,7 +16,7 @@ public class ServerConnection {
     public ServerConnection() {
         try {
             questions = new Stack<>();
-            Registry registry = LocateRegistry.getRegistry("localhost", 1026); // irá estabelecer conexão com o servidor
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099); // irá estabelecer conexão com o servidor
             connection = (Logic_IF) registry.lookup("ServerLogic"); // irá pegar a referência do stub RepoQuestoes
             connection1 = (User_IF) registry.lookup("GroupRepository"); // irá pegar a referência do stub GroupConnection
         }
@@ -38,6 +38,8 @@ public class ServerConnection {
     public void sendAnswer(int round, String name, String QuestionID, String res, int time) throws RemoteException { // vai enviar a respotas por servidor
         connection.sendAnswer(round, name, QuestionID, res, time);
     }
+    public Logic_IF getConnection() { return connection; }
+    public int currentQuestionsNumber() {return questions.size();}
     public User_IF getConnection1() { return connection1; }
     public Stack<Question> getQuestions() { return questions; }
     public int getRound() throws RemoteException { return connection.getRound(); }
